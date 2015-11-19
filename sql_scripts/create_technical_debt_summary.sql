@@ -22,8 +22,10 @@ CREATE TABLE technical_debt_summary (
   comment_end_line   integer,
   comment_classification text,
   comment_text text,
+  version_introduced_name text, 
   version_introduced_hash text, 
   version_introduced_dependencies_number  integer, 
+  version_removed_name    text, 
   version_removed_hash    text,
   version_removed_dependencies_number  integer
 );
@@ -49,9 +51,22 @@ CREATE TABLE tags_information (
 
 -- 5
 update technical_debt_summary set comment_classification = 'REQUIREMENT' where comment_classification = 'IMPLEMENTATION';
-update technical_debt_summary set version_name = 'ANT_170', version_hash = '' where comment_classification = 'IMPLEMENTATION';
 
+update technical_debt_summary set project_name = 'apache-ant' where project_name = 'apache-ant-1.7.0';
+update technical_debt_summary set version_name = 'ANT_170', version_hash = '6bfe7759b0d7662f764a6efd97436b48aa74da2a' where project_name = 'apache-ant';
+
+update technical_debt_summary set project_name = 'apache-jmeter' where project_name = 'apache-jmeter-2.10';
+update technical_debt_summary set version_name = 'v2_10', version_hash = '05e19dd900305b43296a89a8fbbd4669b987546b' where project_name = 'apache-jmeter';
+
+update technical_debt_summary set project_name = 'jruby' where project_name = 'jruby-1.4.0';
+update technical_debt_summary set version_name = '1.4.0', version_hash = '69fbfa336591fb1a65d4000556b3fedda30baf8f' where project_name = 'jruby';
 
 -- 6
+pg_dump -Fc -Uevermal comment_classification > ~/Downloads/technical_debt_summary_before_identification_of_the_add_and_remove.dump
+
+-- create script to clean the file directory before copying the csv file
 copy (select * from technical_debt_summary) to '/Users/evermal/Downloads/technical_debt_summary.csv' (format csv,  header true);
+
+
+select version_name, version_order from tags_information where project_name = 'apache-ant' and  version_order < (select version_order from tags_information where project_name = 'apache-ant' and version_name= 'ANT_170');
 
