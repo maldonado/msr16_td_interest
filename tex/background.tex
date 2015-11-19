@@ -1,0 +1,51 @@
+\section{Background} \label{background}
+%\emph{Prevention is better than cure.}
+
+As mentioned earlier, the main goal of most software defect prediction studies is (1) to correctly classify software artifacts (e.g., subsystems and files) as being defect-prone or not, (2) to quantify the relative importance of various factors (i.e., independent variables) used to build a model and (3) predicting the number of defects and/or defect density (the number of defects / SLOC)~\cite{Shihab2012PhD}.
+
+%\para{the definition of defect prediction. Put one figure that shows the overview of software defect prediction}
+
+Figure \ref{fig:overview} shows an overview of the software defect prediction process. First, data is collected from software repositories, which archive historical data related to the development of the software project, such as source control and bug repositories. Then, various metrics that are used as independent variables (e.g., SLOC) and a dependent variable (e.g., the number of defects)  are extracted to build a model. The relationship between the independent variables and dependent variable using statistical techniques and machine learning techniques is modeled.  Finally, the performance of the built model is measured using several criteria such as precision, recall and AUC-ROC. We briefly explains each of the four aforementioned steps next.
+
+\subsection{Data}
+In order to build software prediction models, we need a number of metrics that make up the independent and dependent variables. Large software projects often store their development history and other information, such as communication, in software repositories. Although the main reason for using these repositories is to keep track of and record development history, researchers and practitioners realize that this repository data can be used to extract software metrics. For example, prior work used the data stored in the source control repository to count the number of changes made to a file~\cite{Zimmermann2007PROMISE} and the complexity of changes~\cite{Hassan2009ICSE}, and used this data to predict files that are likely to have future defects.
+
+Software defect prediction work generally leverages various types of data from different repositories, such as 
+Source code/control repositories, which stores and records the source code and development history of a project, bug report repositories, which track the bug/defect reports or feature requests filed for a project and their resolution progress, mailing list repositories, which track the communication and discussions between development teams.
+%\emad{I find this to repeat the previous sentence}
+%\yasu{I agree}
+
+\subsection{Metrics}
+
+When used in software defect prediction research, metrics are considered to be independent variables, which means that they are used to perform the prediction (i.e., the predictors).
+Also, metrics can represent the dependent variables, which means they are the metrics being predicted (i.e., these can be pre- or post-release defects).
+
+Previous defect prediction studies used a wide variety of independent variables (e.g., process~\cite{Hassan2009ICSE}, organizational~\cite{Nagappan2008ICSE,Cataldo2009TSE} or code metrics~\cite{Zimmermann2007PROMISE,Nagappan2007ESEM,Subramanyam2003TSE,Koru2005Software,Menzies2007TSE}) to perform their predictions. Moreover, several different metrics were used to represent the dependent variable as well. For example, previous work predicted different types of defects (e.g., pre-release~\cite{NagappanICSE05_2}, post-release~\cite{Zimmermann2007PROMISE,Zheng2006TSE} or both~\cite{Shin2009MSR,Shihab2011FSE}).
+
+\subsection{Model Building}
+
+Various techniques, such as linear discriminant analysis~\cite{Ohlsson1996TSE, Pighin1997}, decision trees~\cite{Koru2005PROMISE}, Naive Bayes~\cite{Menzies2008PROMISE}, Support Vector Machines (SVM)~\cite{Elish2008JSS,Kim2008TSE} and random forest~\cite{Guo2004ISSRE}, are used to build defect models.
+Generally speaking, most SDP studies divide the data into two sets: a training set and a test set. The training set is used to train the prediction model, whereas the testing set is used to evaluate the performance of the prediction model. 
+
+\subsection{Performance Evaluation}
+
+Once a prediction model is built, its performance needs to be evaluated. To evaluate defect prediction models, generally performance is measured in two ways: \emph{predictive power} and \emph{explanative power}.
+
+\smallsection{Predictive Power}
+Predictive power measures the \emph{accuracy} of the model in predicting the software artifacts that have defects. Measures such as precision, recall, f-measure and AUC (Area Under the Curve) of ROC (the Receiver Operating Characteristic), which plots the the false positive rate on the x-axis and true positive rate on the y-axis over all possible classification thresholds, are commonly-used in defect prediction studies.
+
+\smallsection{Explanative Power}
+In addition to measuring the predictive power, explanatory power is also used in defect prediction studies. Explanative power measure how well the variability in the data is explained by the model. Often the $R^2$ or deviance explained measures are used to quantify the explanative power. Expanative power is particularly useful since it enables us to measure the variability explained  by each independent variable in the model, providing us with a ranking as to which independent variable is most ``useful''.
+
+%\item [Odds-ratios]: Odds ratios are the exponent of the logistic regression coefficients. Odds ratios greater than 1 indicate a positive relationship between the independent and dependent variables (i.e., an increase in the independent variable will cause an increase in the likelihood of the dependent variable). Odds ratios less than 1 indicate a negative relationship, or in other words, an increase in the independent variable will cause a decrease in the likelihood of the dependent variable. The value of the odds ratios indicate the amount of increase that 1 unit increase of the independent variable will cause to the dependent variable. \todo{edit}
+
+\begin{comment}
+\item Data collection
+% including how to measure, what kinds of repos.
+\item Metrics calculation
+% including how to measure, what kinds of metrics.
+\item Model building
+% modeling techniques and some data preparation.
+\item Model evaluation
+% how to evaluate the prediction model, how do practitioners do action?
+\end{comment}

@@ -1,0 +1,75 @@
+\documentclass[conference]{IEEEtran}
+\input{preamble.tex}
+
+\begin{document}
+
+\title{Going Beyond Code and Bugs:\\Trends and Future Directions }
+
+\author{\IEEEauthorblockN{Yasutaka Kamei}
+\IEEEauthorblockA{Principles of Software Languages Group (POSL)\\
+Kyushu University, Fukuoka, Japan\\
+Email: kamei@ait.kyushu-u.ac.jp}
+\and
+\IEEEauthorblockN{Emad Shihab}
+\IEEEauthorblockA{Department of Computer Science and Software Engineering\\
+Concordia University, Montr\'eal, Canada\\
+Email: eshihab@encs.concordia.ca}}
+
+% make the title area
+\maketitle
+
+% As a general rule, do not put math, special symbols or citations
+% in the abstract
+\begin{abstract}
+As software systems play an increasingly important role in our lives, their complexity continues to increase; making software quality assurance efforts very difficult. Therefore, a significant amount of recent research focused on the prioritization of software quality assurance efforts. One line of work that has been receiving an increasing amount of attention for over 40 years is software defect prediction, where predictions are made to determine where future defects might appear. Since then, there are many studies and many accomplishments in software defect prediction. At the same time, there remain many challenges that face software defect prediction. To blaze future trails in software defect prediction, the paper aims to accomplish three things. First, we provide a brief overview of software defect prediction and its various components. Second, we revisit the challenges of software prediction models as they were seen in the year 2000, in order to reflect on our accomplishments since then. We also highlight our accomplishments and recent trends, as well as, discuss the game changers that had a significant impact on software defect prediction. Third, we highlight some key challenges that lie ahead in the near (and not so near) future in order for us as a research community to tackle these future challenges.
+
+%\todo{Next version.} We love pragmatic solutions that practitioners can use to maximize their software quality with the least amount of resources.
+%--- ``deriving practical guidelines for developing more reliable software systems''
+
+
+\end{abstract}
+
+\IEEEpeerreviewmaketitle
+
+% Here is Yasu't note
+\begin{comment}
+I did not start my research career in year 2000!
+ 2001-2005: Bachelor 
+ 2005-2007: Master
+ 2007-2009: PhD
+
+As a first draft, we drop a literature review part due to time-consuming work.
+\end{comment}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{introduction.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{background.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{past.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{trends.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\input{game_changers.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{challenges.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{conclusion.tex}
+
+
+\section*{Acknowledgment}
+This research was partially supported by JSPS KAKENHI Grant Numbers 15H05306 and 25540026.
+
+\bibliographystyle{abbrv}
+%\bibliographystyle{IEEEtranN}
+\bibliography{reference}
+
+
+\end{document}
+
