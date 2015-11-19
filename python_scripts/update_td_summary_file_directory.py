@@ -14,8 +14,8 @@ cursor = connection.cursor()
 # apache-ant    || ant_tags/52.ANT_170 
 # apache-jmeter || jmeter_tags/67.v2_10
 # jruby         || jruby_tags/35.1.4.0
-project_name = 'apache-ant'
-root_folder = '/Users/evermal/git/msr16_td_interest/tags/ant_tags/52.ANT_170'
+project_name = 'jruby'
+root_folder = '/Users/evermal/git/msr16_td_interest/tags/jruby_tags/35.1.4.0'
 ##### 
 
 cursor.execute("select distinct(class_name) from technical_debt_summary where project_name = '"+project_name+"'")

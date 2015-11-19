@@ -23,10 +23,12 @@ CREATE TABLE technical_debt_summary (
   comment_classification text,
   comment_text text,
   version_introduced_name text, 
-  version_introduced_hash text, 
+  version_introduced_hash text,
+  version_introduced_file_directory text, 
   version_introduced_dependencies_number  integer, 
   version_removed_name    text, 
   version_removed_hash    text,
+  version_removed_file_directory text, 
   version_removed_dependencies_number  integer
 );
 
@@ -47,7 +49,7 @@ CREATE TABLE tags_information (
 -- 4 
 --(18, november 2015 21:23)
 -- for some reasson the old tags that I had before was not matching if the current tags (even old ones), so I ran the tag extactor again. 
--- run link_tags.py in each git repository
+-- run populate_tags_information.py in each git repository
 
 -- 5
 update technical_debt_summary set comment_classification = 'REQUIREMENT' where comment_classification = 'IMPLEMENTATION';
@@ -67,6 +69,4 @@ pg_dump -Fc -Uevermal comment_classification > ~/Downloads/technical_debt_summar
 -- create script to clean the file directory before copying the csv file
 copy (select * from technical_debt_summary) to '/Users/evermal/Downloads/technical_debt_summary.csv' (format csv,  header true);
 
-
-select version_name, version_order from tags_information where project_name = 'apache-ant' and  version_order < (select version_order from tags_information where project_name = 'apache-ant' and version_name= 'ANT_170');
 
