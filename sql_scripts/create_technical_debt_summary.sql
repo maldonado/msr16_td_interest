@@ -1,13 +1,13 @@
 -- 1
 drop table if exists technical_debt_summary;
-CREATE TABLE technical_debt_summary (
-  project_name  text,
-  version_name  text, 
-  version_hash  text,
-  file_name     text,
+CREATE TABLE technical_debt_summary_temp (
+  project_name   text,
+  version_name   text, 
+  version_hash   text,
+  file_name      text,
   file_directory text, 
-  class_id      integer, 
-  class_name    text,
+  class_id       integer, 
+  class_name     text,
   class_access   text,
   is_class_abstract   text,
   is_class_enum       text,
@@ -29,7 +29,10 @@ CREATE TABLE technical_debt_summary (
   version_removed_name    text, 
   version_removed_hash    text,
   version_removed_file_directory text, 
-  version_removed_dependencies_number  integer
+  last_version_that_comment_was_found_name text,
+  last_version_that_comment_was_found_hash text,
+  last_version_that_comment_was_found_file_directory text,
+  last_version_that_comment_was_found_dependencies_number text
 );
 
 -- 2

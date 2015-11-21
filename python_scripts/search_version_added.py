@@ -28,7 +28,7 @@ def parse_block_comment (comment):
             result.append(new_line)
     return result
 
-cursor.execute("select a.comment_type, a.comment_text, a.project_name, a.version_name, a.file_directory, b.version_order, a.processed_comment_id from technical_debt_summary a, tags_information b where a.project_name = b.project_name and a.version_name = b.version_name")
+cursor.execute("select a.comment_type, a.comment_text, a.project_name, a.version_name, a.file_directory, b.version_order, a.processed_comment_id from technical_debt_summary a, tags_information b where a.project_name = b.project_name and a.version_name = b.version_name and version_introduced_name is null")
 results = cursor.fetchall()
 
 for result in results:
@@ -47,8 +47,13 @@ for result in results:
         comment = parse_block_comment(comment_text)
         # print comment
 
-    cursor.execute("select version_name, version_order, version_hash from tags_information where project_name = '"+project_name+"' and  version_order < "+str(version_order)+" order by 2 DESC")
+    cursor.execute("select version_name, version_order, version_hash from tags_information where project_name = '"+project_name+"' and  version_order <= "+str(version_order)+" order by 2 DESC")
     older_versions = cursor.fetchall()
+
+    introduced_version_name  = older_versions[0][0]
+    introduced_version_order = older_versions[0][1]
+    introduced_version_hash  = older_versions[0][2]
+    version_introduced_file_directory = file_directory
 
     for older_version in older_versions:
         # print older_version
@@ -89,8 +94,6 @@ for result in results:
                     introduced_version_order = older_version_order
                     introduced_version_hash  = older_version_hash
                     version_introduced_file_directory = older_file_directory
-                else:
-                    break
 
             print 'total comment distance = '+ str(comment_total_distance)
 
