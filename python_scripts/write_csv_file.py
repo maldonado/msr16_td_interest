@@ -40,7 +40,8 @@ connection.commit()
 
 
 print 'creating csv file'
-cursor.execute("copy (select * from technical_debt_summary) to '/Users/evermal/Downloads/technical_debt_summary.csv' (format csv,  header true)")
+cursor.execute("copy (select * from technical_debt_summary) to '/Users/evermal/git/msr16_td_interest/data/CSV/technical_debt_summary.csv' (format csv,  header true)")
+cursor.execute("copy (select * from tags_information) to '/Users/evermal/git/msr16_td_interest/data/CSV/tags_information.csv' (format csv,  header true)")
 connection.close()
 
 print 'restoring database'
