@@ -1,6 +1,6 @@
 -- 1
 drop table if exists technical_debt_summary;
-CREATE TABLE technical_debt_summary_temp (
+CREATE TABLE technical_debt_summary (
   project_name   text,
   version_name   text, 
   version_hash   text,
@@ -67,9 +67,24 @@ update technical_debt_summary set project_name = 'jruby' where project_name = 'j
 update technical_debt_summary set version_name = '1.4.0', version_hash = '69fbfa336591fb1a65d4000556b3fedda30baf8f' where project_name = 'jruby';
 
 -- 6
-pg_dump -Fc -Uevermal comment_classification > ~/Downloads/technical_debt_summary_before_identification_of_the_add_and_remove.dump
+pg_dump -Fc -Uevermal comment_classification > ~/Downloads/technical_debt_summary_after_identification_of_the_add_and_remove.dump
 
 -- create script to clean the file directory before copying the csv file
 copy (select * from technical_debt_summary) to '/Users/evermal/Downloads/technical_debt_summary.csv' (format csv,  header true);
+
+
+
+with temp as (
+  select file_directory, version_introduced_name, version_introduced_hash, version_introduced_file_directory, version_removed_name,version_removed_hash,version_removed_file_directory,last_version_that_comment_was_found_name,last_version_that_comment_was_found_hash,last_version_that_comment_was_found_file_directory,last_version_that_comment_was_found_dependencies_number, processed_comment_id
+    from technical_debt_summary_temp   
+  )
+update technical_debt_summary set file_directory = t.file_directory, version_introduced_name = t.version_introduced_name, version_introduced_hash = t.version_introduced_hash, version_introduced_file_directory = t.version_introduced_file_directory, version_removed_name = t.version_removed_name,version_removed_hash = t.version_removed_hash,version_removed_file_directory = t.version_removed_file_directory,last_version_that_comment_was_found_name = t.last_version_that_comment_was_found_name,last_version_that_comment_was_found_hash = t.last_version_that_comment_was_found_hash,last_version_that_comment_was_found_file_directory = t.last_version_that_comment_was_found_file_directory   from temp t where t.processed_comment_id = technical_debt_summary.processed_comment_id;
+
+
+
+
+
+
+
 
 

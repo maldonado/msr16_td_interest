@@ -32,7 +32,7 @@ def parse_block_comment (comment):
             result.append(new_line)
     return result
 
-cursor.execute("select a.comment_type, a.comment_text, a.project_name, a.version_name, a.file_directory, b.version_order, a.processed_comment_id from technical_debt_summary a, tags_information b where a.project_name = b.project_name and a.version_name = b.version_name and version_removed_name is null")
+cursor.execute("select a.comment_type, a.comment_text, a.project_name, a.version_name, a.file_directory, b.version_order, a.processed_comment_id from technical_debt_summary a, tags_information b, technical_debt_summary_temp c  where a.project_name = b.project_name and a.version_name = b.version_name and c.processed_comment_id = a.processed_comment_id and c.version_removed_name is null")
 results = cursor.fetchall()
 
 for result in results:
