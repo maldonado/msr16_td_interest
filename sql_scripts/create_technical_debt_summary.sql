@@ -5,7 +5,7 @@ CREATE TABLE technical_debt_summary (
   version_name   text, 
   version_hash   text,
   file_name      text,
-  file_directory text, 
+  -- file_directory text, 
   class_id       integer, 
   class_name     text,
   class_access   text,
@@ -24,14 +24,14 @@ CREATE TABLE technical_debt_summary (
   comment_text text,
   version_introduced_name text, 
   version_introduced_hash text,
-  version_introduced_file_directory text, 
+  -- version_introduced_file_directory text, 
   version_introduced_dependencies_number  integer, 
   version_removed_name    text, 
   version_removed_hash    text,
-  version_removed_file_directory text, 
+  -- version_removed_file_directory text, 
   last_version_that_comment_was_found_name text,
   last_version_that_comment_was_found_hash text,
-  last_version_that_comment_was_found_file_directory text,
+  -- last_version_that_comment_was_found_file_directory text,
   last_version_that_comment_was_found_dependencies_number text
 );
 
@@ -66,12 +66,25 @@ update technical_debt_summary set version_name = 'v2_10', version_hash = '05e19d
 update technical_debt_summary set project_name = 'jruby' where project_name = 'jruby-1.4.0';
 update technical_debt_summary set version_name = '1.4.0', version_hash = '69fbfa336591fb1a65d4000556b3fedda30baf8f' where project_name = 'jruby';
 
--- 6
-pg_dump -Fc -Uevermal comment_classification > ~/Downloads/technical_debt_summary_after_identification_of_the_add_and_remove.dump
+--6
+drop table if exists file_directory_per_version;
+CREATE TABLE file_directory_per_version (
+  project_name text, 
+  version_name text,
+  version_hash text,
+  version_order text,
+  file_name text,
+  file_directory text
+);
+
+-- column to clean data, in a project we can find a file with the same name in different directories. 
+alter table file_directory_per_version add column matched_analyzed_file_directory text;
+
+-- 7
+pg_dump -Fc -Uevermal comment_classification > ~/Downloads/technical_debt_summary_cleaning.dump
 
 -- create script to clean the file directory before copying the csv file
 copy (select * from technical_debt_summary) to '/Users/evermal/Downloads/technical_debt_summary.csv' (format csv,  header true);
-
 
 
 with temp as (
