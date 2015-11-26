@@ -39,4 +39,3 @@ for line in results:
             cursor.execute("update file_directory_per_version set matched_analyzed_file_directory = 'False' where file_name = '"+file_name+"' and version_name = '"+version_name+"' and file_directory = '"+file_directory+"'")
 
         connection.commit()
-
