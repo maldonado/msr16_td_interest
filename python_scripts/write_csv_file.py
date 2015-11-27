@@ -9,39 +9,26 @@ connection = psycopg2.connect(host='localhost', port='5432', database='comment_c
 cursor = connection.cursor()
 
 print 'selecting directories names to be updated'
-cursor.execute("select file_directory, version_introduced_file_directory, last_version_that_comment_was_found_file_directory, processed_comment_id from technical_debt_summary")
-technical_debt_summary_resulst = cursor.fetchall()
+cursor.execute("select distinct(file_directory) from file_directory_per_version")
+file_directory_per_version_list = cursor.fetchall()
 
-for line in technical_debt_summary_resulst:
-    file_directory =  line[0]
-    version_introduced_file_directory = line[1]
-    last_version_that_comment_was_found_file_directory = line[2]
-    processed_comment_id = line[3]
+for line in file_directory_per_version_list:
+    original_file_directory =  line[0]
 
-    if file_directory is not None:
-        file_directory =  file_directory.replace('/Users/evermal/git/msr16_td_interest/tags/ant_tags/', '').replace('/Users/evermal/git/msr16_td_interest/tags/jmeter_tags/', '').replace('/Users/evermal/git/msr16_td_interest/tags/jruby_tags/', '')
+    if original_file_directory is not None:
+        new_file_directory =  original_file_directory.replace('/Users/evermal/git/msr16_td_interest/tags/ant_tags/', '').replace('/Users/evermal/git/msr16_td_interest/tags/jmeter_tags/', '').replace('/Users/evermal/git/msr16_td_interest/tags/jruby_tags/', '')
     else:
-        file_directory = ''
+        new_file_directory = ''
 
-    if version_introduced_file_directory is not None:
-        version_introduced_file_directory =  version_introduced_file_directory.replace('/Users/evermal/git/msr16_td_interest/tags/ant_tags/', '').replace('/Users/evermal/git/msr16_td_interest/tags/jmeter_tags/', '').replace('/Users/evermal/git/msr16_td_interest/tags/jruby_tags/', '')
-    else:
-        version_introduced_file_directory = ''
-
-    if last_version_that_comment_was_found_file_directory is not None:
-        last_version_that_comment_was_found_file_directory = last_version_that_comment_was_found_file_directory.replace('/Users/evermal/git/msr16_td_interest/tags/ant_tags/', '').replace('/Users/evermal/git/msr16_td_interest/tags/jmeter_tags/', '').replace('/Users/evermal/git/msr16_td_interest/tags/jruby_tags/', '')
-    else:
-        last_version_that_comment_was_found_file_directory = ''
-
-    # print "update technical_debt_summary set file_directory = '"+file_directory+"', version_introduced_file_directory = '"+version_introduced_file_directory+"', last_version_that_comment_was_found_file_directory = '"+last_version_that_comment_was_found_file_directory+"' where processed_comment_id = '"+str(processed_comment_id)+"'"
-    cursor.execute("update technical_debt_summary set file_directory = '"+file_directory+"', version_introduced_file_directory = '"+version_introduced_file_directory+"', last_version_that_comment_was_found_file_directory = '"+last_version_that_comment_was_found_file_directory+"' where processed_comment_id = '"+str(processed_comment_id)+"'")
+    cursor.execute("update file_directory_per_version set file_directory = '"+new_file_directory+" 'where file_directory = '"+original_file_directory+"'")
 
 connection.commit()
 
 
 print 'creating csv file'
-cursor.execute("copy (select * from technical_debt_summary) to '/Users/evermal/git/msr16_td_interest/data/CSV/technical_debt_summary.csv' (format csv,  header true)")
-cursor.execute("copy (select * from tags_information) to '/Users/evermal/git/msr16_td_interest/data/CSV/tags_information.csv' (format csv,  header true)")
+cursor.execute("copy (select * from technical_debt_summary) to '/Users/evermal/git/msr16_td_interest/datasets/CSV/technical_debt_summary.csv' (format csv,  header true)")
+cursor.execute("copy (select * from tags_information) to '/Users/evermal/git/msr16_td_interest/datasets/CSV/tags_information.csv' (format csv,  header true)")
+cursor.execute("copy (select * from file_directory_per_version) to '/Users/evermal/git/msr16_td_interest/datasets/CSV/file_directory_per_version.csv' (format csv,  header true)")
 connection.close()
 
 print 'restoring database'

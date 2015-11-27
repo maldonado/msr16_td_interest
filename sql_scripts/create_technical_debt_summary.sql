@@ -95,3 +95,5 @@ update technical_debt_summary set version_introduced_name  = null, version_intro
 
 
 
+select * from file_directory_per_version where version_hash = '92dd8b805b5fc4ae4821ad9713840a99bc0ff2eb' and file_name = 'RubyIO.java';
+
