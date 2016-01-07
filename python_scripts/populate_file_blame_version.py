@@ -13,7 +13,7 @@ cursor = connection.cursor()
 
 blame_root_folder = '/Users/evermal/git/msr16_td_interest/datasets/blame_files/'
 tags_root_folder  = '/Users/evermal/git/msr16_td_interest/tags/'
-blame_file_regex  = '([a-z0-9]{8})\s\((.+?)(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d\:\d\d\s\+\d\d\d\d)\s*(\d*)\)(.*)'
+blame_file_regex  = '([a-z0-9]{8,})\s{1,}(?:.*)\((.+?)(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d\:\d\d\s.{1}\d\d\d\d)\s*(\d*)\)(.*)'
 
 cursor.execute("select project_name,version_name,version_hash,version_order,file_name,file_directory from file_directory_per_version order by 1,4,5 ")
 results = cursor.fetchall()
@@ -33,6 +33,7 @@ for result in results:
 
     with open (file_directory.replace(tags_root_folder,blame_root_folder).replace('.java','.txt'), 'r') as blame_file:
         for line in blame_file:
+            # print line
             blame_file_matcher = re.match(blame_file_regex, line)
             if blame_file_matcher is not None:
                 commit_short_hash = blame_file_matcher.group(1).strip()
@@ -56,16 +57,9 @@ for result in results:
                 # print file_name
                 # print version_hash
                 # print line_content
-                
-                # try:
-                #     cursor.execute("insert into file_blame_per_version (project_name, version_name, version_hash, version_order, file_name, file_directory, commit_short_hash, author_name, author_date, file_line, line_content) values ('"+project_name+"','"+version_name+"','"+version_hash+"','"+str(version_order)+"','"+file_name+"','"+file_directory+"','"+commit_short_hash+"', $escape$"+author_name+"$escape$ ,'"+author_date+"','"+str(file_line)+"', $escape_tag$ "+line_content+" $escape_tag$)")    
-                # except Exception, e:
-                #     with open('errors.sql', 'a') as error_file:
-                #         error_file.write("insert into file_blame_per_version (project_name, version_name, version_hash, version_order, file_name, file_directory, commit_short_hash, author_name, author_date, file_line, line_content) values ('"+project_name+"','"+version_name+"','"+version_hash+"','"+str(version_order)+"','"+file_name+"','"+file_directory+"','"+commit_short_hash+"', $escape$"+author_name+"$escape$ ,'"+author_date+"','"+str(file_line)+"', $escape$"+line_content+"$escape$);\n")
-                #     print "insert into file_blame_per_version (project_name, version_name, version_hash, version_order, file_name, file_directory, commit_short_hash, author_name, author_date, file_line, line_content) values ('"+project_name+"','"+version_name+"','"+version_hash+"','"+str(version_order)+"','"+file_name+"','"+file_directory+"','"+commit_short_hash+"', $escape$"+author_name+"$escape$ ,'"+author_date+"','"+str(file_line)+"', $escape$"+line_content+"$escape$)"
-                #     pass
-                
+                       
                 cursor.execute("insert into file_blame_per_version (project_name, version_name, version_hash, version_order, file_name, file_directory, commit_short_hash, author_name, author_date, file_line, line_content) values ('"+project_name+"','"+version_name+"','"+version_hash+"','"+str(version_order)+"','"+file_name+"','"+file_directory+"','"+commit_short_hash+"', $escape$"+author_name+"$escape$ ,'"+author_date+"','"+str(file_line)+"', $escape_tag$ "+stripped_line+" $escape_tag$)")    
+        blame_file.close()
 
 
     connection.commit()

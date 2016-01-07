@@ -31,6 +31,15 @@ CREATE TABLE technical_debt_summary (
   last_version_that_comment_was_found_dependencies_number text
 );
 
+alter table technical_debt_summary add column version_introduced_commit_hash text;
+alter table technical_debt_summary add column version_introduced_author text;
+alter table technical_debt_summary add column version_introduced_lines text;
+alter table technical_debt_summary add column version_removed_commit_hash text;
+alter table technical_debt_summary add column version_removed_author text ;
+alter table technical_debt_summary add column version_removed_lines text;
+alter table technical_debt_summary add column last_version_that_comment_was_found_lines text;
+
+
 -- 2
 insert into technical_debt_summary (project_name, file_name, class_id, class_name, class_access, is_class_abstract, is_class_enum, is_class_interface, class_start_line, class_end_line, processed_comment_id, comment_location, comment_type, function_signature,comment_start_line,comment_end_line,comment_classification,comment_text) 
     select b.projectname, b.filename, b.id , b.classname, b.access, b.isabstract, b.isenum, b.isinterface, b.startline, b.endline, a.id, a.location, a.type, a.description,   a.startline, a.endline, a.classification , a.commenttext from processed_comment a , comment_class b where a.commentclassid = b.id and b.projectname in ('apache-ant-1.7.0','apache-jmeter-2.10','jruby-1.4.0') and a.classification not in ('WITHOUT_CLASSIFICATION', 'BUG_FIX_COMMENT') order by 1, 2, 4,  9, 5;
@@ -90,6 +99,8 @@ CREATE TABLE file_blame_per_version (
   line_content text
 );
 
+create index CONCURRENTLY idx_version_hash_file_name on file_blame_per_version (version_hash, file_name);
+
 -- aux --
 pg_dump -Fc -Uevermal comment_classification > ~/Downloads/technical_debt_summary_investigation.dump
 
@@ -111,3 +122,5 @@ select * from file_directory_per_version where file_name ='IR_Builder.java';
 
 regex to parse blame files
 -- 
+
+
