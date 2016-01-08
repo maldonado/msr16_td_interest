@@ -32,7 +32,8 @@ def parse_block_comment (comment):
             result.append(new_line)
     return result
 
-cursor.execute("select a.comment_type, a.comment_text, a.project_name, a.version_name, a.file_name, b.version_order, a.processed_comment_id from technical_debt_summary a, tags_information b where a.project_name = b.project_name and a.version_name = b.version_name and a.version_removed_name is null")
+# cursor.execute("select a.comment_type, a.comment_text, a.project_name, a.version_name, a.file_name, b.version_order, a.processed_comment_id from technical_debt_summary a, tags_information b where a.project_name = b.project_name and a.version_name = b.version_name and a.processed_comment_id = '18402'")
+cursor.execute("select a.comment_type, a.comment_text, a.project_name, a.version_name, a.file_name, b.version_order, a.processed_comment_id from technical_debt_summary a, tags_information b where a.project_name = b.project_name and a.version_name = b.version_name and a.version_removed_name = 'not_removed'")
 results = cursor.fetchall()
 
 for result in results:
@@ -72,6 +73,13 @@ for result in results:
 
         cursor.execute("select file_directory from file_directory_per_version where project_name = '"+project_name+"' and version_hash = '"+newer_version_hash+"' and file_name = '"+file_name+"'")
         newer_version_path_results = cursor.fetchall()
+
+        if not newer_version_path_results :  
+            if not_removed_already == True:
+                removed_version_name  = newer_version_name
+                removed_version_order = newer_version_order
+                removed_version_hash  = newer_version_hash
+                not_removed_already = False 
         
         for newer_version_path_result in newer_version_path_results:
             newer_file_directory = newer_version_path_result[0]
