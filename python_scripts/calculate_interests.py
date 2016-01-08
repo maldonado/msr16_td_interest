@@ -55,27 +55,28 @@ with open(debt_file) as csvfile:
         
         root_path = home_dir + tags_dir + "/" + line[_version_introduced_name] + "/src"
         
-        jar_list_path = home_dir + "/datasets/MISC/jar_list_" + line[_project] + "_" + line[_version_introduced_name] + ".txt"
-        java_list_path = home_dir + "/datasets/MISC/java_list_" + line[_project] + "_" + line[_version_introduced_name] + ".txt"
-        path = home_dir + "/datasets/MISC/path_" + line[_project] + "_" + line[_version_introduced_name] + ".txt"
-        output_path  = home_dir + "/datasets/MISC/methodinvocation_" + line[_project] + "_" + line[_version_introduced_name] + ".txt"
+        class_name = line[_class_name]
+        class_name = class_name.replace(".","_")
+        key = line[_project] + "_" + line[_version_introduced_name]
+        key_for_each_file = line[_project] + "_" + line[_version_introduced_name] + "_" + class_name
+        
+        jar_list_path = home_dir + "/datasets/MISC/jar_list_" + key + ".txt"
+        java_list_path = home_dir + "/datasets/MISC/java_list_" + key_for_each_file + ".txt"
+        #path = home_dir + "/datasets/MISC/path_" + line[_project] + "_" + line[_version_introduced_name] + ".txt"
+        output_path  = home_dir + "/datasets/MISC/methodinvocation_" + key_for_each_file + ".txt"
         log_path = home_dir + "/datasets/MISC/log_" + line[_project] + "_" + line[_version_introduced_name] + ".txt"
                 
         # print line[_project] + "," + line[_file_name] + "," +  line[_version_introduced_name] + "," +  line[_function_signature]
         if not os.path.exists(output_path):
-            cmd = "find " + root_path + " -name *.jar > " + jar_list_path
-            res = subprocess.check_call(cmd, shell=True)
-            
-            if line[_version_introduced_name] == 'MYRMIDON_PRE_CONF_MUNGE':
-                cmd = "find " + root_path + " -name *.java > " + java_list_path
-            else:
-                cmd = "find " + root_path + "/src" + " -name *.java > " + java_list_path
-            res = subprocess.check_call(cmd, shell=True)
-            
-            # run java-callgraph
-            cmd = 'java -jar ' + jar_file + ' ' + root_path + ' ' + jar_list_path + ' ' + java_list_path + ' ' + output_path + ' DEBUG > ' + log_path
-            res = subprocess.check_call(cmd, shell=True)
-            
+            print "no method invocation file"
+            print line[_project] + "," + line[_file_name] + "," +  line[_version_introduced_name] + "," +  line[_function_signature]
+
+        if line[_version_introduced_name] == 'MYRMIDON_PRE_CONF_MUNGE':
+            continue
+        
+        if line[_version_introduced_name] == 'TOMCAT_31_M1_RC1' and line[_file_name] == 'Jikes.java':
+            continue
+        
         # Calculate interest 
         target_class_name = line[_class_name]
         target_function_signature = line[_function_signature]
