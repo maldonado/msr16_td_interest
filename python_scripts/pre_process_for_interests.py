@@ -15,8 +15,8 @@ _project = 0
 _file_name = 3
 _class_name = 5
 _type = 13
-_version_introduced_name = 20
-_version_removed_name = 23
+_version_introduced_name = 25
+_version_removed_name = 25
 _function_signature = 15
 
 count = 0
@@ -45,6 +45,8 @@ with open(debt_file) as csvfile:
     
     for line in f:
         count = count + 1
+
+        
                 
         if line[_project] == 'project_name':
             continue
@@ -63,6 +65,20 @@ with open(debt_file) as csvfile:
         elif line[_project] == 'apache-jmeter':
             tags_dir = '/tags/jmeter_tags'
         else:
+            continue
+        
+        if line[_version_introduced_name] == '' or line[_version_introduced_name] == 'not_removed':
+            if line[_project] == 'apache-ant':
+                line[_version_introduced_name] = 'ANT_193'
+            elif line[_project] == 'jruby':
+                line[_version_introduced_name] = '9.0.1.0'
+            elif line[_project] == 'apache-jmeter':
+                line[_version_introduced_name] = 'v2_13_RC2'
+            else:
+                continue
+        
+        ############# need to be removed here 
+        if line[_version_introduced_name] != '9.0.1.0':
             continue
         
         root_path = home_dir + tags_dir + "/" + line[_version_introduced_name] + "/src"
