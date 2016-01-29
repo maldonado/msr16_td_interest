@@ -14,7 +14,7 @@ _project = 0
 _file_name = 3
 _class_name = 5
 _type = 13
-_version_introduced_name = 20
+_version_introduced_name = 25
 _function_signature = 15
 
 count = 0
@@ -46,12 +46,21 @@ with open(debt_file) as csvfile:
         if line[_project] == 'apache-ant':
             tags_dir = '/tags/ant_tags'
         elif line[_project] == 'jruby':
-            continue
             tags_dir = '/tags/jruby_tags'
         elif line[_project] == 'apache-jmeter':
             tags_dir = '/tags/jmeter_tags'
         else:
             continue
+        
+        if line[_version_introduced_name] == '' or line[_version_introduced_name] == 'not_removed':
+            if line[_project] == 'apache-ant':
+                line[_version_introduced_name] = 'ANT_193'
+            elif line[_project] == 'jruby':
+                line[_version_introduced_name] = '9.0.1.0'
+            elif line[_project] == 'apache-jmeter':
+                line[_version_introduced_name] = 'v2_13_RC2'
+            else:
+                continue            
         
         root_path = home_dir + tags_dir + "/" + line[_version_introduced_name] + "/src"
         
@@ -60,16 +69,17 @@ with open(debt_file) as csvfile:
         key = line[_project] + "_" + line[_version_introduced_name]
         key_for_each_file = line[_project] + "_" + line[_version_introduced_name] + "_" + class_name
         
-        jar_list_path = home_dir + "/datasets/MISC/jar_list_" + key + ".txt"
-        java_list_path = home_dir + "/datasets/MISC/java_list_" + key_for_each_file + ".txt"
-        #path = home_dir + "/datasets/MISC/path_" + line[_project] + "_" + line[_version_introduced_name] + ".txt"
-        output_path  = home_dir + "/datasets/MISC/methodinvocation_" + key_for_each_file + ".txt"
-        log_path = home_dir + "/datasets/MISC/log_" + line[_project] + "_" + line[_version_introduced_name] + ".txt"
+        jar_list_path = home_dir + "/datasets/MISC" + str(_version_introduced_name) + "/jar_list_" + key + ".txt"
+        java_list_path = home_dir + "/datasets/MISC" + str(_version_introduced_name) + "/java_list_" + key_for_each_file + ".txt"
+        #path = home_dir + "/datasets/MISC" + str(_version_introduced_name) + "/path_" + line[_project] + "_" + line[_version_introduced_name] + ".txt"
+        output_path  = home_dir + "/datasets/MISC" + str(_version_introduced_name) + "/methodinvocation_" + key_for_each_file + ".txt"
+        log_path = home_dir + "/datasets/MISC" + str(_version_introduced_name) + "/log_" + line[_project] + "_" + line[_version_introduced_name] + ".txt"
                 
         # print line[_project] + "," + line[_file_name] + "," +  line[_version_introduced_name] + "," +  line[_function_signature]
         if not os.path.exists(output_path):
             print "no method invocation file"
             print line[_project] + "," + line[_file_name] + "," +  line[_version_introduced_name] + "," +  line[_function_signature]
+            continue
 
         if line[_version_introduced_name] == 'MYRMIDON_PRE_CONF_MUNGE':
             continue

@@ -1,4 +1,5 @@
 import csv
+import sys
 import os.path
 import subprocess
     
@@ -15,6 +16,7 @@ _file_name = 3
 _class_name = 5
 _type = 13
 _version_introduced_name = 20
+_version_removed_name = 23
 _function_signature = 15
 
 count = 0
@@ -57,7 +59,6 @@ with open(debt_file) as csvfile:
         if line[_project] == 'apache-ant':
             tags_dir = '/tags/ant_tags'
         elif line[_project] == 'jruby':
-            continue
             tags_dir = '/tags/jruby_tags'
         elif line[_project] == 'apache-jmeter':
             tags_dir = '/tags/jmeter_tags'
