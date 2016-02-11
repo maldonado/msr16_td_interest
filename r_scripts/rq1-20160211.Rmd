@@ -1,0 +1,158 @@
+---
+title: 'RQ1: Can we quantify interest of TD at the functional level? How much is the
+  interest? (Version 2)'
+author: "Yasutaka Kamei"
+date: "Feb 11th, 2016"
+output: pdf_document
+---
+
+# What did we revise?
+- We divide one whole dataset into three projects (jruby, Ant and jmeter)
+- To calcuate interest, we use the ratio of metrics value of v2 in it of v1. The positive value means we may need to spend additional cost.
+    - For division, we exclude the technical debt that has 0 in v1. We show the number of the excluded technical debt.
+    - Previous report measured the interest by substracting the metric value of v2 - the metric value v1.
+- We use only one of duplicate technical debt that has same function name and same introducing version
+
+# Data Overview
+```{r}
+data <- read.csv("/Users/kamei/Research/techdebt/msr16_td_interest/datasets/CSV/technical_debt_summary.csvinterest.ssv", sep="#")
+fc <- factor(data$Project)
+
+# the number of technical debt at the method-level
+tapply(data$Project, fc, length)
+
+# choose one of duplicated method and version name
+method_and_version_name <- paste(data$Method_Signature, data$v1, sep="")
+sum(duplicated(method_and_version_name))
+data <- data[!duplicated(method_and_version_name), ] 
+fc <- factor(data$Project)
+tapply(data$Project, fc, length)
+
+# any correlation?
+cor(data[,c("CountInput_v1","CountOutput_v1","CountLine_v1","Cyclomatic_v1","MaxNesting_v1")],method="spearman")
+cor(data[,c("CountInput_v2","CountOutput_v2","CountLine_v2","Cyclomatic_v2","MaxNesting_v2")],method="spearman")
+```
+
+### Observation
+- 140 technical debt is removed due to duplication
+- apache-ant has 84 technical debt. The number may be small.
+- The following pairs have more than 0.8 correlation value
+    - (CountOutput, CountLine), (CountOutput, Cyclomatic), (CountLine, Cyclomatic), (CountLine, MaxNesting), (Cyclomatic, MaxNesting)
+    - So we report the results of fanin and countline.
+
+# How many technical debt can we map between a metrics file and Everton's summary file?
+*_v1 means the version that introduces technical debt and *_v2 means the last version that technical debt was found.
+
+```{r}
+# the number of technical debt that cannot be mapped between a metrics file
+#and Everton's summary file
+tapply(data$version_name, fc, function(x){sum(x == -1) })
+tapply(data$CountInput_v1, fc, function(x){sum(x == -1) })
+tapply(data$CountInput_v2, fc, function(x){sum(x == -1) })
+
+# the number of technical debt that have metrics in both versions
+# of introduction and last_found
+a <- data[(data[, "CountInput_v1"] != -1 & data[, "CountInput_v2"] != -1), ]
+fc.a <- factor(a$Project)
+tapply(a$version_name, fc.a, length)
+```
+
+### Observation
+- jruby misses 114 technical debt in v1 and 82 in v2.
+- 67 (ant), 169(jmeter) and 268(jruby) technical debt has metrics in both versions of introduction and last_found.
+- We need to discuss how to solve such missed technical debt.
+
+# How much is the interest?
+We target 67 (ant), 169(jmeter) and 268(jruby) technical debt in this analysis.
+For each technical debt, we measure the ratio of metrics value of v2 in it of v1. We use 5 metrics as interest.
+
+## CountInput (fanin)
+```{r}
+# interest of CountInput (fanin)
+idx <- a[,"CountInput_v1"] == 0
+sum(idx)
+b <- a[!idx, ]
+fc.b <- factor(b$Project)
+interest <- (b[,"CountInput_v2"] ) / (b[,"CountInput_v1"])
+
+# summary of interest for all technical debt
+tapply(interest, fc.b, summary)
+
+# the number of the percenage of positive interest, same interest, positive interest, negative interest
+tapply(interest, fc.b, function(x){c( round((sum(x > 1)/ length(x) * 100)), sum(x==1), sum(x > 1), sum(x < 1)) } )
+
+# summary of interest for only technical debt that has positive / negative value.
+tapply(interest, fc.b, function(x){summary(subset(x, x !=1))} )
+
+
+# interest of CountLine (LOC)
+idx <- a[,"CountLine_v1"] == 0
+sum(idx)
+b <- a[!idx, ]
+fc.b <- factor(b$Project)
+interest <- (b[,"CountLine_v2"] ) / (b[,"CountLine_v1"])
+
+# summary of interest for all technical debt
+tapply(interest, fc.b, summary)
+
+# the number of the percenage of positive interest, same interest, positive interest, negative interest
+tapply(interest, fc.b, function(x){c( round((sum(x > 1)/ length(x) * 100)), sum(x==1), sum(x > 1), sum(x < 1)) } )
+
+# summary of interest for only technical debt that has positive / negative value.
+tapply(interest, fc.b, function(x){summary(subset(x, x !=1))} )
+```
+
+### Observation
+- 22%-36% of technical debt has positive interest.
+- If we focus on technical debt that has more than 1 interest
+    - the number of technical debt that have positive interest is more than negative interest one
+
+```{r}
+# the top interest tech debt?
+met_v1 <- "CountInput_v1"
+met_v2 <- "CountInput_v2"
+
+data.CountInput <- data[,c("Project", "Method_Signature", met_v1, met_v2)]
+data.CountInput <- data.CountInput[(data.CountInput[, met_v1] != -1 & data.CountInput[, met_v2] != -1), ]
+idx <- order(data.CountInput[,met_v2] - data.CountInput[,met_v1], decreasing = T)
+head(data.CountInput[idx,])
+```
+
+### Observation
+- [Discuss] if technical debt has same version and same method siguniture, should we remove one of them?
+    - We soloved the above point.
+
+# [Emad]  I think one thing to measure is the metric value in v-1/metric value in v-2. Of course we can only do this for non-zero differences.
+
+```{r}
+data.CountInput = subset(data.CountInput, data.CountInput$CountInput_v1 !=0)
+
+library(vioplot)
+
+idx.ant <- data.CountInput[,"Project"] == "apache-ant"
+idx.jmeter <- data.CountInput[,"Project"] == "apache-jmeter"
+idx.jruby <- data.CountInput[,"Project"] == "jruby"
+
+ant <- data.CountInput[idx.ant,met_v2]/data.CountInput[idx.ant,met_v1]
+jmeter <- data.CountInput[idx.jmeter,met_v2]/data.CountInput[idx.jmeter,met_v1]
+jruby <- data.CountInput[idx.jruby,met_v2]/data.CountInput[idx.jruby,met_v1]
+
+plot(0, 0, type = "n", xlab = "", ylab = "", axes = FALSE,
+     xlim = c(0.5, 3.5), ylim = range(c(ant, jmeter, jruby)))
+
+axis(side = 1, at = 1:3, labels = c("Ant", "Jmeter", "jruby"))
+axis(side = 2)                                     
+
+vioplot(ant, at = 1, col = "orange", add = TRUE)
+vioplot(jmeter, at = 2, col = "seagreen", add = TRUE)
+vioplot(jruby, at = 3, col = "blue", add = TRUE)
+
+# How much percentage does technical debt has double interest?
+sum(ant >= 2)
+sum(jmeter >= 2)
+sum(jruby >= 2)
+```
+
+### Observation
+- There are several technical debt of which the ratio is more than 2. This means that the dependency of technical debt becomes double before being removed.
+
