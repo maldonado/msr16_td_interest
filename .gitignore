@@ -3,6 +3,7 @@ env
 tags
 PSQL
 blame_files
+repos
 
 *.sublime-project
 *.sublime-workspace
