@@ -18,6 +18,8 @@ output: pdf_document
 data <- read.csv("/Users/kamei/Research/techdebt/msr16_td_interest/datasets/CSV/technical_debt_summary.csvinterest.ssv", sep="#")
 fc <- factor(data$Project)
 
+data = cbind(year = (as.Date(data$v2_date) - as.Date(data$v1_date)) / 365, data)
+
 # the number of technical debt at the method-level
 tapply(data$Project, fc, length)
 
@@ -83,8 +85,10 @@ tapply(interest, fc.b, function(x){c( round((sum(x > 1)/ length(x) * 100)), sum(
 
 # summary of interest for only technical debt that has positive / negative value.
 tapply(interest, fc.b, function(x){summary(subset(x, x !=1))} )
+```
 
-
+## CountLine
+```{r}
 # interest of CountLine (LOC)
 idx <- a[,"CountLine_v1"] == 0
 sum(idx)
@@ -156,3 +160,29 @@ sum(jruby >= 2)
 ### Observation
 - There are several technical debt of which the ratio is more than 2. This means that the dependency of technical debt becomes double before being removed.
 
+# period
+## CountInput (fanin)
+```{r}
+# interest of CountInput (fanin)
+idx <- a[,"CountInput_v1"] == 0
+b <- a[!idx, ]
+interest <- ((b[,"CountInput_v2"] ) - (b[,"CountInput_v1"]))  / (b[,"CountInput_v1"]) * 100
+year <- b[,"year"]
+
+summary(as.double(year))
+
+# we focus on technical debt that has non 0 interest.
+d <- interest != 0
+
+data_with_year = data.frame(year=as.double(year[d]), interest=interest[d], project=b[d,"Project"])
+fc.d <- factor(data_with_year$project)
+
+plot(data_with_year$year, data_with_year$interest)
+summary(data_with_year$interest/data_with_year$year)
+
+tapply(data_with_year$interest/data_with_year$year, fc.d, summary)
+
+```
+
+### Observation
+- per year, 0.8%-5.9% interest happens as median.
