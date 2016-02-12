@@ -24,6 +24,17 @@ class Metrics:
 # Run runUND.pl if there is *.und file
 if __name__ == "__main__":
     debt_file = home_dir + '/datasets/CSV/technical_debt_summary.csv'
+    tags_file = home_dir + '/datasets/CSV/tags_information.csv'
+
+    tags = {}
+    with open(tags_file) as csvfile:
+        f = csv.reader(csvfile)
+        
+        for line in f:
+            if line[0] == 'project_name':
+                continue
+    
+            tags[line[1]] = line[3]
         
     # line numbers
     _project = 0
@@ -35,6 +46,7 @@ if __name__ == "__main__":
     _version_removed_name = 23
     _last_version_that_comment_was_found_name = 25
     _function_signature = 15
+    _comment_classification = 18
     metrics_columns = ["Kind", "Name", "File", "CountInput", "CountLine", "CountLineBlank", "CountLineCodeDecl", "CountLineComment", "CountOutput", "CountSemicolon", "CountStmt", "CountStmtDecl", "CountStmtExe", "Cyclomatic", "CyclomaticModified", "CyclomaticStrict", "Essential", "MaxNesting", "RatioCommentToCode"]
     #metrics_columns = ["Kind", "Name"]
     count = 0
@@ -43,7 +55,7 @@ if __name__ == "__main__":
         f = csv.reader(csvfile)
         
         f_CountInput = open (debt_file + "interest.ssv", 'w')
-        f_CountInput.write("#".join(["Method_Signature","version_name","CountInput_v1","CountInput_v2","CountOutput_v1","CountOutput_v2","CountLine_v1","CountLine_v2","Cyclomatic_v1","Cyclomatic_v2","MaxNesting_v1","MaxNesting_v2\n"]))
+        f_CountInput.write("#".join(["Project","Type","File_Name","Class_Name","Method_Signature","v1","v1_date","v2","v2_date","version_name","CountInput_v1","CountInput_v2","CountOutput_v1","CountOutput_v2","CountLine_v1","CountLine_v2","Cyclomatic_v1","Cyclomatic_v2","MaxNesting_v1","MaxNesting_v2\n"]))
         #f_CountInput.write("#".join(["Method_Signature","version_name","CountInput_v1","CountInput_v2\n"]))
         
         for line in f:          
@@ -134,6 +146,6 @@ if __name__ == "__main__":
                             max_nesting.last_found = metrics_line[17]
                             
                             v3 = v3 + 1            
-            f_CountInput.write("#".join([line[_function_signature],count_input.out_all(), count_output.out(), count_line.out(), cyclomatic.out(), max_nesting.out() + '\n']))
+            f_CountInput.write("#".join([line[_project],line[_comment_classification],line[_file_name],line[_class_name],line[_function_signature],line[_version_introduced_name],tags[line[_version_introduced_name]],line[_last_version_that_comment_was_found_name],tags[line[_last_version_that_comment_was_found_name]],count_input.out_all(), count_output.out(), count_line.out(), cyclomatic.out(), max_nesting.out() + '\n']))
         f_CountInput.close()        
 print "/".join([str(v1),str(v2),str(v3)])                          
