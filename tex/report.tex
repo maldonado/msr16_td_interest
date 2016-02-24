@@ -3,17 +3,16 @@
 
 \begin{document}
 
-\title{Going Beyond Code and Bugs:\\Trends and Future Directions }
+\title{Technical debt}
 
-\author{\IEEEauthorblockN{Yasutaka Kamei}
-\IEEEauthorblockA{Principles of Software Languages Group (POSL)\\
-Kyushu University, Fukuoka, Japan\\
-Email: kamei@ait.kyushu-u.ac.jp}
-\and
-\IEEEauthorblockN{Emad Shihab}
-\IEEEauthorblockA{Department of Computer Science and Software Engineering\\
-Concordia University, Montr\'eal, Canada\\
-Email: eshihab@encs.concordia.ca}}
+\author{
+\IEEEauthorblockN{Yasutaka Kamei$^{\dag}$, Everton Maldonado$^{\dag\dag}$, Emad Shihab$^{\dag\dag}$, and Naoyasu Ubayashi$^{\dag}$}
+\IEEEauthorblockA{
+$^{\dag}$Principles of Software Languages Group (POSL), Kyushu University, Fukuoka, Japan\\
+$^{\dag\dag}$Department of Computer Science and Software Engineering, Concordia University, Montr\'eal, Canada\\
+Email: $^{\dag}$\{kamei, ubayashi\}@ait.kyushu-u.ac.jp, $^{\dag\dag}$\{e\_silvam, eshihab\}@encs.concordia.ca
+}
+}
 
 % make the title area
 \maketitle
@@ -21,50 +20,125 @@ Email: eshihab@encs.concordia.ca}}
 % As a general rule, do not put math, special symbols or citations
 % in the abstract
 \begin{abstract}
-As software systems play an increasingly important role in our lives, their complexity continues to increase; making software quality assurance efforts very difficult. Therefore, a significant amount of recent research focused on the prioritization of software quality assurance efforts. One line of work that has been receiving an increasing amount of attention for over 40 years is software defect prediction, where predictions are made to determine where future defects might appear. Since then, there are many studies and many accomplishments in software defect prediction. At the same time, there remain many challenges that face software defect prediction. To blaze future trails in software defect prediction, the paper aims to accomplish three things. First, we provide a brief overview of software defect prediction and its various components. Second, we revisit the challenges of software prediction models as they were seen in the year 2000, in order to reflect on our accomplishments since then. We also highlight our accomplishments and recent trends, as well as, discuss the game changers that had a significant impact on software defect prediction. Third, we highlight some key challenges that lie ahead in the near (and not so near) future in order for us as a research community to tackle these future challenges.
-
-%\todo{Next version.} We love pragmatic solutions that practitioners can use to maximize their software quality with the least amount of resources.
-%--- ``deriving practical guidelines for developing more reliable software systems''
-
-
+abstract.
 \end{abstract}
 
 \IEEEpeerreviewmaketitle
 
 % Here is Yasu't note
 \begin{comment}
-I did not start my research career in year 2000!
- 2001-2005: Bachelor 
- 2005-2007: Master
- 2007-2009: PhD
 
-As a first draft, we drop a literature review part due to time-consuming work.
 \end{comment}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\input{introduction.tex}
+%\input{introduction.tex}
+\section{Introduction}
+\para{What is technical debt?}
+
+\para{Describe more detail of technical debt and current problem in the domain}
+
+\para{The goal and approach of this study}
+
+\para{Dataset}
+
+\para{Contributions}
+
+\cite{Potdar2014ICSME}
+\cite{Maldonado2015MTD}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\input{background.tex}
+%\input{background.tex}
+\section{Related Work}
+\para{Technical debt}
+
+\cite{Guo2011ICSM}:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\input{past.tex}
+\section{Case Study Setup}
+The goal of this study is \todo{purpose.}.
+...
+
+We formalize our study in the following research questions:
+
+\todo{List up research question}
+
+To conduct our case study, we use data from ...
+
+\subsection{Project Data Extraction}
+
+\subsection{Interest}
+To measure interest, we use source code metrics. We use Understand, which is a well-known tool, to measure source code metrics. 
+
+\para{how to calculate metrics?}
+
+In this study, we consider the relative size of ... as interest. For example, 
+
+\para{how to identify when a technical debt are introduced and removed?}
+From that version, we obtain patches between two versions over all versions for each file that includes technical debt. Then, we check each patch about whether or not technical debt is introduced/removed. Some of them are not removed. If so, we use latest commits. We calculate the difference of a metric between two versions when technical debt is introduced and removed.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\input{trends.tex}
+\section{Results}
+\subsection{RQ1: Can we quantify interest of technical debt at the function-level?}
+\smallsection{Motivation}
+\todo{need to read some papers that say technical debt is bad. So we want to quantify it.}
+
+\smallsection{Approach}
+\para{We calculate the interest.}
+
+\smallsection{Results}
+
+Figure xx shows that the distribution of interest. X
+
+\para{Put the distribution of interest?}
+
+\conclusionbox{Result of RQ1: 22\%-36\% of technical debt has positive interest.}
+
+\subsection{RQ2: Does the interest differ based on the type of technical debt?}
+\smallsection{Motivation}
+There are several type of technical debt such as defect technical debt and design technical debt. 
+To better understand the interest, we would like to analayze ...
+
+\smallsection{Approach}
+We classify technical debt into categories and calculate interest in each category.
+
+\smallsection{Results}
+Table X shows the number and the percentage of technical debt 
+
+\conclusionbox{Result of RQ2}
+
+\subsection{RQ3: manual analysis}
+\smallsection{Motivation}
+
+\smallsection{Approach}
+
+\smallsection{Results}
+
+\conclusionbox{Result of RQ3}
+
+\section{Discussion}
+\para{Put additional analysis when considering time period.}
+
+\para{Put additional analysis when considering other metrics.}
+
+\para{Put the analysis for showing the method that includes more than one technical debt in one version.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\input{game_changers.tex}
+\section{Threat to Validity}
+
+\smallsection{Construct Validity}
+
+\smallsection{Internal Validity}
+\para{Technical debt is classified by one person.}
+
+\smallsection{External Validity}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\input{challenges.tex}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\input{conclusion.tex}
-
+\section{Conclusion}
+%\input{conclusion.tex}
+\para{Summary of this work.}
 
 \section*{Acknowledgment}
-This research was partially supported by JSPS KAKENHI Grant Numbers 15H05306 and 25540026.
+This research was partially supported by JSPS KAKENHI Grant Numbers 15H05306.
 
 \bibliographystyle{abbrv}
 %\bibliographystyle{IEEEtranN}
