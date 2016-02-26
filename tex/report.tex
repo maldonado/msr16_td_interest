@@ -3,7 +3,7 @@
 
 \begin{document}
 
-\title{Technical debt}
+\title{How Much do We Pay for Technical Debt as Interest?}
 
 \author{
 \IEEEauthorblockN{Yasutaka Kamei$^{\dag}$, Everton Maldonado$^{\dag\dag}$, Emad Shihab$^{\dag\dag}$, and Naoyasu Ubayashi$^{\dag}$}
@@ -27,7 +27,13 @@ abstract.
 
 % Here is Yasu't note
 \begin{comment}
+2 tomato: 
+2 tomato: let's finish results (how to show)
+2 tomato: read related work to get knowledge and good motivation for RQ1 and RQ2.
 
+- slide:
+2 tomato (one topic of current)
+2 tomato (one topic of current)
 \end{comment}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -39,8 +45,6 @@ abstract.
 
 \para{The goal and approach of this study}
 
-\para{Dataset}
-
 \para{Contributions}
 
 \cite{Potdar2014ICSME}
@@ -51,7 +55,9 @@ abstract.
 \section{Related Work}
 \para{Technical debt}
 
-\cite{Guo2011ICSM}:
+\cite{Guo2011ICSM}: they track technical debt items and access its impact (cost) among incurred, deferred and paid. That said, they focused on only one event (WebDav protocol is not supported) and 
+
+\para{Software Evolution: We calculate interest by looking at the difference size of two versions. In other words, this work is one of lines of software evolution.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Case Study Setup}
@@ -64,7 +70,12 @@ We formalize our study in the following research questions:
 
 To conduct our case study, we use data from ...
 
+\todo{How do we choose projects we analyze? i.e., why do we use Ant and Jmeter and do not use ArgoUML, Columba and JFreeChart? and why do we add jruby?}
+
 \subsection{Project Data Extraction}
+\para{Get Git repos}
+
+\para{}
 
 \subsection{Interest}
 To measure interest, we use source code metrics. We use Understand, which is a well-known tool, to measure source code metrics. 
@@ -102,7 +113,9 @@ To better understand the interest, we would like to analayze ...
 We classify technical debt into categories and calculate interest in each category.
 
 \smallsection{Results}
-Table X shows the number and the percentage of technical debt 
+Table X shows the number and the percentage of technical debt. Among three projects, jruby only includes more than one category that has more than 10\% of technical debt methods. Therefore, we decided to use jruby in RQ2.
+
+\para{we report same things in RQ1.}  
 
 \conclusionbox{Result of RQ2}
 
@@ -118,7 +131,9 @@ Table X shows the number and the percentage of technical debt
 \section{Discussion}
 \para{Put additional analysis when considering time period.}
 
-\para{Put additional analysis when considering other metrics.}
+\para{Put additional analysis when considering other metrics (fan-in).}
+
+\para{Put additional analysis when comparing the non-technical deb methods.}
 
 \para{Put the analysis for showing the method that includes more than one technical debt in one version.}
 
