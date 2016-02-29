@@ -5,7 +5,8 @@ import subprocess
 # setting
 home_dir = '/Users/kamei/Research/techdebt/msr16_td_interest'
 und_bin_dir = '/Applications/scitools/bin/macosx'
-debt_file = home_dir + '/datasets/CSV/technical_debt_summary.csv'
+#debt_file = home_dir + '/datasets/CSV/technical_debt_summary.csv'
+debt_file = home_dir + '/datasets/CSV/technical_debt_summary_test.csv'
 und_out_dir = home_dir + '/und'
 perl  = '/Users/kamei/Research/src/metrics/runUND.pl'
 

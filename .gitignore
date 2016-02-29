@@ -4,6 +4,8 @@ tags
 PSQL
 blame_files
 repos
+revs
+datasets/MISC*
 
 *.sublime-project
 *.sublime-workspace
