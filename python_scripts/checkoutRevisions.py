@@ -26,7 +26,7 @@ _last_version_that_comment_was_found_name = 26
 
 _function_signature = 15
 
-idxs = [_version_introduced_name, _version_removed_name, _last_version_that_comment_was_found_name]
+idxs = [_version_name, _version_introduced_name, _version_removed_name, _last_version_that_comment_was_found_name]
 
 count = 0
 
