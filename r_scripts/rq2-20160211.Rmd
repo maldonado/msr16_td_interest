@@ -1,0 +1,70 @@
+---
+title: 'RQ2: Does the interest differ based on the type of TD?'
+author: "Yasutaka Kamei"
+date: "Feb 11th, 2016"
+output: pdf_document
+
+---
+# Read Data
+```{r}
+data <- read.csv("/Users/kamei/Research/techdebt/msr16_td_interest/datasets/CSV/technical_debt_summary.csvinterest.ssv", sep="#")
+
+# choose one of duplicated method and version name
+method_and_version_name <- paste(data$Method_Signature, data$v1, sep="")
+data <- data[!duplicated(method_and_version_name), ]
+
+# only use technical debt including metrics
+a <- data[(data[, "CountInput_v1"] != -1 & data[, "CountInput_v2"] != -1), ]
+# only use technical debt including non 0 for division
+b <- a[(a[,"CountInput_v1"] != 0), ]
+b <- cbind(b, interest = (b$CountInput_v2 / b$CountInput_v1))
+```
+
+# The number of technical debt in each type
+```{r}
+tmp <- b[b[,"Project"] == "apache-ant", ]
+fc <- factor(tmp$Type)
+tapply(tmp$interest, fc, length)
+tapply(tmp$interest, fc, function(x){length(x)/length(tmp$interest) * 100})
+
+tmp <- b[b[,"Project"] == "apache-jmeter", ]
+fc <- factor(tmp$Type)
+tapply(tmp$interest, fc, length)
+tapply(tmp$interest, fc, function(x){length(x)/length(tmp$interest) * 100})
+
+tmp <- b[b[,"Project"] == "jruby", ]
+fc <- factor(tmp$Type)
+tapply(tmp$interest, fc, length)
+tapply(tmp$interest, fc, function(x){length(x)/length(tmp$interest) * 100})
+```
+
+### Observation
+- In jruby, three types of technical dept are included than 10%.
+- We use DEFECT, DESIGN and REQ in jruby.
+
+```{r}
+tmp <- b[b[,"Project"] == "jruby", ]
+tmp <- tmp[(tmp[,"Type"] == "DEFECT" |  tmp[,"Type"] == "DESIGN" |  tmp[,"Type"] == "REQUIREMENT"),]
+fc <- factor(tmp$Type)
+
+tapply(tmp$interest, fc, summary)
+
+defect <- subset(tmp$interest, tmp[,"Type"] == "DEFECT")
+design <- subset(tmp$interest, tmp[,"Type"] == "DESIGN")
+req <- subset(tmp$interest, tmp[,"Type"] == "REQUIREMENT")
+
+library(vioplot)
+
+plot(0, 0, type = "n", xlab = "", ylab = "", axes = FALSE,
+     xlim = c(0.5, 3.5), ylim = range(c(defect, design, req)))
+
+axis(side = 1, at = 1:3, labels = c("defect", "design", "req"))
+axis(side = 2)                                     
+
+vioplot(defect, at = 1, col = "orange", add = TRUE)
+vioplot(design, at = 2, col = "seagreen", add = TRUE)
+vioplot(req, at = 3, col = "blue", add = TRUE)
+```
+
+### Observation
+- There is no difference in each category.
