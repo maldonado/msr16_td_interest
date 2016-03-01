@@ -1,0 +1,98 @@
+---
+title: 'RQ1: Can we quantify interest of TD at the functional level? How much is the
+  interest? (Version 3)'
+author: "Yasutaka Kamei"
+date: "Feb 13th, 2016"
+output: pdf_document
+---
+
+# What did we revise (Version 3)?
+- A current version shows the summary using only positive interest or negative interest, while the previous version showed the summary using mixed positie and negative interest.
+- We calculate (v2 - v1) / v1 * 100. For example, if a value is 20 in v1 and it is 24 in v2, then the interest is 20%. 
+    - v2 means the version that removes technical debt (actually last found version)
+    - v1 means the version that introduces technical debt
+
+# What did we revise (Version 2)?
+- We divide one whole dataset into three projects (jruby, Ant and jmeter)
+- To calcuate interest, we use the ratio of metrics value of v2 in it of v1. The positive value means we may need to spend additional cost.
+    - For division, we exclude the technical debt that has 0 in v1. We show the number of the excluded technical debt.
+    - Previous report measured the interest by substracting the metric value of v2 - the metric value v1.
+- We use only one of duplicate technical debt that has same function name and same introducing version
+
+# Data Load
+```{r}
+setwd("/Users/kamei/Research/techdebt/msr16_td_interest/")
+source("./r_scripts/data_read.r")
+```
+
+# Data Summary
+- (Step 1) choose one of duplicated method and version name
+- (Step 2) only use technical debt including metrics
+```{r}
+summary(data.CountInput.all$Project)
+```
+
+- (Step 3) use technical debt including non 0 for division
+```{r}
+summary(data.CountInput.positive$Project)
+summary(data.CountInput.negative$Project)
+```
+
+# How much is the interest?
+- We have 64 (ant), 159(jmeter) and 264(jruby) technical debt in this analysis.
+- After Step 3 of filtering, the number of positive/negative technical debt is 16/12 (ant), 35/2(jmeter) and 70/41(jruby).
+
+## CountInput (fanin)
+```{r}
+# the number of the percenage of positive interest 
+tapply(data.CountInput.all$interest, factor(data.CountInput.all$Project), function(x){(sum(x > 1)/ length(x) * 100) } )
+
+# summary of interest for only technical debt that has positive / negative value.
+tapply(data.CountInput.positive$interest, factor(data.CountInput.positive$Project), summary)
+tapply(data.CountInput.negative$interest, factor(data.CountInput.negative$Project), summary)
+```
+
+## Observation
+- 22%-27% of technical debt has positive interest.
+- TODO: Let's start work from here...
+
+
+## CountLine
+```{r}
+# interest of CountLine (LOC)
+idx <- a[,"CountLine_v1"] == 0
+sum(idx)
+b <- a[!idx, ]
+fc.b <- factor(b$Project)
+interest <- (b[,"CountLine_v2"] ) / (b[,"CountLine_v1"])
+
+# summary of interest for all technical debt
+tapply(interest, fc.b, summary)
+
+# the number of the percenage of positive interest, same interest, positive interest, negative interest
+tapply(interest, fc.b, function(x){c( round((sum(x > 1)/ length(x) * 100)), sum(x==1), sum(x > 1), sum(x < 1)) } )
+
+# summary of interest for only technical debt that has positive / negative value.
+tapply(interest, fc.b, function(x){summary(subset(x, x !=1))} )
+```
+
+### Observation
+- 22%-36% of technical debt has positive interest.
+- If we focus on technical debt that has more than 1 interest
+    - the number of technical debt that have positive interest is more than negative interest one
+
+```{r}
+# the top interest tech debt?
+met_v1 <- "CountInput_v1"
+met_v2 <- "CountInput_v2"
+
+data.CountInput <- data[,c("Project", "Method_Signature", met_v1, met_v2)]
+data.CountInput <- data.CountInput[(data.CountInput[, met_v1] != -1 & data.CountInput[, met_v2] != -1), ]
+idx <- order(data.CountInput[,met_v2] - data.CountInput[,met_v1], decreasing = T)
+head(data.CountInput[idx,])
+```
+
+### Observation
+- [Discuss] if technical debt has same version and same method siguniture, should we remove one of them?
+    - We soloved the above point.
+
