@@ -60,8 +60,8 @@ with open(debt_file) as csvfile:
             if reuse.has_key(metrics_method_file):
                 print str(count) + ': (reused) ' + metrics_method_file
                 continue
-            
             print str(count) + ':' + metrics_method_file
+            reuse[metrics_method_file] = 1
 
             # only method level            
             f2 = pd.read_csv(metrics_file)
