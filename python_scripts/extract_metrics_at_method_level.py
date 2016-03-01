@@ -11,9 +11,13 @@ _project = 0
 _file_name = 3
 _class_name = 5
 _type = 13
-_version_introduced_name = 20
-_version_removed_name = 23
-_last_version_that_comment_was_found_name = 25
+_version_name = 1
+#_version_introduced_name = 20
+#_version_removed_name = 23
+#_last_version_that_comment_was_found_name = 25
+_version_introduced_name = 28
+_version_removed_name = 31
+_last_version_that_comment_was_found_name = 26
 _function_signature = 15
 metrics_columns = ["Kind", "Name", "File", "CountInput", "CountLine", "CountLineBlank", "CountLineCodeDecl", "CountLineComment", "CountOutput", "CountSemicolon", "CountStmt", "CountStmtDecl", "CountStmtExe", "Cyclomatic", "CyclomaticModified", "CyclomaticStrict", "Essential", "MaxNesting", "RatioCommentToCode"]
 #metrics_columns = ["Kind", "Name"]
@@ -22,6 +26,7 @@ count = 0
 # Run runUND.pl if there is *.und file
 with open(debt_file) as csvfile:
     f = csv.reader(csvfile)
+    reuse = {}
     
     for line in f:          
         count = count + 1
@@ -35,17 +40,7 @@ with open(debt_file) as csvfile:
         if line[_type] != 'METHOD':
             continue
         
-        tags_dir=''
-        if line[_project] == 'apache-ant':
-            tags_dir = '/tags/ant_tags'
-        elif line[_project] == 'jruby':
-            tags_dir = '/tags/jruby_tags'
-        elif line[_project] == 'apache-jmeter':
-            tags_dir = '/tags/jmeter_tags'
-        else:
-            continue
-        
-        idxs = [_version_introduced_name, _version_removed_name, _last_version_that_comment_was_found_name]
+        idxs = [_version_name, _version_introduced_name, _version_removed_name, _last_version_that_comment_was_found_name]
         
         for idx in idxs:        
             if line[idx] == '' or line[idx] == 'not_removed':
@@ -61,12 +56,18 @@ with open(debt_file) as csvfile:
             metrics_file_base = "/".join([und_out_dir, line[_project], line[idx]])
             metrics_file = metrics_file_base + ".product.csv"
             metrics_method_file = metrics_file_base + ".method-level.product.csv"
+            
+            if reuse.has_key(metrics_method_file):
+                print str(count) + ': (reused) ' + metrics_method_file
+                continue
+            
+            print str(count) + ':' + metrics_method_file
 
             # only method level            
             f2 = pd.read_csv(metrics_file)
             f3 = open(metrics_method_file, 'w')
             csvWriter  = csv.writer(f3)
-            
+                        
             csvWriter.writerow(metrics_columns)
             for index, row in f2.iterrows():
                 if row["Kind"] == 'Public Implicit Method':

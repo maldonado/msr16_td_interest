@@ -6,6 +6,8 @@ blame_files
 repos
 revs
 datasets/MISC*
+datasets/ZIP
+und/
 
 *.sublime-project
 *.sublime-workspace
