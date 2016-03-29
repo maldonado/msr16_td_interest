@@ -23,9 +23,11 @@ class Metrics:
 
 # Run runUND.pl if there is *.und file
 if __name__ == "__main__":
+    #debt_file = home_dir + '/datasets/CSV/technical_debt_summary_test.csv'
     debt_file = home_dir + '/datasets/CSV/technical_debt_summary.csv'
     tags_file = home_dir + '/datasets/CSV/tags_information.csv'
-
+    revs_file = home_dir + '/datasets/CSV/revs_information.csv'
+    
     tags = {}
     with open(tags_file) as csvfile:
         f = csv.reader(csvfile)
@@ -35,6 +37,16 @@ if __name__ == "__main__":
                 continue
     
             tags[line[1]] = line[3]
+
+    revs = {}
+    with open(revs_file) as csvfile:
+        f = csv.reader(csvfile)
+        
+        for line in f:
+            if line[0] == 'project_name':
+                continue
+    
+            revs[line[1]] = line[3]
         
     # line numbers
     _project = 0
@@ -42,9 +54,12 @@ if __name__ == "__main__":
     _class_name = 5
     _type = 13
     _version = 1
-    _version_introduced_name = 20
-    _version_removed_name = 23
-    _last_version_that_comment_was_found_name = 25
+    #_version_introduced_name = 20
+    #_version_removed_name = 23
+    #_last_version_that_comment_was_found_name = 25
+    _version_introduced_name = 28
+    _version_removed_name = 31
+    _last_version_that_comment_was_found_name = 26
     _function_signature = 15
     _comment_classification = 18
     metrics_columns = ["Kind", "Name", "File", "CountInput", "CountLine", "CountLineBlank", "CountLineCodeDecl", "CountLineComment", "CountOutput", "CountSemicolon", "CountStmt", "CountStmtDecl", "CountStmtExe", "Cyclomatic", "CyclomaticModified", "CyclomaticStrict", "Essential", "MaxNesting", "RatioCommentToCode"]
@@ -69,16 +84,6 @@ if __name__ == "__main__":
             
             if line[_type] != 'METHOD':
                 #f_CountInput.write("#".join([line[_function_signature], "", "", "","\n"]))
-                continue
-            
-            tags_dir=''
-            if line[_project] == 'apache-ant':
-                tags_dir = '/tags/ant_tags'
-            elif line[_project] == 'jruby':
-                tags_dir = '/tags/jruby_tags'
-            elif line[_project] == 'apache-jmeter':
-                tags_dir = '/tags/jmeter_tags'
-            else:
                 continue
             
             idxs = [_version,_version_introduced_name,_last_version_that_comment_was_found_name]
@@ -145,7 +150,20 @@ if __name__ == "__main__":
                             cyclomatic.last_found = metrics_line[13]
                             max_nesting.last_found = metrics_line[17]
                             
-                            v3 = v3 + 1            
-            f_CountInput.write("#".join([line[_project],line[_comment_classification],line[_file_name],line[_class_name],line[_function_signature],line[_version_introduced_name],tags[line[_version_introduced_name]],line[_last_version_that_comment_was_found_name],tags[line[_last_version_that_comment_was_found_name]],count_input.out_all(), count_output.out(), count_line.out(), cyclomatic.out(), max_nesting.out() + '\n']))
+                            v3 = v3 + 1
+            
+            date_introduced = ""
+            date_last_found = ""
+            try:
+                date_introduced = revs[line[_version_introduced_name]]
+            except KeyError:
+                date_introduced = tags[line[_version_introduced_name]]
+
+            try:
+                date_last_found = revs[line[_last_version_that_comment_was_found_name]]                                                   
+            except KeyError:
+                date_introduced = tags[line[_last_version_that_comment_was_found_name]]  
+
+            f_CountInput.write("#".join([line[_project],line[_comment_classification],line[_file_name],line[_class_name],line[_function_signature],line[_version_introduced_name],date_introduced,line[_last_version_that_comment_was_found_name],date_last_found,count_input.out_all(), count_output.out(), count_line.out(), cyclomatic.out(), max_nesting.out() + '\n']))
         f_CountInput.close()        
 print "/".join([str(v1),str(v2),str(v3)])                          

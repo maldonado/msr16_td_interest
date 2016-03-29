@@ -7,21 +7,14 @@ output: pdf_document
 ---
 # Read Data
 ```{r}
-data <- read.csv("/Users/kamei/Research/techdebt/msr16_td_interest/datasets/CSV/technical_debt_summary.csvinterest.ssv", sep="#")
-
-# choose one of duplicated method and version name
-method_and_version_name <- paste(data$Method_Signature, data$v1, sep="")
-data <- data[!duplicated(method_and_version_name), ]
-
-# only use technical debt including metrics
-a <- data[(data[, "CountInput_v1"] != -1 & data[, "CountInput_v2"] != -1), ]
-# only use technical debt including non 0 for division
-b <- a[(a[,"CountInput_v1"] != 0), ]
-b <- cbind(b, interest = (b$CountInput_v2 / b$CountInput_v1))
+setwd("/Users/kamei/Research/techdebt/msr16_td_interest/")
+source("./r_scripts/data_read.r")
 ```
 
 # The number of technical debt in each type
 ```{r}
+b <- data.CountLine.all
+
 tmp <- b[b[,"Project"] == "apache-ant", ]
 fc <- factor(tmp$Type)
 tapply(tmp$interest, fc, length)
@@ -42,10 +35,15 @@ tapply(tmp$interest, fc, function(x){length(x)/length(tmp$interest) * 100})
 - In jruby, three types of technical dept are included than 10%.
 - We use DEFECT, DESIGN and REQ in jruby.
 
+# Does the interest differ based on the type of TD?
+
+
 ```{r}
 tmp <- b[b[,"Project"] == "jruby", ]
 tmp <- tmp[(tmp[,"Type"] == "DEFECT" |  tmp[,"Type"] == "DESIGN" |  tmp[,"Type"] == "REQUIREMENT"),]
 fc <- factor(tmp$Type)
+
+tapply(tmp$interest, fc, function(x){c(sum(x==0)/length(x)*100)})
 
 tapply(tmp$interest, fc, summary)
 
@@ -68,3 +66,36 @@ vioplot(req, at = 3, col = "blue", add = TRUE)
 
 ### Observation
 - There is no difference in each category.
+
+# Plot
+```{r}
+library(reshape2)
+library(ggplot2)
+
+if(0){
+b <- data.CountLine.positive
+  
+tmp <- b[b[,"Project"] == "jruby", ]
+tmp <- tmp[(tmp[,"Type"] == "DEFECT"),]
+a1 <- data.frame(Interest=tmp$interest) 
+g = ggplot(a1, aes(x=Interest, y=..density.., fill=T), lims(x = c(0,400)))
+g = g + geom_density(alpha = 0.5) + xlim(0, 400) + ylim(0,0.03) + guides(fill=FALSE)
+print(g)
+ggsave(file = "./tex/figures/rq2-defect.pdf", plot = g, width = 8.09, height = 5)
+
+tmp <- b[b[,"Project"] == "jruby", ]
+tmp <- tmp[(tmp[,"Type"] == "DESIGN"),]
+a2 <- data.frame(Interest=tmp$interest) 
+g = ggplot(a2, aes(x=Interest, y=..density.., fill=T, lims(x = c(0,400))))
+g = g + geom_density(alpha = 0.5) + xlim(0, 400) + ylim(0,0.03) + guides(fill=FALSE)
+print(g)
+ggsave(file = "./tex/figures/rq2-design.pdf", plot = g, width = 8.09, height = 5)
+
+tmp <- b[b[,"Project"] == "jruby", ]
+tmp <- tmp[(tmp[,"Type"] == "REQUIREMENT"),]
+g = ggplot(a3, aes(x=Interest, y=..density.., fill=T), lims(x = c(0,400)))
+g = g + geom_density(alpha = 0.5) + xlim(0, 400) + ylim(0,0.03) + guides(fill=FALSE)
+print(g)
+ggsave(file = "./tex/figures/rq2-requirement.pdf", plot = g, width = 8.09, height = 5)
+}
+```

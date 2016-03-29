@@ -95,11 +95,13 @@ interest <- data.CountInput.negative$interest
 tapply(interest, fc, summary)
 ```
 
+
 # Plot
 ```{r}
 library(reshape2)
 library(ggplot2)
 
+if(0){
 idx <- data.CountLine.positive$Project == "apache-ant"
 a1 <- data.frame(Interest=data.CountLine.positive[idx,"interest"]) 
 g = ggplot(a1, aes(x=Interest, y=..density.., fill=T), lims(x = c(0,400)))
@@ -120,4 +122,5 @@ g = ggplot(a3, aes(x=Interest, y=..density.., fill=T), lims(x = c(0,400)))
 g = g + geom_density(alpha = 0.5) + xlim(0, 400) + ylim(0,0.04) + guides(fill=FALSE)
 print(g)
 ggsave(file = "./tex/figures/rq1-jruby.pdf", plot = g, width = 8.09, height = 5)
+}
 ```
