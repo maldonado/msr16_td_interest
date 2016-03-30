@@ -1,0 +1,10 @@
+0	0.5	jrubi fix java block file except creat call implement list ast patch array right need stat scope back sort hash 
+1	0.5	use bug add http bugzilla type sampler file error save tidi better valu system result todo proxi defin properti sampl 
+2	0.5	class refactor modul bit string encod also check object compil cleanup alloc interfac mri access elimin updat call field proxi 
+3	0.5	logic rubi use one new file channel modifi close separ miss commit special way bill dup stream dortch place iohandl 
+4	0.5	new give implement merg time chang land friend appropri trunk burn java runtim format commit basic relat standard parser code 
+5	0.5	method code compil work node move renam next thread base arg translat opt non also yet stack common includ follow 
+6	0.5	fix test pass handl get gener jrubi start ant failur updat full ahead damn made torpedo rubyspec bigdecim rail request 
+7	0.5	support add task class move code improv get load java element name perform multipl tree make differ nest still cost 
+8	0.5	allow compil need optim also valu return code improv perform array like remov peephol propag final given masgn lookup ivar 
+9	0.5	test fix use method remov enabl version make var assert allow initi run construct appropri string split specifi two get 
