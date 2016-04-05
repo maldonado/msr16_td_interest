@@ -6,10 +6,15 @@ and the appearance of technical debt in the form of code smells \cite{Fontana201
 In the last few years, an increasing amount of work has focused on SATD. In particular, our prior work focused on the detection of SATD~\cite{Potdar2014ICSME} and the classification of different types of SATD and the development of datasets to enable future studies on SATD~\cite{Maldonado2015MTD}. Other work by Bavota and Russo performed an empirical study of SATD on a large number of Apache projects showed that SATD is prevalent in open source projects, is long lived and is increasing over time. A study by Wehaibi et al. \todo{cite Wehaibi} examined the impact of SATD on quality and found that SATD does not necessarily relate to more defects, however, it does make the software system more complex. 
 
 %However, very little work focused on interest. Also, why is calculating interest difficult
-Based on these prior findings, we measure and quantify the effect of SATD. In particular, we measure the amount of \emph{interest} caused by SATD. Although the metaphor of technical debt has been well studied, to the best of our knowledge, the quantification of interest of technical debt has not been examined before. Measuring the interest if technical debt is non-trivial since it requires, in addition to the detection of the technical debt, the tracking of the debt over time and the development of a measure to accurately quantify this debt. Lastly, we use our interest quantification of flag \todo{high-interest?} code to determine why it was introduced and removed (if it was removed). To operationalize our findings, we also built a tool that is able to identify and assign an interest rate to all SATD instances in a project. Our tool is publicly available and can be used by practitioners to prioritize the most impacting (i.e., highest interest) SATD.
+Based on these prior findings, we measure and quantify the effect of SATD. In particular, we measure the amount of \emph{interest} caused by SATD. Although the metaphor of technical debt has been well studied, to the best of our knowledge, the quantification of interest of technical debt has not been examined before. Measuring the interest if technical debt is non-trivial since it requires, in addition to the detection of the technical debt, the tracking of the debt over time and the development of a measure to accurately quantify this debt. 
+
 
 % What we do  and how we calculate interest
-In this paper, we first propose the use of code metrics, in particular \todo{add}, as a measure of interest. Then, we use the developed measure to quantify the interest of SATD in real software projects. Since there are different types of SATD, we also compare the interest of the two most common types of SATD, requirement and design debt. The comparison provides insight into which type of SATD incurs higher interest.
+In this paper, we first propose the use of code metrics, in particular \todo{add}, as a measure of interest. Then, we use the developed measure to quantify the interest of SATD in real software projects. Since there are different types of SATD, we also compare the interest of the two most common types of SATD, requirement and design debt. The comparison provides insight into which type of SATD incurs higher interest. Lastly, we use our interest quantification of flag \todo{high-interest?} code to determine why it was introduced and removed (if it was removed). To operationalize our findings, we also built a tool that is able to identify and assign an interest rate to all SATD instances in a project. Our tool is publicly available and can be used by practitioners to prioritize the most impacting (i.e., highest interest) SATD.
+
+%Findings
+Through an empirical study on \todo{3} large open source projects, we find that \todo{complete....}
+
  
 % Main contributions
 The main contributions of the paper are three-fold.
@@ -17,15 +22,9 @@ The main contributions of the paper are three-fold.
 \begin{itemize}
 \item \textbf{Propose a way to measure interest of technical debt.} 
 \item  \textbf{Quantify and compare the interest incurred by different.} 
-\item  \textbf{Qualitivate} 
+\item  \textbf{Qualitatively examine the reasons for high-interest SATD.}
+\item \textbf{Build a tool that identifies SATD instances and their associated interest.} 
 \end{itemize}
 
 % Organization of the paper
-\smallsection{Paper Organization} To purse the goal of this paper, the paper is organized as follows. 
-Section \ref{background} explains the overview of defect prediction models.
-Section \ref{past} revisits what challenges were in Year 2000.
-%Section \ref{trends} assesses what state the research trend is in.
-%Section \ref{game_changers} presents game changers, which dramatically changed perspective and direction of the studies in the field of defect prediction.
-Section \ref{trends} assesses what state the research trend is in and presents some of game changers, which dramatically changed perspective and direction of the studies in the field of defect prediction.
-Section \ref{challenges} highlights some key challenges for future.
-Section \ref{conclusion} draws conclusions.
+The rest of the paper is organized as follows; First, we discuss the related work in Section \todo{add S}. \todo{complete....}
