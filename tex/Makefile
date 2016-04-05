@@ -13,10 +13,6 @@ SECTION_FILES = \
 	preamble.tex \
 	introduction.tex \
 	background.tex \
-	past.tex \
-	trends.tex \
-	game_changers.tex \
-	challenges.tex \
 	conclusion.tex
 
 BIBTEX_FILES = \
