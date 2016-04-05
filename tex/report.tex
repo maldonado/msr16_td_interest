@@ -42,6 +42,11 @@ abstract.
 
 \para{Describe more detail of technical debt and current problem in the domain}
 
+Intuition and general belief indicate that ...
+However, to the best of our knowledge, there is few empirical studies that 
+...
+Such a study would be useful ..., since ()
+
 \para{The goal and approach of this study}
 
 \para{Contributions}
@@ -59,50 +64,96 @@ abstract.
 \para{Software Evolution: We calculate interest by looking at the difference size of two versions. In other words, this work is one of lines of software evolution.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Case Study Setup}
-The goal of this study is \todo{purpose.}.
-...
+\section{Case Study Setup} \label{sec:setup}
+The goal of this study is to identify and quantify the interest of self-admitted technical debt in source code comments.
+To conduct our case study, we use data from three open source software  projects (Apache Ant, Apache Jmeter, and JRuby). We chose these three projects, since we would like to use both of types of data sets that were used in previous studies~\cite{Maldonado2015MTD,Potdar2014ICSME} and are collected as a new one. Apache Ant and Apache Jmeter were used in previous studies, and JRuby are collected in this study. All three projects use Git as a version control system. 
 
-We formalize our study in the following research questions:
+\todo{Add the table that shows statistics of projects}
 
-\todo{List up research question}
+Table xxx shows the statistics of the projects we use in our experiments. We obtain the data sets that belong to different application domains and vary in size.
 
-To conduct our case study, we use data from ...
+%\todo{How do we choose projects we analyze? i.e., why do we use Ant and Jmeter and do not use ArgoUML, Columba and JFreeChart? and why do we add jRuby?}
 
-\todo{How do we choose projects we analyze? i.e., why do we use Ant and Jmeter and do not use ArgoUML, Columba and JFreeChart? and why do we add jruby?}
+\todo{Make an overview figure to explain our approach: [Title] An overview of the design of our data extraction}
 
-Similar to previous work~\cite{Kamei2010ICSM,Kamei2013TSE}, we used churn as effort. We assume that developers spend their effort to check the method before modifying methods at least, we say that is the effort.
+\subsection{Self-Admitted Technical Debt Extraction}
+\smallsection{(Step 1) Extract source code files}
+To perform our case study, we obtain source code files from Git repositories of three projects. We selected {\sc 1.4.0}, {\sc ANT\_170}, and {\sc v2\_10} in each JRuby, Apache Ant, and Apache jmeter as versions (tags) of which we extract self-admitted technical debt. The versions were released at the middle of project history. Therefore, we believe that projects elapse sufficient time for obtaining technical debt for our analysis and remain time for removing it.
 
-\subsection{Project Data Extraction}
-\para{Get Git repos}
+\smallsection{(Step 2) Parse source code files}
+After obtaining source code files, we extract the comments from them. We use JDeodorant~\cite{Tsantalis2008CSMR}, which is an open-source Eclipse plug-in, to parse the source code and extract the code comments. JDeodrant uses the Eclipse AST framework to create an Abstract Syntax Tree (AST) map of the source code. The AST map contains detailed information about the project such as: the source code comments, its type (e.g., Block, Single-line, or Javadoc), the line where each one of these comments begins and finishes. We extract the aforementioned information and store all comments as the candidate of self-admitted technical debt.
 
-\para{}
+\smallsection{(Step 3) Filter Comments}
+To reduce the number of comments we manually read, we filter comments that are less likely to be classified as self-admitted technical debt by utilizing several heuristics, similar to previous studies~\cite{Maldonado2015MTD}.
 
-\subsection{Interest}
-To measure interest, we use source code metrics. We use Understand, which is a well-known tool, to measure source code metrics. 
+First, we eliminate license comments from the candidate of self-admitted technical debt, since we found that license comments are very not likely to contain self-admitted technical debt. License comments are commonly added before the declaration of the class. Since we know the line number that the class was declared we can easily check for comments that are placed before that line and remove them. In order to decrease the chances of removing a self-admitted technical debt comment while executing this filter we do not remove comments containing one of task-reserved words (i.e., “todo”, “fixme”, or “xxx”).
 
-\para{how to calculate metrics?}
+Then, we also filter Javadoc comments from the candidate of self-admitted technical debt, since we found that they rarely mention self-admitted technical debt. Based on source code comments' type provided by JDeodrant, we identify Javadoc comments. Similar to the heuristics for license comments, we do not remove Javadoc comments containing at least one of task-reserved words. To do so, we create a simple regular expression that search for the task-reserved words before removing the comment.
 
-In this study, we consider the relative size of ... as interest. For example, 
+Then, we group consecutive single-line comments as one comment. We notice that developers sometimes make long comments, using multiple single-line comments instead of a Block comment. This characteristic can hinder the understanding of the message. When considering the case that we analyze each one of these comments independently, we may misunderstand the message because each of them would be incomplete and lose the meaning.
 
-\para{how to identify when a technical debt are introduced and removed?}
-From that version, we obtain patches between two versions over all versions for each file that includes technical debt. Then, we check each patch about whether or not technical debt is introduced/removed. Some of them are not removed. If so, we use latest commits. We calculate the difference of a metric between two versions when technical debt is introduced and removed.
+Finally, we filter the comments that conduct {\it comment out} source code from the candidate of self-admitted technical debt. While commented source code may show the code that is currently not being used or the code that was used for debugging, it may not include any developer's comments. Therefore, the commented source code is less likely to be classified as self-admitted technical debt. We remove commented source code using a simple regular expression that captures typical Java code structures.
+
+Table xxx shows the number of comments that are filtered by the heuristics we used. The heuristics significantly reduces the number of comments in our dataset and helps us focus on the most applicable and insightful comments. 
+
+\todo{add a table that shows the number of comments that are filtered by several heuristics}
+
+\smallsection{(Step 4) Manual Classification}
+To extract self-admitted technical debt, the xxx author manually classified all comments into self-admitted technical debt or not.
+The xxx author who made the classification has more than 8 years of experience working in the industry as a software engineer, during this time he designed, implemented and maintained several programs using, in particular the Java programming language. He developed solid skills in object orientated programming and design patterns. We consider that these qualifications provide the necessary background to conduct the manual classification of the comments.
+
+\subsection{Interest Extraction} \label{subsec:interest}
+
+\smallsection{(Step 1) Identify two versions that introduce and remove technical debt}
+By tracing the comments including self-admitted technical debt across versions in Git repositories, we identify two versions that introduce and remove them. To trace the comments, we obtain patches between two versions over all versions for each file that includes technical debt. Then, we check each patch about whether or not technical debt is introduced and removed. 
+
+\smallsection{(Step 2) Measure metrics}
+To calculate interest, we measure product metrics from two versions detected in Step 1 using {\sc Understand}~\cite{Understand}. We choose all metrics that are available at the method-level in {\sc Understand}.
+
+\smallsection{(Step 3) Calculate interest}
+There are many ways to calculate interest of self-admitted technical debt. Therefore, in this study, we consider the relative size of metric values between two versions as interest, since that approach is simple and intuitive. For example, if arbitrary metric values in introduced and removed versions are 10 and 20, the relative size is 100 (= (20-10)/10 * 100 ).
+If we cannot find the version that removes self-admitted technical debt, 
+we use the latest release version of each system. 
+
+While the paper tackles the research topic that accelerates a new research direction (i.e., quantifying interest of self-admitted technical debt), it also has the weakness of our current approach. We elaborate on the weakness of our current approach in Section \todo{xxx}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
-\subsection{RQ1: Can we quantify interest of technical debt at the function-level?}
+\subsection{RQ1: Can we quantify interest of technical debt at the method-level?}
 \smallsection{Motivation}
-\todo{need to read some papers that say technical debt is bad. So we want to quantify it.}
+To alleviate the impact of technical debt, there are several previous studies on understanding self-admitted technical debt (e.g., the detection of technical debt~\cite{Potdar2014ICSME,Zazworka2013EASE} and the impact of self-admitted technical debt on software quality~\cite{Wehaibi2016SANER}).
+However, there are few empirical studies that quantify interest of self-admitted technical debt.
+Therefore, we would like to know how we can understand interest using our method explained in Section \ref{subsec:interest}
 
 \smallsection{Approach}
-\para{We calculate the interest.}
+%\para{We calculate the interest.}
+To calculate interest of self-admitted technical debt, we follow the approach we explained in Section \ref{sec:setup}.
 
 \smallsection{Results}
+We find that there are high correlations between LOC and the other product metrics except Fan-In. 
+From the highly correlated metrics, we choose LOC as metrics to calculate interest, similar to previous work that considers effort in the domain of defect prediction~\cite{Kamei2010ICSM,Kamei2013TSE}. We assume that developers spend more effort to check larger methods before modifying the methods.
 
-Put Table.
+Table X shows the number of self-admitted technical debt and the percentage of the technical debt that has positive interest in all technical debt. 
 
 Figure xx shows that the distribution of interest. X
 \para{Put the distribution of interest?}
+
+\begin{table}[tb]
+  \caption{caption here}
+  \label{tab:tablename}
+  \centering
+
+  \begin{tabular}{l|cc}
+  \hline
+
+  \textbf{column 1} & \textbf{column 2} & \textbf{column 3} \\
+  \hline
+     & & \\
+  \hline
+
+  \end{tabular}
+\end{table}
+
 
 割合と分布について述べる．
 
