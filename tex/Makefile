@@ -13,6 +13,9 @@ SECTION_FILES = \
 	preamble.tex \
 	introduction.tex \
 	background.tex \
+	result.tex \
+	setup.tex \
+	threats_to_validity.tex \
 	conclusion.tex
 
 BIBTEX_FILES = \

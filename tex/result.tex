@@ -1,0 +1,129 @@
+\section{Results} \label{sec:results}
+\subsection{RQ1: Can we quantify interest of technical debt at the method-level?}
+\smallsection{Motivation}
+To alleviate the impact of technical debt, there are several previous studies on understanding SATD (e.g., the detection of technical debt~\cite{Potdar2014ICSME,Zazworka2013EASE} and the impact of SATD on software quality~\cite{Wehaibi2016SANER}).
+However, there are few empirical studies that quantify interest of SATD.
+Therefore, we would like to know how we can understand interest using our method explained in Section \ref{subsec:interest}
+
+\smallsection{Approach}
+%\para{We calculate the interest.}
+To calculate interest of SATD, we follow the approach we explained in Section \ref{sec:setup}.
+
+\smallsection{Results}
+We find that there are high correlations between LOC and the other product metrics except Fan-In. 
+From the highly correlated metrics, we choose LOC as metrics to calculate interest, similar to previous work that considers effort in the domain of defect prediction~\cite{Kamei2010ICSM,Kamei2013TSE}. We assume that developers spend more effort to check larger methods before modifying the methods. Eventually, we show our results using two product metrics (i.e., LOC and Fan-In).
+
+Table \ref{tab:statistic} shows the number of SATD and the percentage of the technical debt that has positive interest in all technical debt. 
+
+Figure \ref{fig:dist} shows that the distribution of interest. X
+\para{Put the distribution of interest?}
+
+\begin{table}[tb]
+  \caption{Statistic interest of SATD}
+  \label{tab:statistic}
+  \centering
+
+  \begin{tabular}{cl|r|rrr}
+  \hline
+      &  Project & Positive Rate & All & Positive & Negative \\
+  \hline
+        & Ant    & 38.0\% &  71 &  27  &  20 \\
+   LOC  & JMeter & 44.2\% & 181 &  80  &  25 \\
+        & JRuby  & 32.6\% & 236 &  77  &  59 \\
+  \hline
+        & Ant    & 30.9\% &  68 &  21  &  13 \\
+Fan-In  & JMeter & 42.2\% & 161 &  68  &  13 \\
+        & JRuby  & 30.3\% & 231 &  70  &  37 \\
+  \hline
+  \end{tabular}
+\end{table}
+
+%-----------------------------------------------------------------------
+\begin{figure*}[!t]
+  \begin{center}
+  \scalebox{0.95}{
+  \begin{tabular}{ccc}
+    \subfigure[Ant (LOC)]{ 
+      \includegraphics[width=.33\textwidth]{figures/rq1-ant}
+    }
+    \subfigure[JMeter (LOC)]{ 
+      \includegraphics[width=.33\textwidth]{figures/rq1-jmeter}
+    }
+    \subfigure[JRuby (LOC)]{
+      \includegraphics[width=.33\textwidth]{figures/rq1-jruby}
+    }
+  \end{tabular}
+  }
+  \scalebox{0.95}{
+  \begin{tabular}{ccc}
+    \subfigure[Ant (Fan-In)]{ 
+      \includegraphics[width=.33\textwidth]{figures/rq1-ant-fanin}
+    }
+    \subfigure[JMeter (Fan-In)]{ 
+      \includegraphics[width=.33\textwidth]{figures/rq1-jmeter-fanin}
+    }
+    \subfigure[JRuby (Fan-In)]{
+      \includegraphics[width=.33\textwidth]{figures/rq1-jruby-fanin}
+    }
+  \end{tabular}
+  }
+  \caption{(RQ1) The results of distribution of interest.}
+  \label{fig:dist}
+  \end{center}
+\end{figure*}
+%-----------------------------------------------------------------------
+
+
+\conclusionbox{Result of RQ1: 22\%-36\% of technical debt has positive interest.}
+
+\subsection{RQ2: Does the interest differ based on the type of technical debt?}
+\smallsection{Motivation}
+There are several type of technical debt such as defect technical debt and design technical debt. 
+To better understand the interest, we would like to analayze ...
+
+\smallsection{Approach}
+We classify technical debt into categories and calculate interest in each category.
+
+\smallsection{Results}
+Table X shows the number and the percentage of technical debt. Among three projects, jruby only includes more than one category that has more than 10\% of technical debt methods. Therefore, we decided to use jruby in RQ2.
+
+\para{we report same things in RQ1.}  
+
+%-----------------------------------------------------------------------
+\begin{figure}
+  \centering
+  \includegraphics[width=.45\textwidth]{figures/rq2-defect}
+  \caption{Adding a Repository in Commit Guru \label{fig:guru1}}
+\end{figure}
+\begin{figure}
+  \centering
+  \includegraphics[width=.45\textwidth]{figures/rq2-design}
+  \caption{Adding a Repository in Commit Guru \label{fig:guru1}}
+\end{figure}
+\begin{figure}
+  \centering
+  \includegraphics[width=.45\textwidth]{figures/rq2-requirement}
+  \caption{Adding a Repository in Commit Guru \label{fig:guru1}}
+\end{figure}
+%-----------------------------------------------------------------------
+
+
+\conclusionbox{Result of RQ2}
+
+\subsection{RQ3: manual analysis}
+\smallsection{Motivation}
+
+\smallsection{Approach}
+
+\smallsection{Results}
+
+\conclusionbox{Result of RQ3}
+
+\section{Discussion}
+\para{Put additional analysis when considering time period.}
+
+\para{Put additional analysis when considering other metrics (fan-in).}
+
+\para{Put additional analysis when comparing the non-technical deb methods.}
+
+\para{Put the analysis for showing the method that includes more than one technical debt in one version.}
