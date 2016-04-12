@@ -13,10 +13,12 @@ To calculate interest of SATD, we follow the approach we explained in Section \r
 We find that there are high correlations between LOC and the other product metrics except Fan-In. 
 From the highly correlated metrics, we choose LOC as metrics to calculate interest, similar to previous work that considers effort in the domain of defect prediction~\cite{Kamei2010ICSM,Kamei2013TSE}. We assume that developers spend more effort to check larger methods before modifying the methods. Eventually, we show our results using two product metrics (i.e., LOC and Fan-In).
 
-Table \ref{tab:statistic} shows the number of SATD and the percentage of the technical debt that has positive interest in all technical debt. 
+Table \ref{tab:statistic} shows the number of SATD and the percentage of the technical debt that has positive interest in all technical debt. The table shows that 32.6\%-44.2\% of technical debt has a positve rate in terms of LOC and 30.9\%-42.2\% of technical debt has it in terms of Fan-In. 
+There is not large difference of the positive rates between LOC and Fan-In. 
+% The positive rate of LOC in ANT is 38.0% 
 
-Figure \ref{fig:dist} shows that the distribution of interest. X
-\para{Put the distribution of interest?}
+Figure \ref{fig:dist} shows that the distribution of interest for the technical debt of positive rate. The distribution in all plots are left-skewed (around 0 to 10). We can also find that some of positive intrest are over 100, which means the value of metric relatively increases by 100\%.
+This findings suggest that we  have the technical debt that we preferentially allocate development research to solve.
 
 \begin{table}[tb]
   \caption{Statistic interest of SATD}
@@ -74,7 +76,8 @@ Fan-In  & JMeter & 42.2\% & 161 &  68  &  13 \\
 %-----------------------------------------------------------------------
 
 
-\conclusionbox{Result of RQ1: 22\%-36\% of technical debt has positive interest.}
+\conclusionbox{
+32.6\%-44.2\% of technical debt has a positve rate in terms of LOC and 30.9\%-42.2\% of technical debt has it in terms of Fan-In.}
 
 \subsection{RQ2: Does the interest differ based on the type of technical debt?}
 \smallsection{Motivation}
@@ -88,6 +91,17 @@ We classify technical debt into categories and calculate interest in each catego
 Table X shows the number and the percentage of technical debt. Among three projects, jruby only includes more than one category that has more than 10\% of technical debt methods. Therefore, we decided to use jruby in RQ2.
 
 \para{we report same things in RQ1.}  
+
+\conclusionbox{Result of RQ2}
+
+\subsection{RQ3: manual analysis}
+\smallsection{Motivation}
+
+\smallsection{Approach}
+
+\smallsection{Results}
+
+\conclusionbox{Result of RQ3}
 
 %-----------------------------------------------------------------------
 \begin{figure}
@@ -107,17 +121,6 @@ Table X shows the number and the percentage of technical debt. Among three proje
 \end{figure}
 %-----------------------------------------------------------------------
 
-
-\conclusionbox{Result of RQ2}
-
-\subsection{RQ3: manual analysis}
-\smallsection{Motivation}
-
-\smallsection{Approach}
-
-\smallsection{Results}
-
-\conclusionbox{Result of RQ3}
 
 \section{Discussion}
 \para{Put additional analysis when considering time period.}
