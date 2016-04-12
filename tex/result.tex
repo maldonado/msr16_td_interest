@@ -127,6 +127,23 @@ Table X shows the number and the percentage of technical debt. Among three proje
 
 \para{Put additional analysis when considering other metrics (fan-in).}
 
-\para{Put additional analysis when comparing the non-technical deb methods.}
+%\para{Put additional analysis when comparing the non-technical deb methods.}
+\smallsection{Motivation}
+Generally speaking, software systems are always evolving over time for implementing new functionality and fixing defects~\cite{xxx}.
+Therefore, even if the size of technical debt increases, it is not clear about how the nature of software evaluation affects the interest of technical debt.
+We would like to compare the impact of software evolution on methods in two groups of SATD v.s. non-SATD.
+
+\smallsection{Approach}
+We compare the interest of methods between SATD and non-SATD.
+We conduct the following steps:
+\begin{itemize}
+\item We obtain the list of files that include SATD.
+\item We extract methods that do not include SATD.
+\item We measure metrics for the methods in Step 2 at two versions that technical debt is introduced and removed.
+\item We calculate interest using metrics in Step 3.
+\end{itemize}
+% What do we need to do some pre-condition for this analysis?
+
+\smallsection{Result}
 
 \para{Put the analysis for showing the method that includes more than one technical debt in one version.}
