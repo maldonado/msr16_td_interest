@@ -2,9 +2,23 @@
 The goal of this study is to identify and quantify the interest of SATD in source code comments.
 To conduct our case study, we use data from three open source software  projects (Apache Ant, Apache Jmeter, and JRuby). We chose these three projects, since we would like to use both of types of data sets that were used in previous studies~\cite{Maldonado2015MTD,Potdar2014ICSME} and are collected as a new one. Apache Ant and Apache Jmeter were used in previous studies, and JRuby are collected in this study. All three projects use Git as a version control system. 
 
-\todo{Add the table that shows statistics of projects}
+\begin{table}[tb]
+  \caption{Project details}
+  \label{tab:project}
+  \centering
 
-Table xxx shows the statistics of the projects we use in our experiments. We obtain the data sets that belong to different application domains and vary in size.
+  \begin{tabular}{l|rrrp{1.0cm}p{1.0cm}}
+  \hline
+    Project & Release & \# of classes & SLOC & \# of comments & \# of contributors \\
+  \hline
+    Ant    & xxx &   x  &    x  &        x  &    x   \\
+    JMeter & xxx &   x  &    x  &        x  &    x   \\
+    JRuby  & xxx &   x  &    x  &        x  &    x   \\
+  \hline
+  \end{tabular}
+\end{table}
+
+Table \ref{tab:project} shows the statistics of the projects we use in our experiments. We obtain the data sets that belong to different application domains and vary in size.
 
 %\todo{How do we choose projects we analyze? i.e., why do we use Ant and Jmeter and do not use ArgoUML, Columba and JFreeChart? and why do we add jRuby?}
 
