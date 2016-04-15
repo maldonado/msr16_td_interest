@@ -69,6 +69,40 @@ vioplot(req, at = 3, col = "blue", add = TRUE)
 
 # Stat
 ```{r}
+
+b <- data.CountLine.all
+tmp <- b[b[,"Project"] == "jruby", ]
+fc <- factor(tmp$Type)
+tapply(tmp$interest, fc, length)
+
+b <- data.CountLine.positive
+tmp <- b[b[,"Project"] == "jruby", ]
+fc <- factor(tmp$Type)
+tapply(tmp$interest, fc, length)
+
+b <- data.CountLine.negative
+tmp <- b[b[,"Project"] == "jruby", ]
+fc <- factor(tmp$Type)
+tapply(tmp$interest, fc, length)
+
+b <- data.CountInput.all
+tmp <- b[b[,"Project"] == "jruby", ]
+fc <- factor(tmp$Type)
+tapply(tmp$interest, fc, length)
+
+b <- data.CountInput.positive
+tmp <- b[b[,"Project"] == "jruby", ]
+fc <- factor(tmp$Type)
+tapply(tmp$interest, fc, length)
+
+b <- data.CountInput.negative
+tmp <- b[b[,"Project"] == "jruby", ]
+fc <- factor(tmp$Type)
+tapply(tmp$interest, fc, length)
+
+
+
+
 b <- data.CountLine.positive
 tmp <- b[b[,"Project"] == "jruby", ]
 fc <- factor(tmp$Type)
