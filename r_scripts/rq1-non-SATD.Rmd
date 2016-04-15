@@ -119,21 +119,21 @@ ggsave(file = "./tex/figures/rq1-jruby-non-SATD.pdf", plot = g, width = 8.09, he
 
 if(0){
 idx <- data.CountInput.all$Project == "apache-ant"
-a1 <- data.frame(Interest=data.CountInput.all[idx,"interest"]) 
+a1 <- data.frame(Interest=data.CountInput.positive[idx,"interest"]) 
 g = ggplot(a1, aes(x=Interest, y=..density.., fill=T), lims(x = c(0,400)))
 g = g + geom_density(alpha = 0.5) + xlim(0, 400) + ylim(0,0.04) + guides(fill=FALSE)
 print(g)
 ggsave(file = "./tex/figures/rq1-ant-fanin-non-SATD.pdf", plot = g, width = 8.09, height = 5)
 
 idx <- data.CountInput.all$Project == "apache-jmeter"
-a2 <- data.frame(Interest=data.CountInput.all[idx,"interest"]) 
+a2 <- data.frame(Interest=data.CountInput.positive[idx,"interest"]) 
 g = ggplot(a2, aes(x=Interest, y=..density.., fill=T, lims(x = c(0,400))))
 g = g + geom_density(alpha = 0.5) + xlim(0, 400) + ylim(0,0.04) + guides(fill=FALSE)
 print(g)
 ggsave(file = "./tex/figures/rq1-jmeter-fanin-non-SATD.pdf", plot = g, width = 8.09, height = 5)
 
 idx <- data.CountInput.all$Project == "jruby"
-a3 <- data.frame(Interest=data.CountInput.all[idx,"interest"]) 
+a3 <- data.frame(Interest=data.CountInput.positive[idx,"interest"]) 
 g = ggplot(a3, aes(x=Interest, y=..density.., fill=T), lims(x = c(0,400)))
 g = g + geom_density(alpha = 0.5) + xlim(0, 400) + ylim(0,0.04) + guides(fill=FALSE)
 print(g)

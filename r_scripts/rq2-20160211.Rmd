@@ -67,6 +67,22 @@ vioplot(req, at = 3, col = "blue", add = TRUE)
 ### Observation
 - There is no difference in each category.
 
+# Stat
+```{r}
+b <- data.CountLine.positive
+tmp <- b[b[,"Project"] == "jruby", ]
+fc <- factor(tmp$Type)
+interest <- tmp$interest
+tapply(interest, fc, summary)
+
+
+b <- data.CountInput.positive
+tmp <- b[b[,"Project"] == "jruby", ]
+fc <- factor(tmp$Type)
+interest <- tmp$interest
+tapply(interest, fc, summary)
+```
+
 # Plot
 ```{r}
 library(reshape2)
@@ -93,9 +109,36 @@ ggsave(file = "./tex/figures/rq2-design.pdf", plot = g, width = 8.09, height = 5
 
 tmp <- b[b[,"Project"] == "jruby", ]
 tmp <- tmp[(tmp[,"Type"] == "REQUIREMENT"),]
+a3 <- data.frame(Interest=tmp$interest) 
 g = ggplot(a3, aes(x=Interest, y=..density.., fill=T), lims(x = c(0,400)))
 g = g + geom_density(alpha = 0.5) + xlim(0, 400) + ylim(0,0.03) + guides(fill=FALSE)
 print(g)
 ggsave(file = "./tex/figures/rq2-requirement.pdf", plot = g, width = 8.09, height = 5)
+
+b <- data.CountInput.positive
+  
+tmp <- b[b[,"Project"] == "jruby", ]
+tmp <- tmp[(tmp[,"Type"] == "DEFECT"),]
+a1 <- data.frame(Interest=tmp$interest) 
+g = ggplot(a1, aes(x=Interest, y=..density.., fill=T), lims(x = c(0,400)))
+g = g + geom_density(alpha = 0.5) + xlim(0, 400) + ylim(0,0.03) + guides(fill=FALSE)
+print(g)
+ggsave(file = "./tex/figures/rq2-defect-countinput.pdf", plot = g, width = 8.09, height = 5)
+
+tmp <- b[b[,"Project"] == "jruby", ]
+tmp <- tmp[(tmp[,"Type"] == "DESIGN"),]
+a2 <- data.frame(Interest=tmp$interest) 
+g = ggplot(a2, aes(x=Interest, y=..density.., fill=T, lims(x = c(0,400))))
+g = g + geom_density(alpha = 0.5) + xlim(0, 400) + ylim(0,0.03) + guides(fill=FALSE)
+print(g)
+ggsave(file = "./tex/figures/rq2-design-countinput.pdf", plot = g, width = 8.09, height = 5)
+
+tmp <- b[b[,"Project"] == "jruby", ]
+tmp <- tmp[(tmp[,"Type"] == "REQUIREMENT"),]
+a3 <- data.frame(Interest=tmp$interest) 
+g = ggplot(a3, aes(x=Interest, y=..density.., fill=T), lims(x = c(0,400)))
+g = g + geom_density(alpha = 0.5) + xlim(0, 400) + ylim(0,0.03) + guides(fill=FALSE)
+print(g)
+ggsave(file = "./tex/figures/rq2-requirement-countinput.pdf", plot = g, width = 8.09, height = 5)
 }
 ```
