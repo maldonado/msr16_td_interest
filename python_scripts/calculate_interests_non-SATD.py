@@ -1,6 +1,7 @@
 import csv
 import re
 import sys
+import copy
 
 # setting
 home_dir = '/Users/kamei/Research/techdebt/msr16_td_interest'
@@ -13,6 +14,7 @@ v3=0
 class Metrics:
     def __init__(self):
         self.version_name = -1
+        self.long_file_name = ""
         self.count_input_introduce = -1
         self.count_input_last_found = -1
         self.count_output_introduce = -1
@@ -37,16 +39,28 @@ class MetricsManeger():
     def __init__(self):
         self.list = {}
         
-    def add_version(self, key, value):
+    def add_version(self, key, long_file_name, value):
         if self.list.has_key(key):
-            print "duplicate@add " + key
+            if self.list[key].long_file_name == long_file_name:
+                print "duplicate@add "  + key
+                print "   " + self.list[key].long_file_name + " v.s. " + long_file_name
+            else:
+                if self.list[key].long_file_name == "proposal/embed/src/java/org/apache/tools/ant/PropertyHelper.java":
+                    self.list[key].version_name = value
+                    self.list[key].long_file_name = long_file_name
+                elif self.list[key].long_file_name == "src/main/org/apache/tools/ant/types/resources/StringResource.java":
+                    a = 1
+                else:
+                    print "not duplicate@add "  + key
+                    print "   " + self.list[key].long_file_name + " v.s. " + long_file_name
         else:
             m = Metrics()
             m.version_name = value
+            m.long_file_name = long_file_name
             self.list[key] = m
             #print "1:" + key
             
-    def add_introduce_version(self, key, count_input, count_output, count_line, cyclomatic, max_nesting):
+    def add_introduce_version(self, key, long_file_name, count_input, count_output, count_line, cyclomatic, max_nesting):
         if self.list.has_key(key):
             m = self.list.get(key)
             if m.count_input_introduce == -1:
@@ -57,10 +71,29 @@ class MetricsManeger():
                 m.max_nesting_introduce = max_nesting
                 #print "2:" + key
             else:
-                print "duplicate@intro " + key
+                if self.list[key].long_file_name == long_file_name:
+                    if long_file_name == "src/main/org/apache/tools/ant/ComponentHelper.java":
+                        # src/main/org/apache/tools/ant/ComponentHelper.java is exception
+                        # that one is added in first verison
+                        m.count_input_introduce = count_input
+                        m.count_output_introduce = count_output
+                        m.count_line_introduce = count_line
+                        m.cyclomatic_introduce = cyclomatic
+                        m.max_nesting_introduce = max_nesting                        
+                    else:
+                        print "duplicate@intro "  + key
+                        print "   " + self.list[key].long_file_name + " v.s. " + long_file_name
+                        print "   " + self.list[key].count_input_introduce + " v.s. " + count_input
+                else:
+                    if self.list[key].long_file_name == "src/main/org/apache/tools/ant/ComponentHelper.java":
+                        a = 1
+                    else:
+                        print "not duplicate@intro "  + key
+                        print "   " + self.list[key].long_file_name + " v.s. " + long_file_name
         else:
             m = Metrics()
             m.version_name = count_input
+            m.long_file_name = long_file_name
             m.count_input_introduce = count_input
             m.count_output_introduce = count_output
             m.count_line_introduce = count_line
@@ -68,7 +101,7 @@ class MetricsManeger():
             m.max_nesting_introduce = max_nesting
             self.list[key] = m            
             
-    def add_last_version(self, key, count_input, count_output, count_line, cyclomatic, max_nesting):
+    def add_last_version(self, key, long_file_name, count_input, count_output, count_line, cyclomatic, max_nesting):
         if self.list.has_key(key):
             m = self.list.get(key)
             if m.count_input_last_found == -1:
@@ -80,11 +113,21 @@ class MetricsManeger():
                 #print "3:" + key
 
             else:
-                print "duplicate@last "  + key
+                if self.list[key].long_file_name == long_file_name:
+                    print "duplicate@last "  + key
+                    print "   " + self.list[key].long_file_name + " v.s. " + long_file_name
+                else:
+                    if self.list[key].long_file_name == "src/main/org/apache/tools/ant/types/resources/StringResource.java":
+                        a = 1
+                    else:
+                        print "not duplicate@last "  + key
+                        print "   " + self.list[key].long_file_name + " v.s. " + long_file_name
                 
 # Run runUND.pl if there is *.und file
 if __name__ == "__main__":               
     #sys.exit()
+    
+    print "========================================="
     
     #debt_file = home_dir + '/datasets/CSV/technical_debt_summary_test.csv'
     debt_file = home_dir + '/datasets/CSV/technical_debt_summary.csv'
@@ -188,7 +231,10 @@ if __name__ == "__main__":
                 tmp_f2 = open(metrics_method_file)
                 f2 = csv.reader(tmp_f2)
                 
+                lnum = 0
+                
                 for metrics_line in f2:
+                    lnum = lnum + 1
                     # skip header
                     if metrics_line[0].find("Method") == -1:
                         continue
@@ -202,19 +248,22 @@ if __name__ == "__main__":
                     if metrics_line[1].find(".(Anon_") != -1:
                         continue
                     
-                    # same method name
-                    if method_sig != metrics_line[1]: #TODO magic number
-                        key = metrics_line[1] + "@" + metrics_line[2]
-                        #print "    =>" + metrics_line[1] + " " + metrics_line[met_idx]
-                        
+                    # not same method name
+                    if method_sig != metrics_line[1]:
+                        key_filename = metrics_line[2] # metrics_line[2] is directory name + file name. Even if file name is same, but directory name is changed.
+                        key_filename = key_filename.split("/")
+                        key_filename = key_filename[(len(key_filename)-1)] #just use file name
+                        key = metrics_line[1] + "@" + key_filename
+                        #print "    =>" + metrics_line[1] + " " + metrics_line[met_idx] 
+                        #print "       " + str(lnum) + metrics_line[2] 
                         if idx == _version:
-                            list.add_version(key, metrics_line[met_idx])
+                            list.add_version(key, metrics_line[2], metrics_line[met_idx])
                                                         
                         if idx == _version_introduced_name:
-                            list.add_introduce_version(key, metrics_line[met_idx], metrics_line[8], metrics_line[4], metrics_line[13], metrics_line[17])
-                            
+                            #list.add_introduce_version(key, metrics_line[2], metrics_line[met_idx], metrics_line[8], metrics_line[4], metrics_line[13], metrics_line[17])
+                            list.add_introduce_version(key, metrics_line[2], str(lnum), metrics_line[8], metrics_line[4], metrics_line[13], metrics_line[17])
                         if idx == _last_version_that_comment_was_found_name:
-                            list.add_last_version(key, metrics_line[met_idx], metrics_line[8], metrics_line[4], metrics_line[13], metrics_line[17])
+                            list.add_last_version(key, metrics_line[2], metrics_line[met_idx], metrics_line[8], metrics_line[4], metrics_line[13], metrics_line[17])
     
             date_introduced = ""
             date_last_found = ""
