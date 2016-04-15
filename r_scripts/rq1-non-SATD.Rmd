@@ -1,0 +1,142 @@
+---
+title: 'RQ1: Non-SATD'
+author: "Yasutaka Kamei"
+date: "Apr 14th, 2016"
+output: pdf_document
+---
+
+# Data Load
+```{r}
+setwd("/Users/kamei/Research/techdebt/msr16_td_interest/")
+source("./r_scripts/data_read-non-SATD.r")
+```
+
+# Data Summary
+- (Step 1) choose one of duplicated method and version name
+- (Step 2) only use technical debt including metrics
+```{r}
+nrow(data)
+apply(data.s1[,c("version_name","CountInput_v1","CountInput_v2")], 2, function(x){sum(x == -1) })
+```
+
+### Observation
+- The number of methods that cannot be linked between Evernton's data and metrics data
+    - 171 => 221 (introducing) 
+    - 101 => 94 (being found as last version)
+
+# (Step 3) use technical debt including non 0 for division
+## CountLine
+```{r}
+summary(data.CountLine.all$Project)
+summary(data.CountLine.positive$Project)
+summary(data.CountLine.negative$Project)
+
+summary(data.CountLine.positive$Project) / summary(data.CountLine.all$Project) * 100
+summary(data.CountLine.negative$Project) / summary(data.CountLine.all$Project) * 100
+```
+
+## CountInput
+```{r}
+summary(data.CountInput.all$Project)
+summary(data.CountInput.positive$Project)
+summary(data.CountInput.negative$Project)
+
+summary(data.CountInput.positive$Project) / summary(data.CountInput.all$Project) * 100
+summary(data.CountInput.negative$Project) / summary(data.CountInput.all$Project) * 100
+```
+
+### Observation
+- The number of all methods is 837
+    - (s1) 754
+    - (s2) 488
+- We use 71, 181, and 236 methods including technical debt. 
+    - The data set we used had 67 (ant), 169(jmeter) and 268(jruby) technical debt.
+- 32.6%-44.2% of technical debt has positive interest.
+- 13.8%-28.7% of technical debt has negative interest.
+
+## CountLine
+```{r}
+# interest of CountLine (LOC)
+fc <- factor(data.CountLine.all$Project)
+interest <- data.CountLine.all$interest
+tapply(interest, fc, summary)
+
+fc <- factor(data.CountLine.positive$Project)
+interest <- data.CountLine.positive$interest
+tapply(interest, fc, summary)
+
+
+
+fc <- factor(data.CountLine.negative$Project)
+interest <- data.CountLine.negative$interest
+tapply(interest, fc, summary)
+```
+
+## CountInput
+```{r}
+# CountInput
+fc <- factor(data.CountInput.all$Project)
+interest <- data.CountInput.all$interest
+tapply(interest, fc, summary)
+
+fc <- factor(data.CountInput.positive$Project)
+interest <- data.CountInput.positive$interest
+tapply(interest, fc, summary)
+
+fc <- factor(data.CountInput.negative$Project)
+interest <- data.CountInput.negative$interest
+tapply(interest, fc, summary)
+```
+
+
+# Plot
+```{r}
+library(reshape2)
+library(ggplot2)
+
+if(0){
+idx <- data.CountLine.positive$Project == "apache-ant"
+a1 <- data.frame(Interest=data.CountLine.positive[idx,"interest"]) 
+g = ggplot(a1, aes(x=Interest, y=..density.., fill=T), lims(x = c(0,400)))
+g = g + geom_density(alpha = 0.5) + xlim(0, 400) + ylim(0,0.04) + guides(fill=FALSE)
+print(g)
+ggsave(file = "./tex/figures/rq1-ant-non-SATD.pdf", plot = g, width = 8.09, height = 5)
+
+idx <- data.CountLine.positive$Project == "apache-jmeter"
+a2 <- data.frame(Interest=data.CountLine.positive[idx,"interest"]) 
+g = ggplot(a2, aes(x=Interest, y=..density.., fill=T, lims(x = c(0,400))))
+g = g + geom_density(alpha = 0.5) + xlim(0, 400) + ylim(0,0.04) + guides(fill=FALSE)
+print(g)
+ggsave(file = "./tex/figures/rq1-jmeter-non-SATD.pdf", plot = g, width = 8.09, height = 5)
+
+idx <- data.CountLine.positive$Project == "jruby"
+a3 <- data.frame(Interest=data.CountLine.positive[idx,"interest"]) 
+g = ggplot(a3, aes(x=Interest, y=..density.., fill=T), lims(x = c(0,400)))
+g = g + geom_density(alpha = 0.5) + xlim(0, 400) + ylim(0,0.04) + guides(fill=FALSE)
+print(g)
+ggsave(file = "./tex/figures/rq1-jruby-non-SATD.pdf", plot = g, width = 8.09, height = 5)
+}
+
+if(0){
+idx <- data.CountInput.all$Project == "apache-ant"
+a1 <- data.frame(Interest=data.CountInput.all[idx,"interest"]) 
+g = ggplot(a1, aes(x=Interest, y=..density.., fill=T), lims(x = c(0,400)))
+g = g + geom_density(alpha = 0.5) + xlim(0, 400) + ylim(0,0.04) + guides(fill=FALSE)
+print(g)
+ggsave(file = "./tex/figures/rq1-ant-fanin-non-SATD.pdf", plot = g, width = 8.09, height = 5)
+
+idx <- data.CountInput.all$Project == "apache-jmeter"
+a2 <- data.frame(Interest=data.CountInput.all[idx,"interest"]) 
+g = ggplot(a2, aes(x=Interest, y=..density.., fill=T, lims(x = c(0,400))))
+g = g + geom_density(alpha = 0.5) + xlim(0, 400) + ylim(0,0.04) + guides(fill=FALSE)
+print(g)
+ggsave(file = "./tex/figures/rq1-jmeter-fanin-non-SATD.pdf", plot = g, width = 8.09, height = 5)
+
+idx <- data.CountInput.all$Project == "jruby"
+a3 <- data.frame(Interest=data.CountInput.all[idx,"interest"]) 
+g = ggplot(a3, aes(x=Interest, y=..density.., fill=T), lims(x = c(0,400)))
+g = g + geom_density(alpha = 0.5) + xlim(0, 400) + ylim(0,0.04) + guides(fill=FALSE)
+print(g)
+ggsave(file = "./tex/figures/rq1-jruby-fanin-non-SATD.pdf", plot = g, width = 8.09, height = 5)
+}
+```

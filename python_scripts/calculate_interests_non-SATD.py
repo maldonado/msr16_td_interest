@@ -260,8 +260,8 @@ if __name__ == "__main__":
                             list.add_version(key, metrics_line[2], metrics_line[met_idx])
                                                         
                         if idx == _version_introduced_name:
-                            #list.add_introduce_version(key, metrics_line[2], metrics_line[met_idx], metrics_line[8], metrics_line[4], metrics_line[13], metrics_line[17])
-                            list.add_introduce_version(key, metrics_line[2], str(lnum), metrics_line[8], metrics_line[4], metrics_line[13], metrics_line[17])
+                            list.add_introduce_version(key, metrics_line[2], metrics_line[met_idx], metrics_line[8], metrics_line[4], metrics_line[13], metrics_line[17])
+                            #list.add_introduce_version(key, metrics_line[2], str(lnum), metrics_line[8], metrics_line[4], metrics_line[13], metrics_line[17])
                         if idx == _last_version_that_comment_was_found_name:
                             list.add_last_version(key, metrics_line[2], metrics_line[met_idx], metrics_line[8], metrics_line[4], metrics_line[13], metrics_line[17])
     
