@@ -1,0 +1,27 @@
+---
+title: 'How many methods are deleted from v1 to v2?'
+author: "Yasutaka Kamei"
+date: "Apr 14th, 2016"
+output: pdf_document
+---
+
+# Data Load
+```{r}
+setwd("/Users/kamei/Research/techdebt/msr16_td_interest/")
+source("./r_scripts/data_read-non-SATD.r")
+data.s1.non_SATD <- data.s1[(data.s1[, "CountInput_v1"] != -1), ]
+data.s1_s2.non_SATD <- data.s1[(data.s1[, "CountInput_v1"] != -1 & data.s1[, "CountInput_v2"] != -1), ]
+
+source("./r_scripts/data_read.r")
+data.s1.SATD <- data.s1[(data.s1[, "CountInput_v1"] != -1), ]
+data.s1_s2.SATD <- data.s1[(data.s1[, "CountInput_v1"] != -1 & data.s1[, "CountInput_v2"] != -1), ]
+```
+
+# Results
+```{r}
+summary(data.s1.non_SATD[,c("Project")])
+summary(data.s1_s2.non_SATD[,c("Project")])
+
+summary(data.s1.SATD[,c("Project")])
+summary(data.s1_s2.SATD[,c("Project")])
+```
