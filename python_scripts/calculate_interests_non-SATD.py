@@ -275,7 +275,7 @@ if __name__ == "__main__":
             try:
                 date_last_found = revs[line[_last_version_that_comment_was_found_name]]                                                   
             except KeyError:
-                date_introduced = tags[line[_last_version_that_comment_was_found_name]]  
+                date_last_found = tags[line[_last_version_that_comment_was_found_name]]  
             
             for key in list.list.iterkeys():
                 m = list.list[key]
