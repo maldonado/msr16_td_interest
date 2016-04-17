@@ -1,3 +1,39 @@
+%-----------------------------------------------------------------------
+\begin{figure*}[!t]
+  \begin{center}
+  \scalebox{0.95}{
+  \begin{tabular}{ccc}
+    \subfigure[Ant (LOC)]{ 
+      \includegraphics[width=.33\textwidth]{figures/rq1-ant}
+    }
+    \subfigure[JMeter (LOC)]{ 
+      \includegraphics[width=.33\textwidth]{figures/rq1-jmeter}
+    }
+    \subfigure[JRuby (LOC)]{
+      \includegraphics[width=.33\textwidth]{figures/rq1-jruby}
+    }
+  \end{tabular}
+  }
+  \scalebox{0.95}{
+  \begin{tabular}{ccc}
+    \subfigure[Ant (Fan-In)]{ 
+      \includegraphics[width=.33\textwidth]{figures/rq1-ant-fanin}
+    }
+    \subfigure[JMeter (Fan-In)]{ 
+      \includegraphics[width=.33\textwidth]{figures/rq1-jmeter-fanin}
+    }
+    \subfigure[JRuby (Fan-In)]{
+      \includegraphics[width=.33\textwidth]{figures/rq1-jruby-fanin}
+    }
+  \end{tabular}
+  }
+  \caption{(RQ1) The results of distribution of interest.}
+  \label{fig:dist}
+  \end{center}
+\end{figure*}
+%-----------------------------------------------------------------------
+
+
 \section{Results} \label{sec:results}
 \subsection{RQ1: Can we quantify interest of technical debt at the method-level?}
 \smallsection{Motivation}
@@ -20,6 +56,43 @@ There is not large difference of the positive rates between LOC and Fan-In.
 
 Figure \ref{fig:dist} and Table \ref{tab:statistic} show that the distribution of interest for the technical debt of positive rate. The distribution in LOC plots are left-skewed (around 0 to 10). We can also find that some of positive interest are over 100, which means the value of metric relatively increases by 100\%.
 This findings suggest that we have the technical debt that we preferentially allocate development research to solve.
+
+
+%-----------------------------------------------------------------------
+\begin{figure*}[!t]
+  \begin{center}
+  \scalebox{0.95}{
+  \begin{tabular}{ccc}
+    \subfigure[Defect (LOC)]{ 
+      \includegraphics[width=.33\textwidth]{figures/rq2-defect}
+    }
+    \subfigure[Design (LOC)]{ 
+      \includegraphics[width=.33\textwidth]{figures/rq2-design}
+    }
+    \subfigure[Requirement (LOC)]{
+      \includegraphics[width=.33\textwidth]{figures/rq2-requirement}
+    }
+  \end{tabular}
+  }
+  \scalebox{0.95}{
+  \begin{tabular}{ccc}
+    \subfigure[Defect (Fan-In)]{ 
+      \includegraphics[width=.33\textwidth]{figures/rq2-defect-countinput}
+    }
+    \subfigure[Design (Fan-In)]{ 
+      \includegraphics[width=.33\textwidth]{figures/rq2-design-countinput}
+    }
+    \subfigure[Requirement (Fan-In)]{
+      \includegraphics[width=.33\textwidth]{figures/rq2-requirement-countinput}
+    }
+  \end{tabular}
+  }
+  \caption{(RQ2) Distribution of interest per type in JRuby.}
+  \label{fig:type}
+  \end{center}
+\end{figure*}
+%-----------------------------------------------------------------------
+
 
 \begin{table}[tb]
   \caption{The percentage of SATD that has positive interest}
@@ -61,42 +134,6 @@ Fan-In  & JMeter & 5.6 &  12.4 &  25.0  &   50.0 &  900.0 \\
   \end{tabular}
 \end{table}
 
-%-----------------------------------------------------------------------
-\begin{figure*}[!t]
-  \begin{center}
-  \scalebox{0.95}{
-  \begin{tabular}{ccc}
-    \subfigure[Ant (LOC)]{ 
-      \includegraphics[width=.33\textwidth]{figures/rq1-ant}
-    }
-    \subfigure[JMeter (LOC)]{ 
-      \includegraphics[width=.33\textwidth]{figures/rq1-jmeter}
-    }
-    \subfigure[JRuby (LOC)]{
-      \includegraphics[width=.33\textwidth]{figures/rq1-jruby}
-    }
-  \end{tabular}
-  }
-  \scalebox{0.95}{
-  \begin{tabular}{ccc}
-    \subfigure[Ant (Fan-In)]{ 
-      \includegraphics[width=.33\textwidth]{figures/rq1-ant-fanin}
-    }
-    \subfigure[JMeter (Fan-In)]{ 
-      \includegraphics[width=.33\textwidth]{figures/rq1-jmeter-fanin}
-    }
-    \subfigure[JRuby (Fan-In)]{
-      \includegraphics[width=.33\textwidth]{figures/rq1-jruby-fanin}
-    }
-  \end{tabular}
-  }
-  \caption{(RQ1) The results of distribution of interest.}
-  \label{fig:dist}
-  \end{center}
-\end{figure*}
-%-----------------------------------------------------------------------
-
-
 \conclusionbox{
 32.6\%-44.2\% of technical debt has a positive rate in terms of LOC and 30.9\%-42.2\% of technical debt has it in terms of Fan-In.}
 
@@ -106,17 +143,18 @@ There are several type of technical debt such as defect technical debt and desig
 The previous study~\cite{Maldonado2015MTD} shows that the percentage of technical debt varies depending on the type of technical debt and the studied systems. For example, the projects that have limited time to develop features are likely to leave comments of features that need to be implemented in the future. 
 To better understand the interest, we would like to analyze the interest per type of technical debt.
 
+
 \smallsection{Approach}
-We manually classify technical debt into five categories (i.e., Design, Defect, Requirement, Test, and Documentation)~\cite{Maldonado2015MTD}. {\bf Design debt} indicates that there is a problem with the design of the code, and {\bf Defect debt} states that a part of the code does not have the expected behavior. {\bf Documentation debt} expresses that there is no proper documentation supporting that part of the program. {\bf Requirement debt} shows that incompleteness of the method, class or program. {\bf Test debt} indicates the need for implementation or improvement of the current tests.
+We manually classify technical debt into five categories (i.e., Design, Defect, Requirement, Test, and Documentation)~\cite{Maldonado2015MTD}. {\it Design debt} indicates that there is a problem with the design of the code, and {\it Defect debt} states that a part of the code does not have the expected behavior. {\it Documentation debt} expresses that there is no proper documentation supporting that part of the program. {\it Requirement debt} shows that incompleteness of the method, class or program. {\it Test debt} indicates the need for implementation or improvement of the current tests.
 
 Similar to RQ1, we show the number of SATD, the percentage of the technical debt that has positive interest, and the distribution of interest for technical debt of positive rate.
 
 \smallsection{Results}
 Among three projects, JRuby only includes more than one category that has more than 10\% of technical debt methods. For example, in the JMeter Project, 82\% of technical debt are categorized as design debt. Therefore, we decided to use JRuby in RQ2, because the types of technical debt in the others are skewed in one category.
 
-Table \ref{tab:percentage_type} and \ref{tab:statistic_type}
+Table \ref{tab:percentage_type} shows the percentage of technical debt that has positive interest per type of technical debt. While the percentage varies 24.3\%-38.9\% in terms of LOC, it varies 19.8\%-38\% in terms of Fan-in. We find that design debt has the largest percentage of positive rate among three types of technical debt. 
 
-Figure \ref{fig:type} shows the number and the percentage of technical debt. 
+Figure \ref{fig:type} and \ref{tab:statistic_type} shows the distribution and statistic of interest per types of technical debt. 
 
 
 \begin{table}[tb]
@@ -159,76 +197,8 @@ Fan-In  & Design & 7.1 &  25.4 &  36.4  &  100.0 &  400.0 \\
   \end{tabular}
 \end{table}
 
-\conclusionbox{Result of RQ2}
+\conclusionbox{Design debt has the largest percentage of positive rate among three types of technical debt}
 
-\subsection{RQ3: manual analysis}
-\smallsection{Motivation}
-
-\smallsection{Approach}
-
-\smallsection{Results}
-
-\conclusionbox{Result of RQ3}
-
-%-----------------------------------------------------------------------
-\begin{figure*}[!t]
-  \begin{center}
-  \scalebox{0.95}{
-  \begin{tabular}{ccc}
-    \subfigure[Defect (LOC)]{ 
-      \includegraphics[width=.33\textwidth]{figures/rq2-defect}
-    }
-    \subfigure[Design (LOC)]{ 
-      \includegraphics[width=.33\textwidth]{figures/rq2-design}
-    }
-    \subfigure[Requirement (LOC)]{
-      \includegraphics[width=.33\textwidth]{figures/rq2-requirement}
-    }
-  \end{tabular}
-  }
-  \scalebox{0.95}{
-  \begin{tabular}{ccc}
-    \subfigure[Defect (Fan-In)]{ 
-      \includegraphics[width=.33\textwidth]{figures/rq2-defect-countinput}
-    }
-    \subfigure[Design (Fan-In)]{ 
-      \includegraphics[width=.33\textwidth]{figures/rq2-design-countinput}
-    }
-    \subfigure[Requirement (Fan-In)]{
-      \includegraphics[width=.33\textwidth]{figures/rq2-requirement-countinput}
-    }
-  \end{tabular}
-  }
-  \caption{(RQ2) Distribution of interest per type in JRuby.}
-  \label{fig:type}
-  \end{center}
-\end{figure*}
-%-----------------------------------------------------------------------
-
-
-\section{Discussion}
-\para{Put additional analysis when considering time period.}
-
-\para{Put additional analysis when considering other metrics (fan-in).}
-
-%\para{Put additional analysis when comparing the non-technical deb methods.}
-\smallsection{Motivation}
-Generally speaking, software systems are always evolving over time for implementing new functionality and fixing defects~\cite{xxx}.
-Therefore, even if the size of technical debt increases, it is not clear about how the nature of software evaluation affects the interest of technical debt.
-We would like to compare the impact of software evolution on methods in two groups of SATD v.s. non-SATD.
-
-\smallsection{Approach}
-We compare the interest of methods between SATD and non-SATD.
-We conduct the following steps:
-\begin{itemize}
-\item We obtain the list of files that include SATD. % from technical_debt_summary.csv
-\item We extract methods that do not include SATD. % see .method-level.product.csv
-\item We measure metrics for the methods in Step 2 at two versions that technical debt is introduced and removed.
-\item We calculate interest using metrics in Step 3.
-\end{itemize}
-% What do we need to do some pre-condition for this analysis?
-
-\smallsection{Result}
 %-----------------------------------------------------------------------
 \begin{figure*}[!t]
   \begin{center}
@@ -258,8 +228,8 @@ We conduct the following steps:
     }
   \end{tabular}
   }
-  \caption{(RQ1) The results of distribution of interest.}
-  \label{fig:dist}
+  \caption{(Discussion) The results of distribution of interest for non-SATD.}
+  \label{fig:dist_non-SATD}
   \end{center}
 \end{figure*}
 %-----------------------------------------------------------------------
@@ -303,5 +273,47 @@ Fan-In  & JMeter & 2.4 &  20.0 &  41.3  &   75.0 & 1000.0 \\
   \hline
   \end{tabular}
 \end{table}
+
+\subsection{RQ3: manual analysis}
+\smallsection{Motivation}
+The interest varies among technical debt. If we can understand the reason why some of technical debt has large interest, we can make use of such insights for future development. Therefore, in this RQ, we would like to manually investigate why some of technical debt has large interest.
+
+\smallsection{Approach}
+To understand why technical debt is removed, we manually inspect commit messages for removing technical debt. To highlight the characteristics of technical debt that has large interest, we compare low interest technical debt with high interest technical debt.
+
+We choose top 10\% of high and low interest technical debt from each combination.
+
+\smallsection{Results}
+
+\conclusionbox{Result of RQ3}
+
+
+
+\section{Discussion}
+
+%\para{Put additional analysis when comparing the non-technical deb methods.}
+\smallsection{Motivation}
+Generally speaking, software systems are always evolving over time for implementing new functionality and fixing defects~\cite{xxx}.
+Therefore, even if the size of technical debt increases, it is not clear about how the nature of software evaluation affects the interest of technical debt.
+We would like to compare the impact of software evolution on methods in two groups of SATD v.s. non-SATD.
+
+\smallsection{Approach}
+We compare the interest of methods between SATD and non-SATD.
+We conduct the following steps:
+\begin{itemize}
+\item We obtain the list of files that include SATD. % from technical_debt_summary.csv
+\item We extract methods that do not include SATD in the files that we obtained in Step 1. % see .method-level.product.csv
+\item We measure metrics for the methods that we extracted in Step 2 at two versions that technical debt is introduced and removed. We only use the methods that can be found at the two versions.
+\item We calculate interest using metrics measured in Step 3.
+\end{itemize}
+% What do we need to do some pre-condition for this analysis?
+
+\smallsection{Result}
+Comparing the results of non-SATD (\ref{tab:percentage_non-SATD}) with SATD (\ref{tab:percentage}), we find that the positive rate of interest for SATD is larger than non-SATD in 5 out of 6 combinations (2 metrics and 3 projects). On the other hand, when we focus on the statistics (\ref{tab:statistic_non-SATD} and \ref{tab:statistic}), the median values of interest in non-SATD is larger than SATD.
+\todo{need to discuss why.}
+
+\para{Put additional analysis when considering time period.}
+
+\para{Put additional analysis when considering other metrics (fan-in).}
 
 \para{Put the analysis for showing the method that includes more than one technical debt in one version.}
