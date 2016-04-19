@@ -50,13 +50,12 @@ We show the number of SATD, the percentage of the technical debt that has positi
 We find that there are high correlations between LOC and the other product metrics except Fan-In. 
 From the highly correlated metrics, we choose LOC as metrics to calculate interest, similar to previous work that considers effort in the domain of defect prediction~\cite{Kamei2010ICSM,Kamei2013TSE}. We assume that developers spend more effort to check larger methods before modifying the methods. Eventually, we show our results using two product metrics (i.e., LOC and Fan-In).
 
-Table \ref{tab:statistic} shows the number of SATD and the percentage of the technical debt that has positive interest in all technical debt. The table shows that 32.6\%-44.2\% of technical debt has a positve rate in terms of LOC and 30.9\%-42.2\% of technical debt has it in terms of Fan-In. 
+Table \ref{tab:percentage} shows the number of SATD and the percentage of the technical debt that has positive interest in all technical debt. The table shows that 32.6\%-44.2\% of technical debt has a positve rate in terms of LOC and 30.9\%-42.2\% of technical debt has it in terms of Fan-In. 
 There is not large difference of the positive rates between LOC and Fan-In. 
 % The positive rate of LOC in ANT is 38.0% 
 
 Figure \ref{fig:dist} and Table \ref{tab:statistic} show that the distribution of interest for the technical debt of positive rate. The distribution in LOC plots are left-skewed (around 0 to 10). We can also find that some of positive interest are over 100, which means the value of metric relatively increases by 100\%.
-This findings suggest that we have the technical debt that we preferentially allocate development research to solve.
-
+This findings suggest that we have the technical debt that we preferentially allocate development effort.
 
 %-----------------------------------------------------------------------
 \begin{figure*}[!t]
@@ -301,19 +300,19 @@ We would like to compare the impact of software evolution on methods in two grou
 We compare the interest of methods between SATD and non-SATD.
 We conduct the following steps:
 \begin{itemize}
-\item We obtain the list of files that include SATD. % from technical_debt_summary.csv
-\item We extract methods that do not include SATD in the files that we obtained in Step 1. % see .method-level.product.csv
-\item We measure metrics for the methods that we extracted in Step 2 at two versions that technical debt is introduced and removed. We only use the methods that can be found at the two versions.
-\item We calculate interest using metrics measured in Step 3.
+\item [Step 1] We obtain the list of files that include SATD. % from technical_debt_summary.csv
+\item [Step 2] We extract methods that do not include SATD in the files that we obtained in Step 1. % see .method-level.product.csv
+\item [Step 3] We measure metrics for the methods that we extracted in Step 2 at two versions that technical debt is introduced and removed. We only use the methods that can be found at the two versions.
+\item [Step 4] We calculate interest using metrics measured in Step 3.
 \end{itemize}
 % What do we need to do some pre-condition for this analysis?
 
 \smallsection{Result}
-Comparing the results of non-SATD (\ref{tab:percentage_non-SATD}) with SATD (\ref{tab:percentage}), we find that the positive rate of interest for SATD is larger than non-SATD in 5 out of 6 combinations (2 metrics and 3 projects). On the other hand, when we focus on the statistics (\ref{tab:statistic_non-SATD} and \ref{tab:statistic}), the median values of interest in non-SATD is larger than SATD.
+Comparing the results of SATD (Table \ref{tab:percentage}) with non-SATD (Table \ref{tab:percentage_non-SATD}), we find that the positive rate of interest for SATD is larger than non-SATD in 5 out of 6 combinations (2 metrics and 3 projects). On the other hand, when we focus on the statistics (Table \ref{tab:statistic_non-SATD} and \ref{tab:statistic}), the median values of interest in non-SATD is larger than SATD.
 \todo{need to discuss why.}
 
-\para{Put additional analysis when considering time period.}
+%\para{Put additional analysis when considering time period.}
 
-\para{Put additional analysis when considering other metrics (fan-in).}
+%\para{Put additional analysis when considering other metrics (fan-in).}
 
-\para{Put the analysis for showing the method that includes more than one technical debt in one version.}
+%\para{Put the analysis for showing the method that includes more than one technical debt in one version.}
