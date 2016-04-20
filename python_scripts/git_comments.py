@@ -22,9 +22,11 @@ class Debt:
         self.removed = "NULL"
         self.rdate = "NULL"
         self.rauthor = "NULL"
+        self.iID = ""
+        self.rID = "NULL"
     
     def out(self):
-        return [self.type, self.debt, self.idate, self.iauthor, self.introduced, self.rdate, self.rauthor, self.removed]
+        return [self.type, self.debt, self.idate, self.iauthor, self.introduced, self.rdate, self.rauthor, self.removed, self.iID, self.rID]
     
     def out_processed(self):
         return [self.type, text_clean(self.debt), self.idate, self.iauthor, text_clean(self.introduced), self.rdate, self.rauthor, text_clean(self.removed)]
@@ -78,7 +80,7 @@ if __name__ == "__main__":
         f = csv.reader(csvfile)
         fo = open(comment_file,"w")
         csvWriter = csv.writer(fo)
-        csvWriter.writerow(["Type", "Debt","Introduce Date", "Introduce Author", "Introduce Comment", "Remove Date", "Remove Author", "Remove Comment"])
+        csvWriter.writerow(["Type", "Debt","Introduce Date", "Introduce Author", "Introduce Comment", "Remove Date", "Remove Author", "Remove Comment", "Introduce ID", "Remove ID"])
         
         for line in f:          
             count = count + 1
@@ -133,6 +135,11 @@ if __name__ == "__main__":
                     out.iauthor = subprocess.check_output( cmd.split(" ") )
                 elif idx == _version_removed_name:
                     out.rauthor = subprocess.check_output( cmd.split(" ") )
+                    
+                if idx == _version_introduced_name:
+                    out.iID = line[idx]
+                elif idx == _version_removed_name:
+                    out.rID = line[idx]
             
             csvWriter.writerow(out.out())
             fo_all = open("/Users/kamei/Research/techdebt/msr16_td_interest/datasets/CSV/comments/" + str(count) + ".txt","w")
