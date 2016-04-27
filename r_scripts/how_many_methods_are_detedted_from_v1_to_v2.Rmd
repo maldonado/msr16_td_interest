@@ -1,8 +1,8 @@
 ---
-title: 'How many methods are deleted from v1 to v2?'
+title: "How many methods are deleted from v1 to v2?"
 author: "Yasutaka Kamei"
 date: "Apr 14th, 2016"
-output: pdf_document
+output: html_document
 ---
 
 # Data Load

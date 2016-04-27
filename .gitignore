@@ -5,6 +5,7 @@ PSQL
 blame_files
 repos
 revs
+datasets/AST_OLD
 datasets/MISC*
 datasets/ZIP
 und/

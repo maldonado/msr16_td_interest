@@ -21,3 +21,7 @@ HOME
 2. extract_metrics_at_method_level.py
 3. calculate_interests.py
 4. *.r
+
+# to conduct an analysis on RQ3
+1. git_comments.py
+2. 
