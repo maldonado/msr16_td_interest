@@ -12,6 +12,8 @@ und/
 
 *.sublime-project
 *.sublime-workspace
+*.pydevproject
+*.pyc
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
