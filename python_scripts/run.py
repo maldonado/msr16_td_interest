@@ -1,6 +1,7 @@
 import setting as s
 import checkoutRevisions
 import runUND
+import extract_metrics_at_method_level
 
 import csv
 import os.path
@@ -43,27 +44,10 @@ with open(s.debt_file) as csvfile:
 
             checkoutRevisions.checkoutRevision(project, version, count)
             runUND.runUND(project, version, count)
+            extract_metrics_at_method_level.extract_metrics(project, version, count)
             
     #################################################################
-    #for runUND
-    #################################################################    
-    print ""
-    csvfile.seek(0, 0)
-    next(reader)
-        
-    count = 0    
-    for line in reader:
-        if count > s.MAX_LOOP:
-            break
-
-        print line
-        count = count + 1
-                
-        tags_dir=''
-        git_dir=''
-        
-    #################################################################
-    #for xxx
+    #for template
     #################################################################    
     print ""
     csvfile.seek(0, 0)
