@@ -4,7 +4,7 @@ import subprocess
 
 def runUND(project, version, count=0, reuse=True):
     revs_dir = s.home_dir + "/revs/" + project        
-    target_path = "/".join([s.home_dir, revs_dir, version, "src"])
+    target_path = "/".join([revs_dir, version, "src"])
     und_file = "/".join([s.und_out_dir, project, version])
     und_file_w_ext = und_file + ".product.udb"
 

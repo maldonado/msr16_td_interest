@@ -14,14 +14,19 @@ def checkoutRevision(project, version, count=0, reuse=True):
     
     os.chdir(git_dir)    
     try:
-        cmd = 'git co ' + version + " -b " + version
+        cmd = 'git co ' + version + " -b br_" + version
         print str(count) + ':' + cmd
         subprocess.check_call(cmd, shell=True)
     except subprocess.CalledProcessError:
-        cmd = 'git co ' + version
+        cmd = 'git co br_' + version
         print str(count) + ':' + cmd
         subprocess.check_call(cmd, shell=True)
     
+    if os.path.exists(revs_dir_per_project):
+        cmd = 'rm -rf ' + revs_dir_per_project
+        print str(count) + ':' + cmd
+        subprocess.check_call(cmd, shell=True)
+            
     cmd = 'mkdir ' + revs_dir_per_project
     print str(count) + ':' + cmd
     subprocess.check_call(cmd, shell=True)
