@@ -1,5 +1,6 @@
 import setting as s
 import checkoutRevisions
+import runUND
 
 import csv
 import os.path
@@ -34,18 +35,35 @@ with open(s.debt_file) as csvfile:
         count = count + 1
         
         project =  line[u'project']
-        git_dir  = s.home_dir + "/repos/" + project 
-        revs_dir = s.home_dir + "/revs/" + project
-        
+                
         for idx in idxs:
             version = line[idx]
             if idx == "removed_version_commit_hash" and line[u'has_removed_version'] == "f":
                 version = get_latest_version(project)
 
-            checkoutRevisions.checkoutRevision(git_dir, revs_dir, version, count)
-
+            checkoutRevisions.checkoutRevision(project, version, count)
+            runUND.runUND(project, version, count)
+            
     #################################################################
-    #for checkoutRevisions
+    #for runUND
+    #################################################################    
+    print ""
+    csvfile.seek(0, 0)
+    next(reader)
+        
+    count = 0    
+    for line in reader:
+        if count > s.MAX_LOOP:
+            break
+
+        print line
+        count = count + 1
+                
+        tags_dir=''
+        git_dir=''
+        
+    #################################################################
+    #for xxx
     #################################################################    
     print ""
     csvfile.seek(0, 0)
