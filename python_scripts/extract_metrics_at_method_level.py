@@ -3,12 +3,12 @@ import os
 import csv
 import pandas as pd
 
-def extract_metrics (project, version, count=0):
+def extract_metrics (project, version, count=0, reuse=True):
     metrics_file_base = "/".join([s.und_out_dir, project, version])
     metrics_file = metrics_file_base + ".product.csv"
     metrics_method_file = metrics_file_base + ".method-level.product.csv"
     
-    if os.path.exists(metrics_method_file):
+    if reuse and os.path.exists(metrics_method_file):
         print str(count) + ': (reused) ' + metrics_method_file
         return 0
     
