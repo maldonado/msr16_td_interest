@@ -2,6 +2,7 @@ import setting as s
 import checkoutRevisions
 import runUND
 import extract_metrics_at_method_level
+import git_comments
 
 import csv
 import os.path
@@ -25,6 +26,10 @@ with open(s.debt_file) as csvfile:
     csvfile = open(s.debt_file)
     reader = csv.DictReader(csvfile)
     
+    fo_comment_file = open(s.comment_file,"w")  # for git_comments
+    csvWriter_comment_file = csv.writer(fo_comment_file) #for git_comments
+    csvWriter_comment_file.writerow(["Type", "Debt","Introduce Date", "Introduce Author", "Introduce Comment", "Remove Date", "Remove Author", "Remove Comment", "Introduce ID", "Remove ID"])
+    
     #################################################################
     #for checkoutRevisions
     #################################################################
@@ -34,32 +39,43 @@ with open(s.debt_file) as csvfile:
         
         print line
         count = count + 1
-        
         project =  line[u'project']
+        versions = [] #for git_comments
                 
         for idx in idxs:
             version = line[idx]
+            if idx != "last_found_commit_hash":  #for git_comments
+                versions.append(version)
+            
             if idx == "removed_version_commit_hash" and line[u'has_removed_version'] == "f":
                 version = get_latest_version(project)
 
-            checkoutRevisions.checkoutRevision(project, version, count)
-            runUND.runUND(project, version, count)
-            extract_metrics_at_method_level.extract_metrics(project, version, count)
-            
+            checkoutRevisions.checkoutRevision(project, version, count, reuse=False)
+            runUND.runUND(project, version, count, reuse=True)
+            extract_metrics_at_method_level.extract_metrics(project, version, count, reuse=True)
+        
+        #for git_comments
+        debt = git_comments.git_comments(project, versions, count)
+        debt.type = line[u'td_classification']
+        debt.debt = line[u'comment_text']
+        csvWriter_comment_file.writerow(debt.out())
+    fo_comment_file.close()        
+    
     #################################################################
     #for template
-    #################################################################    
-    print ""
-    csvfile.seek(0, 0)
-    next(reader)
-        
-    count = 0    
-    for line in reader:
-        if count > s.MAX_LOOP:
-            break
-
-        print line
-        count = count + 1
-                
-        tags_dir=''
-        git_dir=''
+    #################################################################
+    if False:    
+        print ""
+        csvfile.seek(0, 0)
+        next(reader)
+            
+        count = 0    
+        for line in reader:
+            if count > s.MAX_LOOP:
+                break
+    
+            print line
+            count = count + 1
+                    
+            tags_dir=''
+            git_dir=''
