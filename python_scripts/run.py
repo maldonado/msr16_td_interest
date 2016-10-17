@@ -6,6 +6,7 @@ import git_comments
 import calculate_interests
 
 import csv
+import re
 
 idxs = ["introduced_version_commit_hash", "removed_version_commit_hash", "last_found_commit_hash"]
 
@@ -20,8 +21,29 @@ def get_latest_version(project):
         raise ValueError(project + "is not defined in this function") 
 
 def get_func_signature(func_name, func_parameter_list):
+    if func_parameter_list == "":
+        return func_name + "()"
+    
+    func_parameter_list = func_parameter_list.rstrip() # drop blank
+    print func_parameter_list
+    params = func_parameter_list.split(', ')
+    signature = func_name + "("
+    param = []
+    for temp in params:
+        temp = re.sub(r'^final ', "", temp) # remove final
+        temp = re.search(r'(.*)\s+.*', temp).group(1)
+        temp = temp.replace(" ", "") # remove blank
+        
+        if temp.count("<"):
+            temp = temp + ">"
+            print "========> " + temp
 
-    return ""
+        param.append(temp)
+    signature = signature + ",".join(param) + ")"
+    
+    print signature
+    
+    return signature
 
 count = 0   
 with open(s.debt_file) as csvfile:

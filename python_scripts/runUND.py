@@ -10,6 +10,7 @@ def runUND(project, version, count=0, reuse=True):
 
     if reuse and os.path.exists(und_file_w_ext):
         print str(count) + ': (reused) ' + und_file_w_ext
+        print "  => " + ' '.join(['perl',s.perl,und_file,'java','-t',target_path])
         return 0
             
     # run

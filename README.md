@@ -21,7 +21,7 @@ run.sh to run the following steps
 # To obtain a snapshot of each revesion for the tool "understand"
 0. checkRevisions.py
 1. runUND.py
-# 
+# format data provided by understand
 2. extract_metrics_at_method_level.py
 3. calculate_interests.py
 4. *.r

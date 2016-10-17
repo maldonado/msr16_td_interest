@@ -6,4 +6,4 @@ perl  = '/Users/kamei/Research/src/metrics_posl/runUND.pl'
 metrics_columns = ["Kind", "Name", "File", "CountInput", "CountLine", "CountLineBlank", "CountLineCodeDecl", "CountLineComment", "CountOutput", "CountSemicolon", "CountStmt", "CountStmtDecl", "CountStmtExe", "Cyclomatic", "CyclomaticModified", "CyclomaticStrict", "Essential", "MaxNesting", "RatioCommentToCode"]
 comment_file = home_dir + '/datasets/CSV/comments.csv'
 interest_file = home_dir + "/datasets/CSV/interest.ssv"
-MAX_LOOP=5
+MAX_LOOP=642
