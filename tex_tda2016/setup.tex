@@ -1,6 +1,28 @@
+%-----------------------------------------------------------------------
+\begin{figure*}[!t]
+  \begin{center}
+  \scalebox{0.95}{
+  \begin{tabular}{cc}
+    \subfigure[JMeter (LOC)]{ 
+      \includegraphics[width=.45\textwidth]{figures/rq1-jmeter}
+    }
+    \subfigure[JMeter (Fan-In)]{ 
+      \includegraphics[width=.45\textwidth]{figures/rq1-jmeter-fanin}
+    }
+  \end{tabular}
+  }
+
+  \caption{The results of distribution of interest.}
+  \label{fig:dist}
+  \end{center}
+\end{figure*}
+%-----------------------------------------------------------------------
+
+
 %\section{Case Study Setup} \label{sec:setup}
 \section{Approach} \label{sec:approach}
 The goal of this study is to identify and quantify the interest of SATD in source code comments.
+To do so, we intoroduce the following four steps:
 
 \if0
 % Yasu: We just out this part for a position paper.
@@ -34,18 +56,19 @@ The xxx author who made the classification has more than 8 years of experience w
 %\subsection{Interest Extraction} \label{subsec:interest}
 
 \smallsection{(Step 1) SATD extraction}
-\todo{Brifly explain how to extract SATD.}
-See the detail of...
+To extract SATD, we extract source code files for a version control system. Then we extract the comments from them using JDeodorant~\cite{Tsantalis2008CSMR}, which is an open-source Eclipse plug-in, to parse the source code and extract the code comments.
+To reduce the number of comments we manually read, we filter comments that are less likely to be classified as SATD by utilizing several heuristics, similar to previous studies~\cite{Maldonado2015MTD}. Finally, the 2nd author\footnote{The 2nd author who made the classification has more than 8 years of experience working in the industry as a software engineer, during this time he designed, implemented and maintained several programs using, in particular the Java programming language.} manually classified all comments into SATD or not. See the details of the Step 1 in Maldonado and Shihab's study~\cite{Maldonado2015MTD}.
+
 
 \smallsection{(Step 2) Identify two versions that introduce and remove technical debt}
 By tracing the comments including SATD across versions in Git repositories, we identify two versions that introduce and remove them. To trace the comments, we obtain patches between two versions over all versions for each file that includes technical debt. Then, we check each patch about whether or not technical debt is introduced and removed. 
 
 \smallsection{(Step 3) Measure metrics}
-To calculate interest, we measure product metrics from two versions detected in Step 1 using {\sc Understand}~\cite{Understand}. We choose all metrics that are available at the method-level in {\sc Understand}.
+To calculate interest, we measure product metrics from two versions detected in Step 2 using {\sc Understand}~\cite{Understand}. We choose all metrics (e.g., LOC and Cyclymatic Complexity) that are available at the method-level in {\sc Understand}.
 
 \smallsection{(Step 4) Calculate interest}
 There are many ways to calculate interest of SATD. Therefore, in this study, we consider the relative size of metric values between two versions as interest, since that approach is simple and intuitive. For example, if arbitrary metric values in introduced and removed versions are 10 and 20, the relative size is 100 (= (20-10)/10 * 100 ).
 If we cannot find the version that removes SATD, 
 we use the latest release version of each system. 
 
-While the paper tackles the research topic that accelerates a new research direction (i.e., quantifying interest of SATD), it also has the weakness of our current approach. We elaborate on the weakness of our current approach in Section \ref{sec:threats}.
+While the paper tackles the research topic that accelerates a new research direction (i.e., quantifying interest of SATD), it also has the weakness of our current approach. We elaborate on the weakness of our current approach in Section \ref{conclusion}.
