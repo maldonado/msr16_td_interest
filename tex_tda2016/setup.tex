@@ -1,19 +1,10 @@
+
 %-----------------------------------------------------------------------
 \begin{figure*}[!t]
   \begin{center}
-  \scalebox{0.95}{
-  \begin{tabular}{cc}
-    \subfigure[JMeter (LOC)]{ 
-      \includegraphics[width=.45\textwidth]{figures/rq1-jmeter}
-    }
-    \subfigure[JMeter (Fan-In)]{ 
-      \includegraphics[width=.45\textwidth]{figures/rq1-jmeter-fanin}
-    }
-  \end{tabular}
-  }
-
-  \caption{The results of distribution of interest.}
-  \label{fig:dist}
+  \includegraphics[width=.95\textwidth]{figures/overview}
+  \caption{The overview of our approach.}
+  \label{fig:overview}
   \end{center}
 \end{figure*}
 %-----------------------------------------------------------------------
@@ -21,7 +12,7 @@
 
 %\section{Case Study Setup} \label{sec:setup}
 \section{Approach} \label{sec:approach}
-To perform our study, we need to determine the SATD in the codebase, locate when the SATD was introduced in the project and when it was later removed. Then, we use our measures of interest, i.e., LOC and Fan-In, to compare the size of the code and the amount of dependence other code had on the TD code in order to quantify interest. \todo{add a small figure maybe?}
+To perform our study, we need to determine the SATD in the codebase, locate when the SATD was introduced in the project and when it was later removed. Then, we use our measures of interest, i.e., LOC and Fan-In, to compare the size of the code and the amount of dependence other code had on the TD code in order to quantify interest (Figure \ref{fig:overview}).
 
 \if0
 % Yasu: We just out this part for a position paper.
@@ -78,3 +69,22 @@ We performed the correlation analysis between the complexity and size metrics an
 Using our metrics, we consider the relative LOC and Fan-In  values between the introduced and removed versions as interest. For example, if arbitrary metric values in the introduced and removed versions are 10 and 20, the relative size is 100 (i.e, $100* \frac{(20-10)}{10}$). In cases where the SATD is not yet removed, we use the numbers from the latest version of JMeter.
 
 While the paper tackles the research topic that accelerates a new research direction (i.e., quantifying interest of SATD), it also has the weakness of our current approach. We elaborate on the weakness of our current approach in Section \ref{conclusion}.
+
+
+\begin{figure*}[!t]
+  \begin{center}
+  \scalebox{0.95}{
+  \begin{tabular}{cc}
+    \subfigure[JMeter (LOC)]{ 
+      \includegraphics[width=.45\textwidth]{figures/rq1-jmeter}
+    }
+    \subfigure[JMeter (Fan-In)]{ 
+      \includegraphics[width=.45\textwidth]{figures/rq1-jmeter-fanin}
+    }
+  \end{tabular}
+  }
+
+  \caption{The results of distribution of interest.}
+  \label{fig:dist}
+  \end{center}
+\end{figure*}
