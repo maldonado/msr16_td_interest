@@ -14,7 +14,7 @@ class Metrics:
     def out_all(self,sep="#"):
         return sep.join([str(self.version_name), str(self.introduce), str(self.last_found)])
 
-def calculate_interests(project, versions, file_names, function_signatures): 
+def link_SATD_to_UND(project, versions, file_names, function_signatures): 
     count_input = Metrics()
     count_output = Metrics()
     count_line = Metrics()
@@ -31,7 +31,7 @@ def calculate_interests(project, versions, file_names, function_signatures):
         class_name = class_name[(len(class_name)-1)]
         method_sig = class_name + "." + function_signatures[i]
 
-        print "    " + version +  ":" + method_sig
+        print "    P2: " + version +  ":" + method_sig
         
         tmp_f2 = open(metrics_method_file)
         f2 = csv.DictReader(tmp_f2)
