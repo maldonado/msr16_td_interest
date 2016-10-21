@@ -1,19 +1,15 @@
 # msr16_td_interest
 HOME  
  |- python_scripts   
- |  |- *.py  
- |  
+    |- *.py  
  |- datasets  
- |   |- CSV/technical_debt_summary.csv  
- |  
+    |- CSV/technical_debt_summary.csv  
  |- tags  
- |   | - ant_tags  
- |   | - jmeter_tags  
- |
+     | - ant_tags  
+     | - jmeter_tags    
  |- revs  
- |   | - ant_tags  
- |   | - jmeter_tags  
- | 
+     | - ant_tags  
+     | - jmeter_tags  
  |- r_scritps  
   
 0. checkRevisions.py
@@ -25,3 +21,8 @@ HOME
 # to conduct an analysis on RQ3
 1. git_comments.py
 2. 
+
+# branch
+- tda is a branch for tda paper
+- new_dataformat is a branch for new data format
+- if we want to go back to work on old data format, please checkout tag/OLD_DATA
