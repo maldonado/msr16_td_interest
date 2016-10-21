@@ -1,4 +1,4 @@
-# msr16_td_interest
+# Directory structure
 HOME  
 - /python_scripts   
     - *.py  
@@ -12,6 +12,7 @@ HOME
      - jmeter_tags  
 - /r_scritps  
   
+# To obtain a snapshot of each revesion for the tool "understand"
 0. checkRevisions.py
 1. runUND.py
 2. extract_metrics_at_method_level.py
