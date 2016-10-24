@@ -28,4 +28,4 @@ HOME
 # branch
 - tda is a branch for tda paper
 - new_dataformat is a branch for new data format
-- if we want to go back to work on old data format, please checkout tag/OLD_DATA
+- if we want to go back to work on old data format, please checkout tag/OLD_DATA_REVISED_FOR_TDA_PAPER (94a4a840572fdce8408e0a49a53d23c5a4958bb0)
