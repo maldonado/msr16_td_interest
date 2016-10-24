@@ -1,21 +1,20 @@
 \section{Conclusion} \label{conclusion}
 %\input{conclusion.tex}
-In this paper, we introduce the approach to quantify interest of SATD. Our proposed approach uses
-software metrics to lead to automated ways to measure the interest from large source code base. 
-The results of our initial case study using the Apache JMeter projet
-show that 44.2\% of technical debt has a positive rate in terms of LOC and 42.2\% of technical debt has it in terms of Fan-In.
+In this paper, we introduced an approach to quantify interest of SATD. Our proposed approach uses
+software product metrics to lead to measure the interest from software projects. The results of our initial case study using the Apache JMeter project
+shows that 44.2\% of technical debt has a positive rate in terms of LOC and 42.2\% of technical debt has it in terms of Fan-In.
 
-\smallsection{Future work} This paper shows only early idea to quantity interest of SATD. Therefore, there remain
-many challenges in this topic. 
+\smallsection{Future work} This paper only shows an early idea to quantity the interest of SATD. Therefore, there remain
+many challenges to address in the future. 
 
 \begin{itemize}
-\item To calculate interest, we use the relative size of metric values between two versions of SATD-introduction and reduction. However, the period is not considered to calculate the interest. Therefore, we would like to take the period into account when calculating the interest.
-\item  There are several type of technical debt such as defect technical debt and design technical debt.
-The previous study~\cite{Maldonado2015MTD} shows that the percentage of technical debt varies depending on the type of technical debt and the studied systems. For example, the projects that have limited time to develop features are likely to leave comments of features that need to be implemented in the future. 
-To better understand the interest, we would like to analyze the interest per type of technical debt.
-\item  The interest varies among technical debt. If we can understand the reason why some of technical debt has large interest, we can make use of such insights for future development. Therefore, we would like to manually investigate why some of technical debt has large interest.
+\item To calculate interest, we use the relative size of metric values between two versions of SATD-introduction and removal. However, the period, in time, is not considered to calculate the interest. Therefore, in the future we would like to take the period into account when calculating the interest.
+\item  There are several type of SATD, such as defect and design SATD.
+The previous study~\cite{Maldonado2015MTD} shows that the percentage of SATD varies depending on the type of technical debt and the studied systems. For example, the projects that have limited time to develop features are likely to leave comments of features that need to be implemented in the future. 
+To better understand the interest, in the future we would like to analyze the interest per type of SATD.
+\item  The interest varies among technical debt. If we can understand the reason why some of SATD has larger interest, we can make use of such insights for future development. Therefore, we would like to manually investigate why some of the SATD has larger interest.
 \item Generally speaking, software systems are always evolving over time for implementing new functionality and fixing defects.
-Therefore, even if the size of technical debt increases, it is not clear about how the nature of software evaluation affects the interest of technical debt.
-We would like to compare the impact of software evolution on methods in two groups of SATD v.s. non-SATD.
+Therefore, even if the size of the SATD method increases, it is not clear how best to evaluate the effects the interest of SATD.
+We would like to compare the impact of software evolution on methods in the two groups, SATD v.s. non-SATD, to draw a relative comparison that controls for general evolution.
 %\item To operationalize our findings, we also built a tool that is able to identify and assign an interest rate to all SATD instances in a project. Our tool is publicly available and can be used by practitioners to prioritize the most impacting (i.e., highest interest) SATD.
 \end{itemize}
