@@ -14,12 +14,12 @@ HOME
 
 # How to execute scripts
 ## To obtain a snapshot of each revesion for the tool "understand"
-0. checkRevisions.py
-1. runUND.py
-## format data provided by understand
-2. extract_metrics_at_method_level.py
-3. calculate_interests.py
-4. *.r
+- 0. checkRevisions.py
+- 1. runUND.py 
+- 2. extract_metrics_at_method_level.py
+    - it formats data that is provided by understand
+- 3. link_SATD_to_UND.py
+- 4. *.r
 
 ## to conduct an analysis on RQ3
 1. git_comments.py
