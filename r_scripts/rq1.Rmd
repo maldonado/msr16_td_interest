@@ -72,10 +72,10 @@ fc <- factor(data.CountLine.positive$Project)
 interest <- data.CountLine.positive$interest
 tapply(interest, fc, summary)
 
-idx <- order(interest, decreasing = T)
-write.csv(file="a.csv", data.CountLine.positive[idx,])
-data.CountLine.positive$interest[idx]
-data.CountLine.positive$Remove_Comment[idx]
+#idx <- order(interest, decreasing = T)
+#write.csv(file="a.csv", data.CountLine.positive[idx,])
+#data.CountLine.positive$interest[idx]
+#data.CountLine.positive$Remove_Comment[idx]
 
 fc <- factor(data.CountLine.negative$Project)
 interest <- data.CountLine.negative$interest

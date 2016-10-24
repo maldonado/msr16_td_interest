@@ -1,4 +1,4 @@
-data <- read.csv("./datasets/CSV/technical_debt_summary.csvinterest.ssv", sep="#")
+data <- read.csv("./datasets/CSV/technical_debt_summary.csvinterest.ssv", sep="#", quote = "")
 
 # (Step 1) choose one of duplicated method and version name
 method_and_version_name <- paste(data$Method_Signature, data$v1, sep="")
