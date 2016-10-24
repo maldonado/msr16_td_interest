@@ -33,7 +33,7 @@ HOME
 - 1. runUND.py 
 - 2. extract_metrics_at_method_level.py
     - it formats data that is provided by understand
-- 3. calculate_interests.py
+- 3. link_SATD_to_UND.py
 - 4. *.r
 
 ## to conduct an analysis on RQ3
