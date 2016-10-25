@@ -55,7 +55,9 @@ In order to measure interest of the TD, our first step is to identify where it e
 
 % \todo{We need to ask Everton about git commonds to find where it was introduced and removed.
 \smallsection{2. Identifying SATD Introduction and Removal}
-Since we are interested in measuring the interest, we need to determine the `change' over time in these SATD methods. For each of the SATD comments identified by us, we use several git commands, to trace a comment back to the commit where it was introduced. We perform this task by replaying the history commit-by-commit. Using the same technique, we are also able to detect the removal of SATD.
+Since we are interested in measuring the interest, we need to determine the `change' over time in these SATD methods. For each of the SATD comments identified by us, we use several git commands (e.g., {\tt git log -- <PATH\_TO\_FILE>} and {\tt git cat-file <SHA1>:<PATH\_TO\_FILE>}), to trace a comment back to the commit where it was introduced. We perform this task by replaying the history commit-by-commit. Using the same technique, we are also able to detect the removal of SATD.
+%@Yasu (from Emad's call) we extract all files in versions, and check whether or not SATD is included from the first version of each file to know SATD introduction. Similar to this, we check whether or not SATD is excluded to know SATD removal. 
+
 %@Yasu I commented out the following sentenses since they are almost similar with the above sentenses
 %By tracing the comments including SATD across versions in Git repositories, we identify two versions that introduce and remove them. To trace the comments, we obtain patches between two versions over all versions for each file that includes technical debt. Then, we check each patch about whether or not technical debt is introduced and removed. \todo{Need to merge the prior 2 sentences}
 
