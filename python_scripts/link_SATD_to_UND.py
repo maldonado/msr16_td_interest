@@ -14,7 +14,14 @@ class Metrics:
     def out_all(self,sep="#"):
         return sep.join([str(self.version_name), str(self.introduce), str(self.last_found)])
 
-def link_SATD_to_UND(project, versions, file_names, function_signatures): 
+def link_SATD_to_UND(project, versions, file_names, function_signatures):
+    print "--"
+    print project
+    print versions
+    print file_names
+    print function_signatures
+    print "--"
+    
     count_input = Metrics()
     count_output = Metrics()
     count_line = Metrics()
@@ -38,8 +45,10 @@ def link_SATD_to_UND(project, versions, file_names, function_signatures):
         
         for line in f2:
             if file_name != line[u'File']:
-                continue
-            
+                # not strict for the path
+                if (not (file_name in line[u'File'])) and (not (line[u'File'] in file_name)):
+                    continue
+                        
             #org.apache.tools.ant.ComponentHelper.addDataTypeDefinition(String,Class)
             #ComponentHelper.addDataTypeDefinition(String,Class)
             temp_method_sig = line[u'Name']
@@ -47,9 +56,10 @@ def link_SATD_to_UND(project, versions, file_names, function_signatures):
             match = re.search(r'.*\.(.*\..*\(.*\))', temp_method_sig)
             if match:
                 temp_method_sig = match.group(1)
-                
+                        
             # same method name
             if method_sig == temp_method_sig:
+                print i
                 if i == 0: # for introduced
                     count_input.introduce = line[u'CountInput']
                     count_output.introduce = line[u'CountOutput']
@@ -69,4 +79,16 @@ def link_SATD_to_UND(project, versions, file_names, function_signatures):
     return [count_input, count_output, count_line, cyclomatic, max_nesting]
 
 if __name__ == "__main__":
-    print "main"
+    project = "ant"
+    versions = ['7ac63c0bc264d9192d38abf2c1f2302c8fdee8f6', 'b30d297b23a82a97aea0cdd308239e2c05050341']
+    file_names = ['src/main/org/apache/tools/ant/taskdefs/Zip.java', 'src/main/org/apache/tools/ant/taskdefs/Zip.java']
+    function_signatures = ['setWhenempty(String)', 'setWhenempty(String)']
+
+    print "--"
+    print project
+    print versions
+    print file_names
+    print function_signatures
+    print "--"
+    
+    link_SATD_to_UND(project, versions, file_names, function_signatures)

@@ -5,6 +5,9 @@ date: "Nov 3rd, 2016"
 output: pdf_document
 ---
 
+# Versions:
+- ver2: Fixed link_SATD_TO_UND.py, since top directory is moved from main/org/apache to src/main/org/apache
+
 # Data Load
 ```{r}
 library(knitr)
@@ -19,14 +22,17 @@ source("./r_scripts/data_read.r")
 set.seed(1)
 v1    <- data.s1[(data.s1$CountInput_v1 == -1 & data.s1$CountInput_v2 != -1),]
 nrow(v1)
-sampled <- v1[sample(nrow(v1), 10), ]
+samplesize <- ifelse(nrow(v1) >= 10, 10, nrow(v1))
+sampled <- v1[sample(nrow(v1), samplesize), ]
 
 v2    <- data.s1[(data.s1$CountInput_v1 != -1 & data.s1$CountInput_v2 == -1),]
 nrow(v2)
-sampled <- rbind(sampled, v2[sample(nrow(v2), 10), ])
+samplesize <- ifelse(nrow(v2) >= 10, 10, nrow(v2))
+sampled <- rbind(sampled, v2[sample(nrow(v2), samplesize), ])
 
 v1_v2 <- data.s1[(data.s1$CountInput_v1 == -1 & data.s1$CountInput_v2 == -1),]
 nrow(v1_v2)
-sampled <- rbind(sampled, v1_v2[sample(nrow(v1_v2), 10), ])
+samplesize <- ifelse(nrow(v1_v2) >= 10, 10, nrow(v1_v2))
+sampled <- rbind(sampled, v1_v2[sample(nrow(v1_v2), samplesize), ])
 write.table(sampled, file = "./datasets/CSV/sampled_unlinked_satd.ssv", sep="#")
 ```
