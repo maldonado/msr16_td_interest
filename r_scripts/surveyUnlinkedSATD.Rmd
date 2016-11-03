@@ -1,0 +1,32 @@
+---
+title: 'How much and why do unlinked SATD happen?'
+author: "Yasutaka Kamei"
+date: "Nov 3rd, 2016"
+output: pdf_document
+---
+
+# Data Load
+```{r}
+library(knitr)
+working_root <- "/Users/kamei/Research/techdebt/msr16_td_interest/"
+setwd(working_root)
+opts_knit$set(root.dir=working_root)
+source("./r_scripts/data_read.r")
+```
+
+# Output 10 sampled unlinked SATD with metrics data
+```{r}
+set.seed(1)
+v1    <- data.s1[(data.s1$CountInput_v1 == -1 & data.s1$CountInput_v2 != -1),]
+nrow(v1)
+sampled <- v1[sample(nrow(v1), 10), ]
+
+v2    <- data.s1[(data.s1$CountInput_v1 != -1 & data.s1$CountInput_v2 == -1),]
+nrow(v2)
+sampled <- rbind(sampled, v2[sample(nrow(v2), 10), ])
+
+v1_v2 <- data.s1[(data.s1$CountInput_v1 == -1 & data.s1$CountInput_v2 == -1),]
+nrow(v1_v2)
+sampled <- rbind(sampled, v1_v2[sample(nrow(v1_v2), 10), ])
+write.table(sampled, file = "./datasets/CSV/sampled_unlinked_satd.ssv", sep="#")
+```
