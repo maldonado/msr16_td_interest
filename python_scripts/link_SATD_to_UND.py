@@ -37,9 +37,10 @@ def link_SATD_to_UND(project, versions, file_names, function_signatures):
         class_name = class_name.split('/')
         class_name = class_name[(len(class_name)-1)]
         method_sig = class_name + "." + function_signatures[i]
+        method_sig = re.sub(r'<.*?>','',method_sig) # add this cleaning for Everton's data since Understand does not have <String> in method sig.
 
         print "    P2: " + version +  ":" + method_sig
-        
+                
         tmp_f2 = open(metrics_method_file)
         f2 = csv.DictReader(tmp_f2)
         
@@ -84,15 +85,15 @@ if __name__ == "__main__":
     #file_names = ['src/main/org/apache/tools/ant/taskdefs/Zip.java', 'src/main/org/apache/tools/ant/taskdefs/Zip.java']
     #function_signatures = ['setWhenempty(String)', 'setWhenempty(String)']
 
-    #project = "ant"
-    #versions = ['af9325e41e16da1e00cc88f29e6b9f3d96006805', 'bed22b00f729da46ea6ed768d5f30014d919bcc6']
-    #file_names = ['src/main/org/apache/tools/ant/PropertyHelper.java', 'src/main/org/apache/tools/ant/PropertyHelper.java']
-    #function_signatures = ['parsePropertyStringDefault(String,Vector,Vector)', 'parsePropertyStringDefault(String,Vector<String>,Vector<String>)']
-
     project = "ant"
-    versions = ['74f58bf0f81de6bc03df6bc1d5315bef92d8f0e4', '51ce8fac7296500ba974ee639616c82475b4f171']
-    file_names = ['src/main/org/apache/tools/ant/helper/ProjectHelper2.java', 'src/main/org/apache/tools/ant/helper/ProjectHelper2.java']
-    function_signatures =['onStartElement(String,String,String,Attributes,AntXMLContext)', 'onStartElement(String,String,String,Attributes,AntXMLContext)']
+    versions = ['af9325e41e16da1e00cc88f29e6b9f3d96006805', 'bed22b00f729da46ea6ed768d5f30014d919bcc6']
+    file_names = ['src/main/org/apache/tools/ant/PropertyHelper.java', 'src/main/org/apache/tools/ant/PropertyHelper.java']
+    function_signatures = ['parsePropertyStringDefault(String,Vector,Vector)', 'parsePropertyStringDefault(String,Vector<String>,Vector<String>)']
+
+    #project = "ant"
+    #versions = ['74f58bf0f81de6bc03df6bc1d5315bef92d8f0e4', '51ce8fac7296500ba974ee639616c82475b4f171']
+    #file_names = ['src/main/org/apache/tools/ant/helper/ProjectHelper2.java', 'src/main/org/apache/tools/ant/helper/ProjectHelper2.java']
+    #function_signatures =['onStartElement(String,String,String,Attributes,AntXMLContext)', 'onStartElement(String,String,String,Attributes,AntXMLContext)']
 
     print "--"
     print project
