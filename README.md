@@ -25,6 +25,7 @@ HOME
 - /r_scritps  
 
 # How to execute scripts
+- run merge.sh to generate classification.csv
 - run.py executes the following python scripts
 - setting.py indluces directory information
 
