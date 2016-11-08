@@ -36,7 +36,12 @@ def link_SATD_to_UND(project, versions, file_names, function_signatures):
         class_name = file_name.replace(".java","") #Condition
         class_name = class_name.split('/')
         class_name = class_name[(len(class_name)-1)]
-        method_sig = class_name + "." + function_signatures[i]
+        method_sig = class_name + "."
+        if function_signatures[i] != "()":
+            method_sig = method_sig + function_signatures[i]
+        else:
+            method_sig = method_sig + function_signatures[0]
+        
         method_sig = re.sub(r'<.*?>','',method_sig) # add this cleaning for Everton's data since Understand does not have <String> in method sig.
 
         print "    P2: " + version +  ":" + method_sig
@@ -57,6 +62,8 @@ def link_SATD_to_UND(project, versions, file_names, function_signatures):
             match = re.search(r'.*\.(.*\..*\(.*\))', temp_method_sig)
             if match:
                 temp_method_sig = match.group(1)
+                
+            print temp_method_sig
                         
             # same method name
             if method_sig == temp_method_sig:
@@ -85,15 +92,21 @@ if __name__ == "__main__":
     #file_names = ['src/main/org/apache/tools/ant/taskdefs/Zip.java', 'src/main/org/apache/tools/ant/taskdefs/Zip.java']
     #function_signatures = ['setWhenempty(String)', 'setWhenempty(String)']
 
-    project = "ant"
-    versions = ['af9325e41e16da1e00cc88f29e6b9f3d96006805', 'bed22b00f729da46ea6ed768d5f30014d919bcc6']
-    file_names = ['src/main/org/apache/tools/ant/PropertyHelper.java', 'src/main/org/apache/tools/ant/PropertyHelper.java']
-    function_signatures = ['parsePropertyStringDefault(String,Vector,Vector)', 'parsePropertyStringDefault(String,Vector<String>,Vector<String>)']
-
+    # 3 samples are due to method signature pattern (we can fix)
     #project = "ant"
-    #versions = ['74f58bf0f81de6bc03df6bc1d5315bef92d8f0e4', '51ce8fac7296500ba974ee639616c82475b4f171']
-    #file_names = ['src/main/org/apache/tools/ant/helper/ProjectHelper2.java', 'src/main/org/apache/tools/ant/helper/ProjectHelper2.java']
-    #function_signatures =['onStartElement(String,String,String,Attributes,AntXMLContext)', 'onStartElement(String,String,String,Attributes,AntXMLContext)']
+    #versions = ['af9325e41e16da1e00cc88f29e6b9f3d96006805', 'bed22b00f729da46ea6ed768d5f30014d919bcc6']
+    #file_names = ['src/main/org/apache/tools/ant/PropertyHelper.java', 'src/main/org/apache/tools/ant/PropertyHelper.java']
+    #function_signatures = ['parsePropertyStringDefault(String,Vector,Vector)', 'parsePropertyStringDefault(String,Vector<String>,Vector<String>)']
+
+    project = "ant"
+    versions = ['74f58bf0f81de6bc03df6bc1d5315bef92d8f0e4', '51ce8fac7296500ba974ee639616c82475b4f171']
+    file_names = ['src/main/org/apache/tools/ant/helper/ProjectHelper2.java', 'src/main/org/apache/tools/ant/helper/ProjectHelper2.java']
+    function_signatures =['onStartElement(String,String,String,Attributes,AntXMLContext)', 'onStartElement(String,String,String,Attributes,AntXMLContext)']
+
+    project = "ant"
+    versions = ['ee344eb12509b4a69af0d52f285bbd7230f2c556', 'bf6026a147e879837eaad2a16348ae2162829867']
+    file_names = ['src/main/org/apache/tools/ant/taskdefs/optional/Cab.java', 'src/main/org/apache/tools/ant/taskdefs/optional/Cab.java']
+    function_signatures = ['checkConfiguration()', '()']
 
     print "--"
     print project
