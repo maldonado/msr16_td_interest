@@ -62,9 +62,7 @@ def link_SATD_to_UND(project, versions, file_names, function_signatures):
             match = re.search(r'.*\.(.*\..*\(.*\))', temp_method_sig)
             if match:
                 temp_method_sig = match.group(1)
-                
-            print temp_method_sig
-                        
+                                        
             # same method name
             if method_sig == temp_method_sig:
                 print i

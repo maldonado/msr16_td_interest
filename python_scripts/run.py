@@ -36,11 +36,15 @@ def get_func_signature(func_name, func_parameter_list):
         temp = temp.replace(" ", "") # remove blank
         
         if temp.count("<"):
-            temp = temp + ">"
-            print "========> " + temp
+            if temp.count(">") == 0:
+                temp = temp + ">"
+                print "========> " + temp
 
         param.append(temp)
     signature = signature + ",".join(param) + ")"
+    
+    signature = signature.replace("/*","")
+    signature = signature.replace("*/","")
 
     print "    get_func_sig 2"    
     print "        " +  signature
