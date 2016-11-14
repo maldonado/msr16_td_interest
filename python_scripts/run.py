@@ -69,6 +69,11 @@ with open(s.debt_file) as csvfile:
     print("#for pre-process")
     print("#################################################################")
     for line in reader:
+        count = count + 1
+        
+        if count < s.START_LOOP:
+            continue
+        
         if count > s.MAX_LOOP:
             break
         
@@ -76,7 +81,6 @@ with open(s.debt_file) as csvfile:
             continue
         
         print line
-        count = count + 1
         project =  line[u'project']
         versions = [] #for git_comments
                 
@@ -123,6 +127,11 @@ with open(s.debt_file) as csvfile:
         
     count = 0    
     for line in reader:
+        count = count + 1
+        
+        if count < s.START_LOOP:
+            continue
+        
         if count > s.MAX_LOOP:
             break
         
@@ -131,7 +140,6 @@ with open(s.debt_file) as csvfile:
         
         print "P1: ",
         print line
-        count = count + 1
         project =  line[u'project']
         td_classification= line[u'td_classification']
 
