@@ -27,17 +27,17 @@ To conduct our initial case study, we use data from the Apache JMeter open sourc
 \smallsection{Approach}
 %\para{We calculate the interest.}
 To calculate interest of SATD, we follow the approach we explained in Section \ref{sec:approach}.
-We show the number of SATD, the percentage of the technical debt that has positive interest, and the distribution of interest for technical debt that has an positive interest rate.
+We show the number of SATD, the percentage of the technical debt that has positive interest, and the distribution of interest for technical debt that incurs an positive interest rate.
 
 \smallsection{Results}
 We find that there is a high correlation between LOC and the other product metrics, except Fan-In. From the highly correlated metrics, we selected LOC as the metric to calculate interest, since intuitively it is easier to measure and comprehend. Therefore, we settled on using two product metrics (i.e., LOC and Fan-In) to measure interest.
 
 %similar to previous work that considers effort in the domain of defect prediction~\cite{Kamei2010ICSM,Kamei2013TSE}. We assume that developers spend more effort to check larger methods before modifying the methods. Eventually, we show our results using 
 
-Table \ref{tab:percentage} shows the number of SATD and the percentage of the technical debt that has positive interest in all technical debt. The table shows that 44.2\% of technical debt has a positive interest rate in terms of LOC and 42.2\% of the SATD has it in terms of Fan-In. We can see that in some cases, there can be negative interest (13.8\% using LOC and 8.1\% using Fan-In), where the SATD method gets smaller or have less Fan-In after the introduction of the SATD. There are also cases where nothing changes in terms of LOC and Fan-In between the SATD introduction and removal. Lastly, it is important to note that there is not large difference between in the amount of positive and no change interest rates using LOC and Fan-In. 
+Table \ref{tab:percentage} shows the number of SATD and the percentage of the technical debt that has positive interest in all technical debt. The table shows that 44.2\% of technical debt incurs a positive interest rate in terms of LOC and 42.2\% of the SATD has it in terms of Fan-In. We can see that in some cases, there can be negative interest (13.8\% using LOC and 8.1\% using Fan-In), where the SATD method gets smaller or have less Fan-In after the introduction of the SATD. There are also cases where nothing changes in terms of LOC and Fan-In between the SATD introduction and removal. Lastly, it is important to note that there is not large difference between in the amount of positive and no change interest rates using LOC and Fan-In. 
 
-Next, we would like to know how high is the positive interest rate. This analysis provides us with more insight about the SATD that has a positive interest rate.
-Table \ref{tab:statistic} and Figure \ref{fig:dist} show that the distribution of interest for the SATD that has a positive rate. We see from Figure \ref{fig:dist}, that the distributions are left-skewed, indicating that the majority of the SATD ranges between 6.5-11.0 and 33.3 in terms of LOC and Fan-In. Our findings clearly indicate that there is SATD that has a positive interest rate and different types of SATD have different values of interest, which shows that we should be prioritizing SATD based on its interest, i.e., all SATD is not equal.
+Next, we would like to know how high is the positive interest rate. This analysis provides us with more insight about the SATD that incurs a positive interest rate.
+Table \ref{tab:statistic} and Figure \ref{fig:dist} show that the distribution of interest for the SATD that incurs a positive rate. We see from Figure \ref{fig:dist}, that the distributions are left-skewed, indicating that the majority of the SATD ranges between 6.5-11.0 and 33.3 in terms of LOC and Fan-In. Our findings clearly indicate that there is SATD that incurs a positive interest rate and different types of SATD have different values of interest, which shows that we should be prioritizing SATD based on its interest, i.e., all SATD is not equal.
 
 
 %We can also find that some of positive interest are over 100, which means the value of metric relatively increases by 100\%.
@@ -74,7 +74,7 @@ Fan-In  & 5.3 &  11.0 &  20.0  &   33.3 &   90.0 \\
 % this table is from 1825c645ba885f9aeb48779130095763dddeaccb
 
 \conclusionbox{
-44.2\% of technical debt has a positive rate in terms of LOC and 42.2\% of technical debt has it in terms of Fan-In.}
+44.2\% of technical debt incurs a positive rate in terms of LOC and 42.2\% of technical debt incurs it in terms of Fan-In.}
 
 
 %\para{Put additional analysis when considering time period.}
