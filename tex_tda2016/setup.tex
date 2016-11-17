@@ -66,14 +66,12 @@ Once we are able to determine the SATD comments and their associated methods, we
 
 The reasons that we focused on complexity and size metrics are: 1) our intuition tells us that if a piece of code is introduced and then becomes more complex, then that is a good proxy for it being more difficult to deal with in the future, i.e., it incurred interest; and 2) prior work has shown that size metrics are typically highly correlated with complexity metrics, hence, we figured using size metrics (if they are highly correlated with complexity metrics in our case) would be an easier alternative to using complexity metrics.
 
-We performed the \revised{Spearman's} correlation analysis between the complexity and size metrics and found that indeed all metrics except Fan-In are highly correlated with LOC. Therefore, we decided to use the LOC metric as a measure of interest. In addition, since Fan-In is an indicator of how much a method is depended on, we decided to also include the Fan-In metric when calculating interest. The intuition being that if a method is depended on lightly when the SATD is introduced and then has many more dependencies in the future, then dealing with this SATD is much more difficult (since many dependencies may be affected). In the end, we settled on using the two metrics, LOC and Fan-In, as measures of interest.
+We measured the Spearman correlation between the complexity and size metrics and found that indeed all metrics except Fan-In are highly correlated with LOC. Therefore, we decided to use the LOC metric as a measure of interest. In addition, since Fan-In is an indicator of how much a method is depended on, we decided to also include the Fan-In metric when calculating interest. The intuition being that if a method is depended on lightly when the SATD is introduced and then has many more dependencies in the future, then dealing with this SATD is much more difficult (since many dependencies may be affected). In the end, we settled on using the two metrics, LOC and Fan-In, as measures of interest.
 
 %To calculate interest, we measure product metrics from two versions detected in Step 2 using {\sc Understand}~\cite{Understand}. We choose all metrics (e.g., LOC and Cyclymatic Complexity) that are available at the method-level in {\sc Understand}.
 
 \smallsection{4. Calculating Interest}
-Using our metrics, we consider the relative LOC and Fan-In values between the introduced and removed versions as interest. \revised{We calculate the interest per the TD.} For example, if arbitrary metric values in the introduced and removed versions are 10 and 20 \revised{in the method where the SATD exists}, the relative size is 50 (i.e, $100* \frac{(20-10)}{20}$). In cases where the SATD is not yet removed, we use the numbers from the latest version of JMeter. \revised{We decided to use the metric value in the removed version as denominator since we could range the positive rate between 0\% and 100\%.}
-
-\revised{If the SATD incurs a positive interest rate, it would have additional difficulty to be removed. We consider that when the SATD becomes more complex, then that becomes more difficult to deal with it.}
+Using our metrics, we consider the relative LOC and Fan-In values between the introduced and removed versions as interest. \revised{We calculate the interest per SATD instance.} For example, if arbitrary metric values in the introduced and removed versions are 10 and 20 \revised{in the method where the SATD exists}, the relative size is 100 (i.e, $100* \frac{(20-10)}{10}$). In cases where the SATD is not yet removed, we use the numbers from the latest version of JMeter. \revised{I changed this since it makes more sense to divide by the initial `borrowed' value. Sorry} \revised{Our assumption here is that if the SATD incurs positive interest, then it will be more difficult to remove in the future, e.g., if the code becomes more complex compared to when the debt was taken, then it will be more difficult to deal with.}
 
 While the paper tackles the research topic that accelerates a new research direction (i.e., quantifying interest of SATD), it also has the weakness of our current approach. We elaborate on the weakness of our current approach in Section \ref{conclusion}.
 
@@ -91,7 +89,7 @@ While the paper tackles the research topic that accelerates a new research direc
   \end{tabular}
   }
 
-  \caption{The results of distribution of interest.}
+  \caption{Distribution of SATD Interest in JMeter. Interest is Measured Using LOC and Fan-In. \todo{Is the y-axis correct?}}
   \label{fig:dist}
   \end{center}
 \end{figure*}
