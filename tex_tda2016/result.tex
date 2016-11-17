@@ -37,7 +37,7 @@ We find that there is a high correlation between LOC and the other product metri
 Table \ref{tab:percentage} shows the number of SATD and the percentage of the technical debt that has positive interest in all technical debt. The table shows that 44.2\% of technical debt incurs a positive interest rate in terms of LOC and 42.2\% of the SATD has it in terms of Fan-In. We can see that in some cases, there can be negative interest (13.8\% using LOC and 8.1\% using Fan-In), where the SATD method gets smaller or have less Fan-In after the introduction of the SATD. There are also cases where nothing changes in terms of LOC and Fan-In between the SATD introduction and removal. Lastly, it is important to note that there is not large difference between in the amount of positive and no change interest rates using LOC and Fan-In. 
 
 Next, we would like to know how high is the positive interest rate. This analysis provides us with more insight about the SATD that incurs a positive interest rate.
-Table \ref{tab:statistic} and Figure \ref{fig:dist} show that the distribution of interest for the SATD that incurs a positive rate. We see from Figure \ref{fig:dist}, that the distributions are left-skewed, indicating that the majority of the SATD ranges between 6.5-11.0 and 33.3 in terms of LOC and Fan-In. Our findings clearly indicate that there is SATD that incurs a positive interest rate and different types of SATD have different values of interest, which shows that we should be prioritizing SATD based on its interest, i.e., all SATD is not equal.
+Table \ref{tab:statistic} and Figure \ref{fig:dist} show that the distribution of interest for the SATD that incurs a positive rate. \revised{We note that we limit 100\% as x-axis for readability.} We see from Figure \ref{fig:dist}, that the distributions are left-skewed, indicating that the majority of the SATD ranges between 6.9-12.4 and 50.0 in terms of LOC and Fan-In. Our findings clearly indicate that there is SATD that incurs a positive interest rate and different types of SATD have different values of interest, which shows that we should be prioritizing SATD based on its interest, i.e., all SATD is not equal.
 
 
 %We can also find that some of positive interest are over 100, which means the value of metric relatively increases by 100\%.
@@ -58,7 +58,7 @@ Fan-In  & 161 &  42.2\%  &  8.1\% & 49.7\%\\
 \end{table}
 
 \begin{table}[tb]
-  \caption{Statistics \todo{of what?}}
+  \caption{Statistics of the SATD that incurs a positive rate}
   \label{tab:statistic}
   \centering
 
@@ -66,8 +66,10 @@ Fan-In  & 161 &  42.2\%  &  8.1\% & 49.7\%\\
   \hline
         & \textbf{Min.} & \textbf{1st Qu.} & \textbf{Median} & \textbf{3rd Qu.} & \textbf{Max.} \\
   \hline
-   LOC  & 1.5 &   6.5 &  15.3  &   33.3 &   98.5 \\
-Fan-In  & 5.3 &  11.0 &  20.0  &   33.3 &   90.0 \\
+%   LOC  & 1.5 &   6.5 &  15.3  &   33.3 &   98.5 \\
+%Fan-In  & 5.3 &  11.0 &  20.0  &   33.3 &   90.0 \\
+    LOC  & 1.6 &   6.9 &  18.0  &   50.0 & 6667.0 \\
+ Fan-In  & 5.6 &  12.4 &  25.0  &   50.0 &  900.0 \\
   \hline
   \end{tabular}
 \end{table}
