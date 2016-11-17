@@ -14,7 +14,7 @@ output: pdf_document
 
 # Data Load
 ```{r}
-setwd("/Users/kamei/Research/techdebt/msr16_td_interest/")
+setwd("/Users/kamei/Downloads/msr16_td_interest/")
 source("./r_scripts/data_read.r")
 ```
 
