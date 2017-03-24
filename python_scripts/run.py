@@ -32,7 +32,11 @@ def get_func_signature(func_name, func_parameter_list):
     param = []
     for temp in params:
         temp = re.sub(r'^final ', "", temp) # remove final
-        temp = re.search(r'(.*)\s+.*', temp).group(1)
+        m = re.search(r'(.*)\s+.*', temp)
+        
+        if m != None:
+            temp = m.group(1)
+        
         temp = temp.replace(" ", "") # remove blank
         
         if temp.count("<"):
