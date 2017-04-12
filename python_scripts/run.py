@@ -17,8 +17,18 @@ def get_latest_version(project):
         return '9.0.1.0'
     elif project == 'jmeter':
         return 'v2_13_RC2'
+    elif project == 'camel': #git log --before="2016-04-28"
+        return '017dffc3728e8114e180f64806e0dce8d59dce23'    
+    elif project == 'gerrit':
+        return '8b39fb4bc01809f20a2998c55dede18717682a56'
+    elif project == 'hadoop':
+        return '6f26b665874f923d50087f68357ac822fa9fe709'
+    elif project == 'log4j':
+        return '7be00eed88152dd011a619e8bae5a631235c3f4c'
+    elif project == 'tomcat':
+        return '1a1adb39819b3181c448bd7aaf2516bb92cb7a35'
     else:
-        raise ValueError(project + "is not defined in this function") 
+        raise ValueError(project + " is not defined in this function") 
 
 def get_func_signature(func_name, func_parameter_list):
     if func_parameter_list == "":
