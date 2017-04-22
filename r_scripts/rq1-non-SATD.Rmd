@@ -16,7 +16,7 @@ source("./r_scripts/data_read-non-SATD.r")
 - (Step 2) only use technical debt including metrics
 ```{r}
 nrow(data)
-apply(data.s1[,c("version_name","CountInput_v1","CountInput_v2")], 2, function(x){sum(x == -1) })
+apply(data.s1[,c("CountInput_v1","CountInput_v2")], 2, function(x){sum(x == -1) })
 ```
 
 ### Observation
