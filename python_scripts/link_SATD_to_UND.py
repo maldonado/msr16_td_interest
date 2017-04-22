@@ -17,6 +17,8 @@ class Metrics:
 class NonSATD:
     def __init__(self):
         self.project_name = -1
+        self.intro_version_name = ""
+        self.last_version_name = ""
         self.long_file_name = ""
         self.count_input_introduce = -1
         self.count_input_last_found = -1
@@ -33,7 +35,11 @@ class NonSATD:
         return sep.join([str(self.introduce), str(self.last_found)])
 
     def out_all(self,sep="#"):
-        return sep.join([str(self.project_name), str(self.long_file_name), str(self.count_input_introduce), str(self.count_input_last_found), str(self.count_output_introduce), str(self.count_output_last_found),
+        return sep.join([str(self.project_name), str(self.intro_version_name), str(self.last_version_name), str(self.long_file_name), str(self.count_input_introduce), str(self.count_input_last_found), str(self.count_output_introduce), str(self.count_output_last_found),
+                         str(self.count_line_introduce), str(self.count_line_last_found), str(self.cyclomatic_introduce), str(self.cyclomatic_last_found), str(self.max_nesting_introduce), str(self.max_nesting_last_found)])
+
+    def out_all_with_key(self, key, sep="#"):
+        return sep.join([str(self.project_name), key, str(self.intro_version_name), str(self.last_version_name), str(self.long_file_name), str(self.count_input_introduce), str(self.count_input_last_found), str(self.count_output_introduce), str(self.count_output_last_found),
                          str(self.count_line_introduce), str(self.count_line_last_found), str(self.cyclomatic_introduce), str(self.cyclomatic_last_found), str(self.max_nesting_introduce), str(self.max_nesting_last_found)])
 
 # non-SATD
@@ -41,7 +47,7 @@ class NonSATDManeger():
     def __init__(self):
         self.list = {}
            
-    def add_introduce_version(self, key, project_name, long_file_name, count_input, count_output, count_line, cyclomatic, max_nesting):
+    def add_introduce_version(self, key, project_name, version, long_file_name, count_input, count_output, count_line, cyclomatic, max_nesting):
         if self.list.has_key(key):
             m = self.list.get(key)
             if m.count_input_introduce == -1:
@@ -72,6 +78,7 @@ class NonSATDManeger():
         else:
             m = NonSATD()
             m.project_name = project_name
+            m.intro_version_name = version
             m.long_file_name = long_file_name
             m.count_input_introduce = count_input
             m.count_output_introduce = count_output
@@ -80,10 +87,11 @@ class NonSATDManeger():
             m.max_nesting_introduce = max_nesting
             self.list[key] = m            
             
-    def add_last_version(self, key, long_file_name, count_input, count_output, count_line, cyclomatic, max_nesting):
+    def add_last_version(self, key, version, long_file_name, count_input, count_output, count_line, cyclomatic, max_nesting):
         if self.list.has_key(key):
             m = self.list.get(key)
             if m.count_input_last_found == -1:
+                m.last_version_name = version
                 m.count_input_last_found = count_input
                 m.count_output_last_found = count_output
                 m.count_line_last_found = count_line
@@ -222,9 +230,9 @@ def link_NON_SATD_to_UND(project, versions, file_names, function_signatures):
                 key = temp_method_sig + "@" + key_filename
                 
                 if i == 0: # for introduced
-                    non_satd.add_introduce_version(key, project, file_name, line[u'CountInput'], line[u'CountOutput'], line[u'CountLine'], line[u'Cyclomatic'], line[u'MaxNesting'])
+                    non_satd.add_introduce_version(key, project, version, file_name, line[u'CountInput'], line[u'CountOutput'], line[u'CountLine'], line[u'Cyclomatic'], line[u'MaxNesting'])
                 if i == 1: # for last found
-                    non_satd.add_last_version(key, file_name, line[u'CountInput'], line[u'CountOutput'], line[u'CountLine'], line[u'Cyclomatic'], line[u'MaxNesting'])        
+                    non_satd.add_last_version(key, version, file_name, line[u'CountInput'], line[u'CountOutput'], line[u'CountLine'], line[u'Cyclomatic'], line[u'MaxNesting'])        
         tmp_f2.close()
         i = i + 1
 

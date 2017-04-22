@@ -1,7 +1,7 @@
-data <- read.csv("./datasets/CSV/technical_debt_summary.csvinterest-non-SATD.ssv", sep="#")
+data <- read.csv("./datasets/CSV/non_satd_interest.ssv", sep="#")
 
 # (Step 1) choose one of duplicated method and version name
-method_and_version_name <- paste(data$Method_Signature, data$v1, sep="")
+method_and_version_name <- paste(data$Signature, data$Intro, sep="")
 data.s1 <- data[!duplicated(method_and_version_name), ]
 
 # (Step 2) only use technical debt including metrics

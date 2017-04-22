@@ -72,7 +72,7 @@ with open(s.debt_file) as csvfile:
 
     #for calculate_interest
     fo_interest = open (s.interest_file, 'w')
-    fo_interest.write("#".join(["Project_name","Long_file_name","CountInput_v1","CountInput_v2","CountOutput_v1","CountOutput_v2","CountLine_v1","CountLine_v2","Cyclomatic_v1","Cyclomatic_v2","MaxNesting_v1","MaxNesting_v2\n"]))
+    fo_interest.write("#".join(["Project_name","Signature", "Intro", "Last", "Long_file_name","CountInput_v1","CountInput_v2","CountOutput_v1","CountOutput_v2","CountLine_v1","CountLine_v2","Cyclomatic_v1","Cyclomatic_v2","MaxNesting_v1","MaxNesting_v2\n"]))
 
     print("#################################################################")
     print("#for calculate_interests")
@@ -118,7 +118,7 @@ with open(s.debt_file) as csvfile:
         non_satd = link_SATD_to_UND.link_NON_SATD_to_UND(project, versions, file_names, function_signatures)
         for key in non_satd.list.iterkeys():
             m = non_satd.list[key]
-            fo_interest.write(m.out_all() + '\n')
+            fo_interest.write(m.out_all_with_key(key) + '\n')
         
         #count_input, count_output, count_line, cyclomatic, max_nesting = set_metrics
         
