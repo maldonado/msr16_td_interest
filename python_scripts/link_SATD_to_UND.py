@@ -214,7 +214,7 @@ def link_NON_SATD_to_UND(project, versions, file_names, function_signatures):
                 if (not (file_name in line[u'File'])) and (not (line[u'File'] in file_name)):
                     continue
             
-            if (line[u'File'] == "Kind"):
+            if (line[u'Kind'] == "Unknown Method"):
                 continue
                         
             #org.apache.tools.ant.ComponentHelper.addDataTypeDefinition(String,Class)
