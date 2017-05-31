@@ -11,7 +11,10 @@ statNumOfLinking <- function(data){
 }
 
 # setwd("/Users/kamei/Research/techdebt/msr16_td_interest/")
-data <- read.csv("./datasets/CSV/interest.ssv", sep="#")
+data <- read.csv("./datasets/CSV/interest.ssv", sep="#",  quote = "")
+#data <- read.csv("./datasets/CSV/interest_laptop.ssv", sep="#",  quote = "")
+#data <- read.csv("./datasets/CSV/temp_interest.ssv", sep="#",  quote = "")
+cat(sprintf("Num Of Raw Data : %d\n", nrow(data)))
 
 # (Step 1) choose one of duplicated method and version name
 method_and_version_name <- paste(data$Method_Signature, data$v1, sep="")

@@ -1,4 +1,5 @@
 data <- read.csv("./datasets/CSV/non_satd_interest.ssv", sep="#")
+cat(summary(data$Project_name))
 
 # (Step 1) choose one of duplicated method and version name
 method_and_version_name <- paste(data$Signature, data$Intro, sep="")

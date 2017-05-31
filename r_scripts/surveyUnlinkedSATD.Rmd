@@ -19,7 +19,6 @@ source("./r_scripts/data_read.r")
 
 # Output 10 sampled unlinked SATD with metrics data
 ```{r}
-set.seed(1)
 v1    <- data.s1[(data.s1$CountInput_v1 == -1 & data.s1$CountInput_v2 != -1),]
 nrow(v1)
 samplesize <- ifelse(nrow(v1) >= 10, 10, nrow(v1))
