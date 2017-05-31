@@ -1,0 +1,57 @@
+%\usepackage{graphicx}
+\usepackage[dvipdfmx]{graphicx}
+%\usepackage{latexsym}
+\usepackage{slashbox}
+%\usepackage{multirow}
+\usepackage{url}
+\usepackage{color}
+\usepackage{colortbl}
+\usepackage{hhline}
+\usepackage{flushend}
+\usepackage{verbatim}
+%\usepackage{hyperref}
+\usepackage{enumerate}
+\usepackage[sort&compress]{natbib}
+\usepackage{subfigure}
+\usepackage{framed}
+%\usepackage{natbib}
+
+\newcommand{\todo}[1]{{\color{green}{\textbf{TODO: [#1]}}}}
+\newcommand{\yasu}[1]{{\color{red}{\textbf{Yasu says: [#1]}}}}
+\newcommand{\emad}[1]{{\color{blue}{\textbf{[#1]}}}}
+\newcommand{\Emad}[1]{{\color{blue}{\textbf{[#1]}}}}
+\newcommand{\revised}[1]{{\color{red}{#1}}}
+\newcommand{\para}[1]{{\color{magenta}{\textbf{This paragraph:}}} [#1]}
+
+%\newcommand{\revised}[2]{\marginpar{\fbox{#2}}{\color{red}{#1}}}
+
+\newcommand{\nbf}[1]{
+%  \noindent{\textit{\textbf{#1}}}
+  \noindent{\textbf{#1}}
+}
+
+\newcommand{\conclusionbox}[1]{%
+	\vspace{2mm}
+  \noindent
+	\framebox[0.48\textwidth][c]{%
+		\parbox[b]{0.45\textwidth}{%
+			{\em #1}
+		}
+	}
+}
+
+% Set bibliography title
+%\renewcommand\refname{REFERENCES}
+%\renewcommand\bibsection{\section{\refname}}
+
+\newcommand{\ea}{{\em et al.}}
+\newcommand{\smallsection}[1]{\vspace{1mm}\noindent {\bf #1}.\hspace{2mm}}
+\newcommand{\emphsection}[1]{\vspace{1mm}\noindent \underline{{\em #1}.}\hspace{2mm}}
+
+
+% Reduce bibliography font size
+%\def\bibfont{\normalsize} %normalsize should be default
+% small or footnotesize
+
+% Reduce space between references
+%\setlength{\bibsep}{3.2pt} %3.5pt should be default

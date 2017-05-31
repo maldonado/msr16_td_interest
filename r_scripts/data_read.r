@@ -1,8 +1,25 @@
-data <- read.csv("./datasets/CSV/technical_debt_summary.csvinterest.ssv", sep="#")
+statNumOfLinking <- function(data){
+  num_all <- nrow(data)
+  num_v1 <- sum(data$CountInput_v1 != -1)
+  num_v2 <- sum(data$CountInput_v2 != -1)
+  num_v1_v2 <- sum((data$CountInput_v1 != -1 & data$CountInput_v2 != -1))
+  
+  cat(sprintf("Num Of Tech Debt : %d\n", num_all))
+  cat(sprintf("  Per of linking to v1 : %.2f%% (=%d/%d)\n",num_v1/num_all*100, num_v1,num_all))
+  cat(sprintf("  Per of linking to v2 : %.2f%% (=%d/%d)\n",num_v2/num_all*100, num_v2,num_all))
+  cat(sprintf("  Per of linking to all: %.2f%% (=%d/%d)\n",num_v1_v2/num_all*100, num_v1_v2,num_all))
+}
+
+# setwd("/Users/kamei/Research/techdebt/msr16_td_interest/")
+data <- read.csv("./datasets/CSV/interest.ssv", sep="#",  quote = "")
+#data <- read.csv("./datasets/CSV/interest_laptop.ssv", sep="#",  quote = "")
+#data <- read.csv("./datasets/CSV/temp_interest.ssv", sep="#",  quote = "")
+cat(sprintf("Num Of Raw Data : %d\n", nrow(data)))
 
 # (Step 1) choose one of duplicated method and version name
 method_and_version_name <- paste(data$Method_Signature, data$v1, sep="")
 data.s1 <- data[!duplicated(method_and_version_name), ]
+statNumOfLinking(data.s1)
 
 # (Step 2) only use technical debt including metrics
 data.s2 <- data.s1[(data.s1[, "CountInput_v1"] != -1 & data.s1[, "CountInput_v2"] != -1), ]

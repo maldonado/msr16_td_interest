@@ -3,7 +3,7 @@ import checkoutRevisions
 import runUND
 import extract_metrics_at_method_level
 import git_comments
-import calculate_interests
+import link_SATD_to_UND
 
 import csv
 import re
@@ -17,32 +17,52 @@ def get_latest_version(project):
         return '9.0.1.0'
     elif project == 'jmeter':
         return 'v2_13_RC2'
+    elif project == 'camel': #git log --before="2016-04-28"
+        return '017dffc3728e8114e180f64806e0dce8d59dce23'    
+    elif project == 'gerrit':
+        return '8b39fb4bc01809f20a2998c55dede18717682a56'
+    elif project == 'hadoop':
+        return '6f26b665874f923d50087f68357ac822fa9fe709'
+    elif project == 'log4j':
+        return '7be00eed88152dd011a619e8bae5a631235c3f4c'
+    elif project == 'tomcat':
+        return '1a1adb39819b3181c448bd7aaf2516bb92cb7a35'
     else:
-        raise ValueError(project + "is not defined in this function") 
+        raise ValueError(project + " is not defined in this function") 
 
 def get_func_signature(func_name, func_parameter_list):
     if func_parameter_list == "":
         return func_name + "()"
     
     func_parameter_list = func_parameter_list.rstrip() # drop blank
-    print func_parameter_list
+    print "    get_func_sig 1"
+    print "        " + func_parameter_list
     params = func_parameter_list.split(', ')
     signature = func_name + "("
     param = []
     for temp in params:
         temp = re.sub(r'^final ', "", temp) # remove final
-        temp = re.search(r'(.*)\s+.*', temp).group(1)
+        m = re.search(r'(.*)\s+.*', temp)
+        
+        if m != None:
+            temp = m.group(1)
+        
         temp = temp.replace(" ", "") # remove blank
         
         if temp.count("<"):
-            temp = temp + ">"
-            print "========> " + temp
+            if temp.count(">") == 0:
+                temp = temp + ">"
+                print "========> " + temp
 
         param.append(temp)
     signature = signature + ",".join(param) + ")"
     
-    print signature
-    
+    signature = signature.replace("/*","")
+    signature = signature.replace("*/","")
+
+    print "    get_func_sig 2"    
+    print "        " +  signature
+     
     return signature
 
 count = 0   
@@ -59,10 +79,15 @@ with open(s.debt_file) as csvfile:
     fo_interest = open (s.interest_file, 'w')
     fo_interest.write("#".join(["Project","Type","File_Name","Method_Signature","v1","v1_date","v2","v2_date","version_name","CountInput_v1","CountInput_v2","CountOutput_v1","CountOutput_v2","CountLine_v1","CountLine_v2","Cyclomatic_v1","Cyclomatic_v2","MaxNesting_v1","MaxNesting_v2", "Debt", "Intro_ID", "Intro_Comment","Remove_ID","Remove_Comment\n"]))
 
-    #################################################################
-    #for pre-process
-    #################################################################
+    print("#################################################################")
+    print("#for pre-process")
+    print("#################################################################")
     for line in reader:
+        count = count + 1
+        
+        if count < s.START_LOOP:
+            continue
+        
         if count > s.MAX_LOOP:
             break
         
@@ -70,7 +95,6 @@ with open(s.debt_file) as csvfile:
             continue
         
         print line
-        count = count + 1
         project =  line[u'project']
         versions = [] #for git_comments
                 
@@ -93,9 +117,9 @@ with open(s.debt_file) as csvfile:
         csvWriter_comment_file.writerow(debt.out())
     fo_comment_file.close()        
 
-    #################################################################
-    #for read comments
-    #################################################################
+    print("#################################################################")
+    print("#for read comments")
+    print("#################################################################")
     comments_intro = {}
     comments_remove = {}
     with open(s.comment_file) as csv_comment_file:
@@ -108,23 +132,28 @@ with open(s.debt_file) as csvfile:
             comments_intro[line[u'Introduce ID']] = line[u'Introduce Comment']
             comments_remove[line[u'Remove ID']] = line[u'Remove Comment']
 
-    #################################################################
-    #for calculate_interests
-    #################################################################
+    print("#################################################################")
+    print("#for calculate_interests")
+    print("#################################################################")
     print ""
     csvfile.seek(0, 0)
     next(reader)
         
     count = 0    
     for line in reader:
+        count = count + 1
+        
+        if count < s.START_LOOP:
+            continue
+        
         if count > s.MAX_LOOP:
             break
         
         if line[u'comment_location'] != "FUNCTION":
             continue
         
+        print "P1: ",
         print line
-        count = count + 1
         project =  line[u'project']
         td_classification= line[u'td_classification']
 
@@ -145,8 +174,8 @@ with open(s.debt_file) as csvfile:
             
             if idx == "removed_version_commit_hash" and line[u'has_removed_version'] == "f":
                 version = get_latest_version(project)
-                
-        set_metrics = calculate_interests.calculate_interests(project, versions, file_names, function_signatures)
+
+        set_metrics = link_SATD_to_UND.link_SATD_to_UND(project, versions, file_names, function_signatures)
         count_input, count_output, count_line, cyclomatic, max_nesting = set_metrics
         
         debt = line[u'comment_text']

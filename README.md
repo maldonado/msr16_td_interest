@@ -3,7 +3,19 @@ HOME
 - /python_scripts   
     - *.py  
 - /datasets  
-    - CSV/technical_debt_summary.csv  
+    - CSV/classification/
+        - all_automated_classification.csv
+            - $sh merge.sh to genarete it from each project classification.csv  
+        - [PROJECT_NAME]_automated_classification.csv
+            - new datasets provided by Everton
+    - CSV/
+        - comments.csv
+            - includes git comments
+            - it's now unclear how we got
+            - I guess git_comments.py
+        - interest.ssv
+            - includes all metrics to compute interst
+            - the output of run.py 
 - /tags  
      - ant_tags  
      - jmeter_tags    
@@ -13,6 +25,10 @@ HOME
 - /r_scritps  
 
 # How to execute scripts
+- run merge.sh to generate classification.csv
+- run.py executes the following python scripts
+- setting.py indluces directory information
+
 ## To obtain a snapshot of each revesion for the tool "understand"
 - 0. checkRevisions.py
 - 1. runUND.py 
