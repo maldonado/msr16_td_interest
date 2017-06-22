@@ -20,7 +20,7 @@
 \newcommand{\todo}[1]{{\color{green}{\textbf{TODO: [#1]}}}}
 \newcommand{\ea}{{\em et al.}}
 \newcommand{\smallsection}[1]{\vspace{1mm}\noindent {\bf #1}.\hspace{2mm}}
-\newcommand{\emphsection}[1]{\vspace{1mm}\noindent \underline{{\em #1}.}\hspace{2mm}}
+\newcommand{\emphsection}[1]{\vspace{1mm}\noindent \underline{{\em #1}}:\hspace{2mm}}
 
 \newcommand{\revised}[1]{{\color{red}{#1}}}
 \newcommand{\conclusionbox}[1]{%
@@ -133,32 +133,14 @@ The rest of the paper is organized as follows; Section \ref{sec:approach} introd
 \end{figure*}
 %-----------------------------------------------------------------------
 
-\begin{table*}[tb]
-  \caption{Details of studied projects}
-  \label{tab:projects}
-  \centering
-
-  \begin{tabular}{r|rrrr|rrrr}
-  \hline
-\textbf{} & \multicolumn{4}{c|}{\textbf{Project details}} & \multicolumn{4}{c}{\textbf{Comments details}} \\ \cline{2-9}
-\textbf{Project} & \textbf{\# Java} & \textbf{\# SLOC} & \textbf{\# file} & \textbf{\# contributors} & \textbf{\# comments} & \textbf{\# comments} & \textbf{\# TD} & \textbf{\# unique} \\
-\textbf{} & \textbf{files} & & \textbf{versions} & & & \textbf{after filtering} & \textbf{ comments} & \textbf{comments} \\
-  \hline
-Ant        &1,475 & 115,881 & 68,115 & 74 & 1,335,705 & 342,402 & 10,729 &  854  \\
-Hadoop     &8,466 & 996,877 & 79,232 &160 & 2,512,673 & 1,172,051 & 18,927 & 1,164 \\
-JMeter     &1,181 & 81,307  & 38,091 & 33 & 1,033,390 & 441,780 & 21,356 & 1,260 \\
-Log4j      &1,112 & 30,287  & 12,609 & 35 &   248,276 &  61,690 &  1,893 &   135 \\
-Tomcat     &3,187 & 297,828 & 46,716 & 32 & 2,336,653 & 1,081,492 & 26,725 & 1,317 \\
-  \hline
-  \end{tabular}
-\end{table*}
-
 \section{Approach} \label{sec:approach}
 
 \smallsection{1. SATD Extraction}
-In order to measure interest of the TD, our first step is to identify where it exists. Since we focus particularly on SATD, we use code comments found in the source code. 
+In order to measure interest of the TD, our first step is to identify where it exists. Since we focus particularly on SATD, we use code comments found in the source code. We first identify all Java source code files available in the latest version of the project. Then, we analyze the source repository to track all changes done to each file. We take in consideration only the first time that the comment appears on any of the different file versions. This is necessary because the same comment may appear in different versions of the file. 
 
-\todo{We explain the TSE approach here}.~\cite{Maldonado_TSE2017}
+We parse the source code in order to extract the source code comments. We use an open source library SrcML~\cite{Collard_ICSM2013}, which allows us to parse the source code, and extract the comments and the information related to them such as the line that each comment starts, finishes and the type of the comment (i.e., Javadoc, Line or Block). Then, we apply a series of filters to remove irrelevant comments, e.g., copyright-related comments. Finally, we identify SATD using the NLP classifier presented by Maldonado \ea~\cite{Maldonado_TSE2017}. In this study, we assume that SATD exists in the method where the comment is identified. Details regarding the dataset and the filtering applied can be found in our earlier work~\cite{Maldonado_TSE2017}.
+
+\emphsection{NLP classifier} To train the NLP classifier, we use the manually classified SATD comments dataset provided by Maldonado \ea~\cite{Maldonado_TSE2017}. The dataset contains 62,566 comments extracted from ten open source projects. These comments are classified as SATD comments or as regular comments (i.e., comments without SATD). We use the Stanford NLP Classifier~\cite{Manning2014ACL} to classify SATD comments. The NLP Classifier takes classified data items (comments) as input, and automatically learns features (words) from each datum that are associated with positive or negative numeric votes for each class (SATD or not). Then, we apply the trained NLP classifier to classify the extracted comments from our five studied projects.
 
 % \todo{We need to ask Everton about git commonds to find where it was introduced and removed.
 \smallsection{2. Identifying SATD Introduction and Removal}
@@ -172,33 +154,6 @@ The reasons that we focused on complexity and size metrics are: 1) our intuition
 We measured the Spearman correlation between the complexity and size metrics and found that indeed all metrics except Fan-In are highly correlated with LOC. Therefore, we decided to use the LOC metric as a measure of interest. In addition, since Fan-In is an indicator of how much a method is depended on, we decided to also include the Fan-In metric when calculating interest. The intuition being that if a method is depended on lightly when the SATD is introduced and then has many more dependencies in the future, then dealing with this SATD is much more difficult (since many dependencies may be affected). In the end, we settled on using the two metrics, LOC and Fan-In, as measures of interest.
 
 %To calculate interest, we measure product metrics from two versions detected in Step 2 using {\sc Understand}~\cite{Understand}. We choose all metrics (e.g., LOC and Cyclymatic Complexity) that are available at the method-level in {\sc Understand}.
-
-\begin{table}[tb]
-  \caption{The Percentage of SATD that has Positive, Negative and No Change in Interest}
-  \label{tab:percentage}
-  \centering
-
-  \begin{tabular}{cc|p{0.65in}|rrr}
-  \hline
-        & & \textbf{\# SATD instances} & \textbf{Positive} & \textbf{Negative} & \textbf{No Change} \\
-  \hline
-\multirow{2}{*}{Ant} &  LOC  & \multicolumn{1}{r|}{354} &  31.1\%  &  12.7\% & 56.2\%\\
-                   & Fan-In  & \multicolumn{1}{r|}{332} &  23.5\%  &  10.8\% & 65.7\%\\
-  \hline
-\multirow{2}{*}{Hadoop} &  LOC  & \multicolumn{1}{r|}{370} &  28.4\%  &  11.1\% & 60.5\%\\
-                      & Fan-In  & \multicolumn{1}{r|}{360} &  28.1\%  &  12.5\% & 59.4\%\\
-  \hline
-\multirow{2}{*}{JMeter} &  LOC  & \multicolumn{1}{r|}{460} &  25.9\%  &  19.8\% & 54.3\%\\
-                      & Fan-In  & \multicolumn{1}{r|}{425} &  29.2\%  &  9.6\% & 61.2\%\\
-  \hline
-\multirow{2}{*}{Log4j} &  LOC  & \multicolumn{1}{r|}{65} &  10.8\%  &  9.2\% & 80.0\%\\
-                     & Fan-In  & \multicolumn{1}{r|}{57} &  19.3\%  &  8.8\% & 71.9\%\\
-  \hline
-\multirow{2}{*}{Tomcat} &  LOC  & \multicolumn{1}{r|}{655} &  20.6\%  &  12.1\% & 67.3\%\\
-                      & Fan-In  & \multicolumn{1}{r|}{623} &  21.5\%  &  9.8\% & 68.7\%\\
-  \hline
-  \end{tabular}
-\end{table}
 
 \smallsection{4. Calculating Interest}
 Using our metrics, we consider the relative LOC and Fan-In values between the introduced and removed versions as interest. We calculate the interest per SATD instance. For example, if arbitrary metric values in the introduced and removed versions are 10 and 20 in the method where the SATD exists, the relative size is 100 (i.e, $100* \frac{(20-10)}{10}$). In cases where the SATD is not yet removed, we use the numbers from the latest version of JMeter. Our assumption here is that if the SATD incurs positive interest, then it will be more difficult to remove in the future, e.g., if the code becomes more complex compared to when the debt was taken, then it will be more difficult to deal with.
@@ -214,11 +169,85 @@ There exist several previous studies that focused on understanding SATD (e.g., t
 To calculate interest of SATD, we follow the approach we explained in Section \ref{sec:approach}.
 We show the number of SATD, the percentage of the technical debt that has positive interest, and the distribution of interest for technical debt that incurs an positive interest rate.
 
+\begin{table*}[tb]
+  \caption{Details of studied projects}
+  \label{tab:projects}
+  \centering
+
+  \begin{tabular}{r|rrrr|rrrr}
+  \hline
+\textbf{} & \multicolumn{4}{c|}{\textbf{Project details}} & \multicolumn{4}{c}{\textbf{Comments details}} \\ \cline{2-9}
+\textbf{Project} & \textbf{\# Java} & \textbf{\# SLOC} & \textbf{\# file} & \textbf{\# contributors} & \textbf{\# comments} & \textbf{\# comments} & \textbf{\# TD} & \textbf{\# unique TD} \\
+\textbf{} & \textbf{files} & & \textbf{versions} & & & \textbf{after filtering} & \textbf{ comments} & \textbf{comments} \\
+  \hline
+Ant        &1,475 & 115,881 & 68,115 & 74 & 1,335,705 & 342,402 & 10,729 &  854  \\
+Hadoop     &8,466 & 996,877 & 79,232 &160 & 2,512,673 & 1,172,051 & 18,927 & 1,164 \\
+JMeter     &1,181 & 81,307  & 38,091 & 33 & 1,033,390 & 441,780 & 21,356 & 1,260 \\
+Log4j      &1,112 & 30,287  & 12,609 & 35 &   248,276 &  61,690 &  1,893 &   135 \\
+Tomcat     &3,187 & 297,828 & 46,716 & 32 & 2,336,653 & 1,081,492 & 26,725 & 1,317 \\
+  \hline
+  \end{tabular}
+\end{table*}
+
+\begin{table}[tb]
+  \caption{The Percentage of SATD that has Positive, Negative and No Change in Interest}
+  \label{tab:percentage}
+  \centering
+
+  \begin{tabular}{cc|rrr}
+  \hline
+        & & \textbf{Positive} & \textbf{Negative} & \textbf{No Change} \\
+  \hline
+\multirow{2}{*}{Ant} &  LOC  &  31.1\%  &  12.7\% & 56.2\%\\
+                   & Fan-In  &  23.5\%  &  10.8\% & 65.7\%\\
+  \hline
+\multirow{2}{*}{Hadoop} &  LOC  &  28.4\%  &  11.1\% & 60.5\%\\
+                      & Fan-In  &  28.1\%  &  12.5\% & 59.4\%\\
+  \hline
+\multirow{2}{*}{JMeter} &  LOC  &  25.9\%  &  19.8\% & 54.3\%\\
+                      & Fan-In  &  29.2\%  &  9.6\% & 61.2\%\\
+  \hline
+\multirow{2}{*}{Log4j} &  LOC  &  10.8\%  &  9.2\% & 80.0\%\\
+                     & Fan-In  &  19.3\%  &  8.8\% & 71.9\%\\
+  \hline
+\multirow{2}{*}{Tomcat} &  LOC &  20.6\%  &  12.1\% & 67.3\%\\
+                      & Fan-In &  21.5\%  &  9.8\% & 68.7\%\\
+  \hline
+  \end{tabular}
+\end{table}
+
 \smallsection{Datasets}
-To conduct our case study, we collect data from six open source software projects (Apache Ant, Hadoop, JMeter, Log4j, Tomcat). All of them use Git as the version control system, which many of our tools are designed to work on. 
-\todo{We need to know the updated information: In particular, we use release v2.10 of JMeter, which contains 81,307 SLOC in 1,181 classes, contains 20,084 comments, and has 33 unique contributors.}
+To conduct our case study, we collect data from six open source software projects (Apache Ant, Hadoop, JMeter, Log4j, Tomcat). All of them use Git as the version control system, which many of our tools are designed to work on. Table~\ref{tab:projects} shows details of studied projects. We cloned Git repositories from the selected projects on May 1st 2016. 
 
 \smallsection{Results}
+Table~\ref{tab:percentage} shows the percentage of the technical debt that has positive interest in all technical debt. The table shows that 10.8\%--31.1\% of technical debt incurs a positive interest rate in terms of LOC and 19.3\%--28.1\% of the SATD has it in terms of Fan-In. We can see that in some cases, there can be negative interest (9.2\%--19.8\% using LOC and 8.8\%--12.5\% using Fan-In), where the SATD method gets smaller or have less Fan-In after the introduction of the SATD. There are also cases where nothing changes in terms of LOC and Fan-In between the SATD introduction and removal. Lastly, it is important to note that there is not large difference between in the amount of positive and no change interest rates using LOC and Fan-In, except the Log4j project. 
+
+
+Next, we would like to know how high is the positive interest rate. This analysis provides us with more insight about the SATD that incurs a positive interest rate.
+Table \ref{tab:statistic} shows that the distribution of interest for the SATD that incurs a positive rate. We see that the distributions are left-skewed, indicating that the majority of the SATD ranges between 5.3--27.3 and 35.8--100.0 in terms of LOC and Fan-In. Our findings clearly indicate that there is SATD that incurs a positive interest rate and have different values of interest, which shows that we should be prioritizing SATD based on its interest, i.e., all SATD is not equal.
+
+\conclusionbox{
+10.8\%--31.1\% of technical debt incurs a positive rate in terms of LOC and 19.3\%--28.1\% of technical debt incurs it in terms of Fan-In.}
+
+\section{Discussion} \label{sec:discussion}
+\subsection{SATD vs. Non-SATD}
+Generally speaking, software systems are always evolving over time for implementing new functionality and fixing defects~\cite{Robles_IWPSE2005}.
+Therefore, even if the size of technical debt increases, it is not clear about how the nature of software evaluation affects the interest of technical debt.
+We would like to compare the impact of software evolution on methods in two groups of SATD v.s. non-SATD.
+
+\smallsection{Approach}
+We compare the interest of methods between SATD and non-SATD.
+We conduct the following steps:
+\begin{itemize}
+\item [S1:]  We obtain the list of files that include SATD. % from technical_debt_summary.csv
+\item [S2:] We extract methods that do not include SATD in the files that we obtained in S1. % see .method-level.product.csv
+\item [S3:] We measure metrics for the methods that we extracted in S2 at two versions that technical debt is introduced and removed. We only use the methods that can be found at the two versions.
+\item [S4:] We calculate interest using the metrics measured in S3.
+\end{itemize}
+% What do we need to do some pre-condition for this analysis?
+
+\smallsection{Result}
+Table \ref{tab:percentage_non-SATD} shows the percentage of non-SATD that has positive, negative, and no change in interest. When we comparing the results of non-SATD (Table \ref{tab:percentage_non-SATD}) with SATD (Table \ref{tab:percentage}), we find that the positive rate of interest for SATD is larger than non-SATD in all cases except Log4j in according to LOC. We believe that this is one of evidence that SATD is likely to incur positive interest than non-SATD when considering the factor of software evolution.
 
 \begin{table}[tb]
   \caption{Statistics of the SATD that incurs a positive rate}
@@ -227,7 +256,7 @@ To conduct our case study, we collect data from six open source software project
 
   \begin{tabular}{cc|rrrrr}
   \hline
-        & \textbf{Min.} & \textbf{1st Qu.} & \textbf{Median} & \textbf{3rd Qu.} & \textbf{Max.} \\
+      &  & \textbf{Min.} & \textbf{1st Qu.} & \textbf{Median} & \textbf{3rd Qu.} & \textbf{Max.} \\
   \hline
 \multirow{2}{*}{Ant} &    LOC  & 0.6 &  5.9  &  16.5  &  35.8  &  157.4 \\
                      & Fan-In  & 4.0 & 20.3  &  33.3  &  78.8  &  600.0 \\
@@ -246,16 +275,6 @@ To conduct our case study, we collect data from six open source software project
   \hline
   \end{tabular}
 \end{table}
-
-\conclusionbox{
-10.8\%--31.1\% of technical debt incurs a positive rate in terms of LOC and 19.3\%--28.1\% of technical debt incurs it in terms of Fan-In.}
-
-\section{Discussion} \label{sec:discussion}
-\subsection{SATD vs. Non-SATD}
-Generally speaking, software systems are always evolving over time for implementing new functionality and fixing defects~\cite{Robles_IWPSE2005}.
-Therefore, even if the size of technical debt increases, it is not clear about how the nature of software evaluation affects the interest of technical debt.
-We would like to compare the impact of software evolution on methods in two groups of SATD v.s. non-SATD.
-
 
 \begin{table}[tb]
   \caption{The Percentage of Non-SATD that has Positive, Negative and No Change in Interest}
@@ -284,22 +303,7 @@ We would like to compare the impact of software evolution on methods in two grou
   \end{tabular}
 \end{table}
 
-
-\smallsection{Approach}
-We compare the interest of methods between SATD and non-SATD.
-We conduct the following steps:
-\begin{itemize}
-\item [Step 1] We obtain the list of files that include SATD. % from technical_debt_summary.csv
-\item [Step 2] We extract methods that do not include SATD in the files that we obtained in Step 1. % see .method-level.product.csv
-\item [Step 3] We measure metrics for the methods that we extracted in Step 2 at two versions that technical debt is introduced and removed. We only use the methods that can be found at the two versions.
-\item [Step 4] We calculate interest using metrics measured in Step 3.
-\end{itemize}
-% What do we need to do some pre-condition for this analysis?
-
-\smallsection{Result}
-Comparing the results of SATD (Table \ref{tab:percentage}) with non-SATD (Table \ref{tab:percentage_non-SATD}), we find that the positive rate of interest for SATD is larger than non-SATD in all cases except Log4j in according to LOC. We believe that this is one of evidense that SATD is likely to incur positive interest than non-SATD.
-
-\begin{table}[t]
+\begin{table*}[tb]
   \caption{The Percentage of Software Development Activities when SATD is Introduced/Removed}
   \label{tab:percentage_activities} 
   \centering
@@ -317,20 +321,24 @@ Comparing the results of SATD (Table \ref{tab:percentage}) with non-SATD (Table 
   Others      &   4\%  &   0\% &  \textit{Sometimes my brain just breaks...} (jmeter -- 5c21be0) \\
   \hline
   \end{tabular}
-\end{table}
+\end{table*}
 
 \subsection{Manual Analysis}
 \smallsection{Motivation}
 The interest varies among technical debt. If we can understand the reason why some of technical debt has large interest, we can make use of such insights for future development. Therefore, in this RQ, we would like to manually investigate why some of technical debt has large interest.
+
 
 \smallsection{Approach}
 To understand why technical debt is removed, we manually inspect commit messages that introduce and remove technical debt. We choose the top 50 SATD by sorting SATD by interest in decreasing order.
 
 %To highlight the characteristics of technical debt that has large interest, we compare low interest technical debt with high interest technical debt.
 
+
+
 \smallsection{Results}
 Table \ref{tab:percentage_activities} shows the classification we conducted for top 50 SATD.
 New feature is top development activities in according to SATD introduction. When developers implement new feature, they are not likely to finish implementing the new feature by one commit because of time pressure. The developers often mention "TODO" or other words for the part where they will work later. For example, the commit dbecbe5 in the Hadoop project, which implements MapReduce 2.0, adds SATD "// TODO gross hack". The developer notices that the implementation is not perfect, but conducts such workaround to save his/her development time.
+
 
 Interestingly, refactoring is the top development activities when SATD is removed. When developers actually work on refactoring, they also fix SATD. For example, the commit c77f96a, which is categorized as refactoring, in the Tomcat project mentions "Drop tomcat-lite module. It never saw a release and has not seen meaningful development for over 4 years. "
 
