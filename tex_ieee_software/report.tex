@@ -151,6 +151,11 @@ Since we are interested in measuring the interest, we need to determine the `cha
 \smallsection{3. Determining Metrics that Measure Interest}
 Once we are able to determine the SATD comments and their associated methods, we would like to calculate the interest that is incurred over time (i.e., from the introduction of the technical debt to its removal). To do so, we extracted 16 code metrics using the {\sc Understand Tool}~\cite{Understand}. In particular, we selected all method-level complexity and size metrics that Understand is able to provide.
 
+\input{table/projects}
+\input{table/interest}
+\input{table/positive_rate}
+
+
 The reasons that we focused on complexity and size metrics are: 1) our intuition tells us that if a piece of code is introduced and then becomes more complex, then that is a good proxy for it being more difficult to deal with in the future, i.e., it incurred interest; and 2) prior work has shown that size metrics are typically highly correlated with complexity metrics, hence, we figured using size metrics (if they are highly correlated with complexity metrics in our case) would be an easier alternative to using complexity metrics.
 
 We measured the Spearman correlation between the complexity and size metrics and found that indeed all metrics except Fan-In are highly correlated with LOC. Therefore, we decided to use the LOC metric as a measure of interest. In addition, since Fan-In is an indicator of how much a method is depended on, we decided to also include the Fan-In metric when calculating interest. The intuition being that if a method is depended on lightly when the SATD is introduced and then has many more dependencies in the future, then dealing with this SATD is much more difficult (since many dependencies may be affected). In the end, we settled on using the two metrics, LOC and Fan-In, as measures of interest.
@@ -160,8 +165,7 @@ We measured the Spearman correlation between the complexity and size metrics and
 \smallsection{4. Calculating Interest}
 Using our metrics, we consider the relative LOC and Fan-In values between the introduced and removed versions as interest. We calculate the interest per SATD instance. For example, if arbitrary metric values in the introduced and removed versions are 10 and 20 in the method where the SATD exists, the relative size is 100 (i.e, $100* \frac{(20-10)}{10}$). In cases where the SATD is not yet removed, we use the numbers from the latest version of JMeter. Our assumption here is that if the SATD incurs positive interest, then it will be more difficult to remove in the future, e.g., if the code becomes more complex compared to when the debt was taken, then it will be more difficult to deal with.
 
-While the paper tackles the research topic that accelerates a new research direction (i.e., quantifying interest of SATD), it also has the weakness of our current approach. We elaborate on the weakness of our current approach in Section \ref{conclusion}.
-
+While the paper tackles the research topic that accelerates a new research direction (i.e., quantifying interest of SATD), it also has the weakness of our current approach. We elaborate on the weakness of our current approach in Section \ref{limitations}.
 
 \section{Case Study} \label{sec:results}
 \smallsection{Motivation}
@@ -170,53 +174,6 @@ There exist several previous studies that focused on understanding SATD (e.g., t
 \smallsection{Approach}
 To calculate interest of SATD, we follow the approach we explained in Section \ref{sec:approach}.
 We show the number of SATD, the percentage of the technical debt that has positive interest, and the distribution of interest for technical debt that incurs an positive interest rate.
-
-\begin{table*}[tb]
-  \caption{Details of studied projects}
-  \label{tab:projects}
-  \centering
-
-  \begin{tabular}{r|rrrr|rrrr}
-  \hline
-\textbf{} & \multicolumn{4}{c|}{\textbf{Project details}} & \multicolumn{4}{c}{\textbf{Comments details}} \\ \cline{2-9}
-\textbf{Project} & \textbf{\# Java} & \textbf{\# SLOC} & \textbf{\# file} & \textbf{\# contributors} & \textbf{\# comments} & \textbf{\# comments} & \textbf{\# TD} & \textbf{\# unique TD} \\
-\textbf{} & \textbf{files} & & \textbf{versions} & & & \textbf{after filtering} & \textbf{ comments} & \textbf{comments} \\
-  \hline
-Ant        &1,475 & 115,881 & 68,115 & 74 & 1,335,705 & 342,402 & 10,729 &  854  \\
-Hadoop     &8,466 & 996,877 & 79,232 &160 & 2,512,673 & 1,172,051 & 18,927 & 1,164 \\
-JMeter     &1,181 & 81,307  & 38,091 & 33 & 1,033,390 & 441,780 & 21,356 & 1,260 \\
-Log4j      &1,112 & 30,287  & 12,609 & 35 &   248,276 &  61,690 &  1,893 &   135 \\
-Tomcat     &3,187 & 297,828 & 46,716 & 32 & 2,336,653 & 1,081,492 & 26,725 & 1,317 \\
-  \hline
-  \end{tabular}
-\end{table*}
-
-\begin{table}[tb]
-  \caption{The Percentage of SATD that has Positive, Negative and No Change in Interest}
-  \label{tab:percentage}
-  \centering
-
-  \begin{tabular}{cc|rrr}
-  \hline
-        & & \textbf{Positive} & \textbf{Negative} & \textbf{No Change} \\
-  \hline
-\multirow{2}{*}{Ant} &  LOC  &  31.1\%  &  12.7\% & 56.2\%\\
-                   & Fan-In  &  23.5\%  &  10.8\% & 65.7\%\\
-  \hline
-\multirow{2}{*}{Hadoop} &  LOC  &  28.4\%  &  11.1\% & 60.5\%\\
-                      & Fan-In  &  28.1\%  &  12.5\% & 59.4\%\\
-  \hline
-\multirow{2}{*}{JMeter} &  LOC  &  25.9\%  &  19.8\% & 54.3\%\\
-                      & Fan-In  &  29.2\%  &  9.6\% & 61.2\%\\
-  \hline
-\multirow{2}{*}{Log4j} &  LOC  &  10.8\%  &  9.2\% & 80.0\%\\
-                     & Fan-In  &  19.3\%  &  8.8\% & 71.9\%\\
-  \hline
-\multirow{2}{*}{Tomcat} &  LOC &  20.6\%  &  12.1\% & 67.3\%\\
-                      & Fan-In &  21.5\%  &  9.8\% & 68.7\%\\
-  \hline
-  \end{tabular}
-\end{table}
 
 \smallsection{Datasets}
 To conduct our case study, we collect data from six open source software projects (Apache Ant, Hadoop, JMeter, Log4j, Tomcat). All of them use Git as the version control system, which many of our tools are designed to work on. Table~\ref{tab:projects} shows details of studied projects. We cloned Git repositories from the selected projects on May 1st 2016. 
@@ -251,79 +208,8 @@ We conduct the following steps:
 \smallsection{Result}
 Table \ref{tab:percentage_non-SATD} shows the percentage of non-SATD that has positive, negative, and no change in interest. When we comparing the results of non-SATD (Table \ref{tab:percentage_non-SATD}) with SATD (Table \ref{tab:percentage}), we find that the positive rate of interest for SATD is larger than non-SATD in all cases except Log4j in according to LOC. We believe that this is one of evidence that SATD is likely to incur positive interest than non-SATD when considering the factor of software evolution.
 
-\begin{table}[tb]
-  \caption{Statistics of the SATD that incurs a positive rate}
-  \label{tab:statistic}
-  \centering
-
-  \begin{tabular}{cc|rrrrr}
-  \hline
-      &  & \textbf{Min.} & \textbf{1st Qu.} & \textbf{Median} & \textbf{3rd Qu.} & \textbf{Max.} \\
-  \hline
-\multirow{2}{*}{Ant} &    LOC  & 0.6 &  5.9  &  16.5  &  35.8  &  157.4 \\
-                     & Fan-In  & 4.0 & 20.3  &  33.3  &  78.8  &  600.0 \\
-  \hline
-\multirow{2}{*}{Hadoop} & LOC  & 0.3 &  8.7  &  25.0  &   57.1 &  283.3 \\
-                     & Fan-In  & 2.9 & 20.0  &  40.0  &  100.0 &  666.7 \\
-  \hline
-\multirow{2}{*}{JMeter} & LOC  & 0.5 &  6.7  &  18.2  &   49.5 &  200.0 \\
-                     & Fan-In  & 5.9 & 16.7  &  29.7  &   63.5 &  500.0 \\
-  \hline
-\multirow{2}{*}{Log4j} &  LOC  &  4.7 &  29.5 &  40.7  &   52.7 &   63.4 \\
-                     & Fan-In  & 11.1 &  27.6 &  50.0  &  100.0 &  200.0 \\
-  \hline
-\multirow{2}{*}{Tomcat} & LOC  & 0.4 &  5.3  &  13.6  &   38.7 &  433.3 \\
-                     & Fan-In  & 2.0 & 16.7  &  28.6  &   66.7 &  469.2 \\
-  \hline
-  \end{tabular}
-\end{table}
-
-\begin{table}[tb]
-  \caption{The Percentage of Non-SATD that has Positive, Negative and No Change in Interest}
-  \label{tab:percentage_non-SATD} 
-  \centering
-
-  \begin{tabular}{cc|p{0.65in}|rrr}
-  \hline
-        & & \textbf{\# non-SATD instances} & \textbf{Positive} & \textbf{Negative} & \textbf{No Change} \\
-  \hline
-\multirow{2}{*}{Ant} &  LOC  & \multicolumn{1}{r|}{5,273} &  14.8\%  &  6.8\% & 78.4\%\\
-                   & Fan-In  & \multicolumn{1}{r|}{4,924} &  8.6\%  &  5.1\% & 86.3\%\\
-  \hline
-\multirow{2}{*}{Hadoop} &  LOC  & \multicolumn{1}{r|}{11,247} &  11.0\%  &  4.8\% & 84.2\%\\
-                      & Fan-In  & \multicolumn{1}{r|}{10,712} &  17.6\%  &  6.9\% & 75.5\%\\
-  \hline
-\multirow{2}{*}{JMeter} &  LOC  & \multicolumn{1}{r|}{8,116} &  12.9\%  &  13.1\% & 74.0\%\\
-                      & Fan-In  & \multicolumn{1}{r|}{7,566} &  16.4\%  &  6.6\% & 77.0\%\\
-  \hline
-\multirow{2}{*}{Log4j} &  LOC  & \multicolumn{1}{r|}{1,387} &  11.5\%  &  5.9\% & 82.6\%\\
-                     & Fan-In  & \multicolumn{1}{r|}{1,225} &  14.0\%  &  7.3\% & 78.7\%\\
-  \hline
-\multirow{2}{*}{Tomcat} &  LOC  & \multicolumn{1}{r|}{17,769} &  6.7\%  &  4.6\% & 88.7\%\\
-                      & Fan-In  & \multicolumn{1}{r|}{16,487} &  11.0\%  &  5.0\% & 84.0\%\\
-  \hline
-  \end{tabular}
-\end{table}
-
-\begin{table*}[tb]
-  \caption{The Percentage of Software Development Activities when SATD is Introduced/Removed}
-  \label{tab:percentage_activities} 
-  \centering
-
-  \begin{tabular}{l|r|r|p{2.80in}}
-  \hline
-       \textbf{Reason} & \textbf{Intro} & \textbf{Removal} & \textbf{Examples} \\
-  \hline
-  Documentation & 2\%  &   4\% &  \textit{Starting the long road of javadoc updates} (jmeter -- 71f6e34), \textit{Better documentation.} (tomcat -- b51444a) \\
-  Fix issues  &  18\%  &  23\% &  \textit{fix sizing issue when db is restarted fix JMX domain name fix exception handling} (tomcat -- 525865e). \\
-  New Feature &  36\%  &   8\% &  \textit{HADOOP-9035. Generalize setup of LoginContext (daryn via bobby)} (hadoop -- 86ce5f6) \\
-  Performance &   4\%  &   4\% &  \textit{Do not use Reader and Writer classes for writing response, because [...]} (jmeter -- f88f44b) \textit{HDFS-3726. [...] This isn't critical for correctness but will help reduce log spew on both sides.} (hadoop -- cae8116) \\ 
-  Refactoring &  30\%  &  54\% &  \textit{moved some code within the acivation area into new methods.} (log4j -- 765875d) \\
-  Testing     &   6\%  &   8\% &  \textit{Correctly define the ROOT context in unit tests} (tomcat -- a2153a3) \\
-  Others      &   4\%  &   0\% &  \textit{Sometimes my brain just breaks...} (jmeter -- 5c21be0) \\
-  \hline
-  \end{tabular}
-\end{table*}
+\input{table/non_satd}
+\input{table/classification}
 
 \subsection{Quantitative Analysis}
 \smallsection{Motivation}
@@ -339,7 +225,7 @@ Table \ref{tab:percentage_activities} shows the classification we conducted for 
 
 On the other hand, in according to SATD introduction, new feature is top development activities. When developers implement new feature, they are not likely to finish implementing the new feature by one commit because of time pressure. The developers often mention "TODO" or other words for the part where they will work later. For example, the commit dbecbe5 in the Hadoop project, which implements MapReduce 2.0, adds SATD "// TODO gross hack". The developer notices that the implementation is not perfect, but conducts such workaround to save his/her development time.
 
-\subsection{Limitations} 
+\subsection{Limitations} \label{limitations}
 There are a number of limitations to our study. First, we rely on the NLP classification to determine SATD. This approach is not perfect, achieving an average precision of 0.72 and recall of 0.56~\cite{Maldonado_TSE2017}. Although the precision and recall values are not very high, the NLP technique is considered the state-of-the-art in detecting self-admitted technical debt. Also, the commits were manually classified by the first author. Like any human activity, this process is susceptible to human error. To reduce this bias, the third author validates whether or not the classification results are categorized into an appropriate reason. Lastly, our study is based on open source projects, therefore, our study may not generalize to other open source or commercial projects.
 
 \section{Conclusion} \label{sec:conclusion}
