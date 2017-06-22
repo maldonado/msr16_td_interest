@@ -85,14 +85,16 @@ e\_silvam@encs.concordia.ca\\
 
 
 \begin{abstract}
-Abst
-
+Technical debt refers to the phenomena of taking shortcuts to achieve short term gain at the cost of higher maintenance efforts in the future.
+Although approaches were developed to detect technical debt through source code comments (i.e., SATD: Self-Admitted Technical Debt), 
+the concept of debt, in particular, the cost of debt has not been widely studied.
+Therefore, the goal of this paper is to determine ways to measure the ‘interest’ on the debt and use these measures to see how much of the technical debt incurs positive interest, i.e., debt that indeed costs more to pay off in the future. To measure interest, we use the LOC and Fan-In measures. We perform a case study on five open source software projects (Ant, Hadoop, JMeter, Log4j, Tomcat). 
+We find that that 10.8\%--31.1\% of technical debt has a positive rate in terms of LOC and 19.3\%--28.1\% of technical debt has it in terms of Fan-In. We should be prioritizing SATD based on its interest, since all SATD is not equal.
 
 \end{abstract}
 
 \begin{IEEEkeywords}
-Keywords;
-
+Technical Debt, Software Metrics, Cost, Interest
 \end{IEEEkeywords}
 
 \IEEEpeerreviewmaketitle
@@ -323,36 +325,33 @@ Table \ref{tab:percentage_non-SATD} shows the percentage of non-SATD that has po
   \end{tabular}
 \end{table*}
 
-\subsection{Manual Analysis}
+\subsection{Quantitative Analysis}
 \smallsection{Motivation}
 The interest varies among technical debt. If we can understand the reason why some of technical debt has large interest, we can make use of such insights for future development. Therefore, in this RQ, we would like to manually investigate why some of technical debt has large interest.
 
-
 \smallsection{Approach}
-To understand why technical debt is removed, we manually inspect commit messages that introduce and remove technical debt. We choose the top 50 SATD by sorting SATD by interest in decreasing order.
+To understand why high interest technical debt is introduced and removed, we manually inspect commit messages that introduce and remove technical debt. We choose the top 50 SATD by sorting SATD by Fan-in interest in decreasing order across five projects.
 
 %To highlight the characteristics of technical debt that has large interest, we compare low interest technical debt with high interest technical debt.
 
-
-
 \smallsection{Results}
-Table \ref{tab:percentage_activities} shows the classification we conducted for top 50 SATD.
-New feature is top development activities in according to SATD introduction. When developers implement new feature, they are not likely to finish implementing the new feature by one commit because of time pressure. The developers often mention "TODO" or other words for the part where they will work later. For example, the commit dbecbe5 in the Hadoop project, which implements MapReduce 2.0, adds SATD "// TODO gross hack". The developer notices that the implementation is not perfect, but conducts such workaround to save his/her development time.
+Table \ref{tab:percentage_activities} shows the classification we conducted for top 50 SATD. Interestingly, refactoring is the top development activities when SATD is removed. When developers actually work on refactoring, they also fix SATD. For example, the commit c77f96a, which is categorized as refactoring, in the Tomcat project mentions "Drop tomcat-lite module. It never saw a release and has not seen meaningful development for over 4 years."
 
+On the other hand, in according to SATD introduction, new feature is top development activities. When developers implement new feature, they are not likely to finish implementing the new feature by one commit because of time pressure. The developers often mention "TODO" or other words for the part where they will work later. For example, the commit dbecbe5 in the Hadoop project, which implements MapReduce 2.0, adds SATD "// TODO gross hack". The developer notices that the implementation is not perfect, but conducts such workaround to save his/her development time.
 
-Interestingly, refactoring is the top development activities when SATD is removed. When developers actually work on refactoring, they also fix SATD. For example, the commit c77f96a, which is categorized as refactoring, in the Tomcat project mentions "Drop tomcat-lite module. It never saw a release and has not seen meaningful development for over 4 years. "
-
-\subsection{Threats to Validity} 
-\todo{discuss threats to validity}
+\subsection{Limitations} 
+There are a number of limitations to our study. First, we rely on the NLP classification to determine SATD. This approach is not perfect, achieving an average precision of 0.72 and recall of 0.56~\cite{Maldonado_TSE2017}. Although the precision and recall values are not very high, the NLP technique is considered the state-of-the-art in detecting self-admitted technical debt. Also, the commits were manually classified by the first author. Like any human activity, this process is susceptible to human error. To reduce this bias, the third author validates whether or not the classification results are categorized into an appropriate reason. Lastly, our study is based on open source projects, therefore, our study may not generalize to other open source or commercial projects.
 
 \section{Conclusion} \label{sec:conclusion}
+In this paper, we introduced an approach to quantify interest of SATD. Our proposed approach uses software product metrics to lead to measure the interest from software projects.
+The results of our case study using five OSS projects show that 10.8\%--31.1\% of technical debt has a positive rate in terms of LOC and 19.3\%--28.1\% of technical debt has it in terms of Fan-In. This finding indicates that that we should be prioritizing SATD based on its interest, i.e., all SATD is not equal.
+
+In the future, we plan to implement a tool that automatically calculate 
+the interest of SATD and helps practitioners better understand the impact of SATD on their development process.
 
 \balance
 \bibliographystyle{abbrv}
 \bibliography{reference}
-
-
-
 
 % that's all folks
 \end{document}
