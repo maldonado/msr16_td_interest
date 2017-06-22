@@ -46,13 +46,11 @@
 
 \begin{document}
 
-\title{Using Analytics to Quantify the Interest of Self-Admitted Technical Debt}
+\title{Quantifying the Interest of Self-Admitted Technical Debt: A Study using Software Metrics}
 
 % author names and affiliations
 % use a multiple column layout for up to two different
 % affiliations
-
-
 
 %\begin{comment}
 \author{\IEEEauthorblockN{Yasutaka Kamei}
@@ -112,15 +110,12 @@ Although the metaphor of technical debt has been well studied, to the best of ou
 We investigate the use of code metrics, in particular the well-known Lines of Code (LOC) and Fan-In, to measure interest. We use LOC since it highly correlates with most code complexity metrics and Fan-In\footnote{{\sc Understand} calculates Fan-In as the number of inputs a function uses plus the number of unique subprograms calling the function~\cite{FANIN}.} since it allows us to measure how much a piece of code is depended on by other code. Then, we use the developed measure to determine how much of the SATD incurs positive interest. 
 %In a case study on the Apache JMeter project, we find that using LOC, 44.2\% and using Fan-In 42.2\% of the SATD in JMeter incurs positive interest.
 
-\revised{This paper is an extended version of our earlier workshop paper~\cite{Kamei2016TDA}. We extend our previous work by:}
+This paper is an extended version of our earlier workshop paper~\cite{Kamei2016TDA}. We extend our previous work by:
 
-\revised{
 \begin{itemize}
-\item We use the state-of-art approach~\cite{Maldonado_TSE2017}, which has been recently published, based on natural language processing to detect SATD.
 \item We conduct our case study using the data sets that are collected from five open source software projects.
 \item We perform deeper analysis to discuss (1) what is the difference  between the interest of SATD and non-SATD (2) how the SATD that incurs large positive interest is introduced in development process.  
 \end{itemize}
-}
 
 % Organization of the paper
 The rest of the paper is organized as follows; Section \ref{sec:approach} introduces our approach to quantify interest of SATD. Section \ref{sec:results} describes a study using the developed measure and Section \ref{sec:discussion} presents our discussion. Finally, Section \ref{sec:conclusion} draws conclusions and our future work.
@@ -136,6 +131,7 @@ The rest of the paper is organized as follows; Section \ref{sec:approach} introd
 %-----------------------------------------------------------------------
 
 \section{Approach} \label{sec:approach}
+In order to conduct our case study, we need to extract SATD from source code comment and identify SATD introduction and removal. Then, we determined metrics that measure interest. Figure \ref{fig:overview} shows the overview of our approach. Below, we describe each step in our approach.
 
 \smallsection{1. SATD Extraction}
 In order to measure interest of the TD, our first step is to identify where it exists. Since we focus particularly on SATD, we use code comments found in the source code. We first identify all Java source code files available in the latest version of the project. Then, we analyze the source repository to track all changes done to each file. We take in consideration only the first time that the comment appears on any of the different file versions. This is necessary because the same comment may appear in different versions of the file. 
@@ -151,9 +147,9 @@ Since we are interested in measuring the interest, we need to determine the `cha
 \smallsection{3. Determining Metrics that Measure Interest}
 Once we are able to determine the SATD comments and their associated methods, we would like to calculate the interest that is incurred over time (i.e., from the introduction of the technical debt to its removal). To do so, we extracted 16 code metrics using the {\sc Understand Tool}~\cite{Understand}. In particular, we selected all method-level complexity and size metrics that Understand is able to provide.
 
-\input{table/projects}
-\input{table/interest}
-\input{table/positive_rate}
+\input{tables/projects}
+\input{tables/interest}
+\input{tables/positive_rate}
 
 
 The reasons that we focused on complexity and size metrics are: 1) our intuition tells us that if a piece of code is introduced and then becomes more complex, then that is a good proxy for it being more difficult to deal with in the future, i.e., it incurred interest; and 2) prior work has shown that size metrics are typically highly correlated with complexity metrics, hence, we figured using size metrics (if they are highly correlated with complexity metrics in our case) would be an easier alternative to using complexity metrics.
@@ -194,6 +190,9 @@ Generally speaking, software systems are always evolving over time for implement
 Therefore, even if the size of technical debt increases, it is not clear about how the nature of software evaluation affects the interest of technical debt.
 We would like to compare the impact of software evolution on methods in two groups of SATD v.s. non-SATD.
 
+\input{tables/non_satd}
+\input{tables/classification}
+
 \smallsection{Approach}
 We compare the interest of methods between SATD and non-SATD.
 We conduct the following steps:
@@ -207,9 +206,6 @@ We conduct the following steps:
 
 \smallsection{Result}
 Table \ref{tab:percentage_non-SATD} shows the percentage of non-SATD that has positive, negative, and no change in interest. When we comparing the results of non-SATD (Table \ref{tab:percentage_non-SATD}) with SATD (Table \ref{tab:percentage}), we find that the positive rate of interest for SATD is larger than non-SATD in all cases except Log4j in according to LOC. We believe that this is one of evidence that SATD is likely to incur positive interest than non-SATD when considering the factor of software evolution.
-
-\input{table/non_satd}
-\input{table/classification}
 
 \subsection{Quantitative Analysis}
 \smallsection{Motivation}
