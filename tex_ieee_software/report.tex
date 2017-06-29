@@ -219,21 +219,32 @@ Our finding shows that there is evidence that SATD functions have a higher chanc
 %We believe that this is one of evidence that SATD is likely to incur positive interest than non-SATD when considering the factor of software evolution.
 
 \subsection{Examining Activities that Lead to the Introduction and Removal of High-interest SATD}
-\smallsection{Motivation}
-The interest varies among technical debt. If we can understand the reason why some of technical debt has large interest, we can make use of such insights for future development. Therefore, in this RQ, we would like to manually investigate why some of technical debt has large interest.
 
-\smallsection{Approach}
-To understand why high interest technical debt is introduced and removed, we manually inspect commit messages that introduce and remove technical debt. We choose the top 50 SATD by sorting SATD by Fan-in interest in decreasing order across five projects.
+%\smallsection{Motivation}
+We have seen that not all SATD incurs positive interest. However, the million dollar question becomes ``what activities lead to the introduction (and removal) of high-interest SATD?''. Answering this question will help us better understand the activities that need to be carefully scrutinized (the case of the introduction of high-interest SATD) and activities that can be encouraged to remove high-interest SATD.
+
+
+%The interest varies among technical debt. If we can understand the reason why some of technical debt has large interest, we can make use of such insights for future development. Therefore, in this RQ, we would like to manually investigate why some of technical debt has large interest.
+
+%\smallsection{Approach}
+
+To perform our examination, we manually inspected the commits and commit messages of the top 50 highest-interest SATD instances. The sample was based on the interest calculated using Fan-in \emad{why not LOC?}, and included instances from all five projects.
+
+%that introduce and remove technical debt. We choose the top 50 SATD by sorting SATD by Fan-in interest in decreasing order across five projects.
 
 %To highlight the characteristics of technical debt that has large interest, we compare low interest technical debt with high interest technical debt.
 
 \smallsection{Results}
-Table \ref{tab:percentage_activities} shows the classification we conducted for top 50 SATD. Interestingly, refactoring is the top development activities when SATD is removed. When developers actually work on refactoring, they also fix SATD. For example, the commit c77f96a, which is categorized as refactoring, in the Tomcat project mentions "Drop tomcat-lite module. It never saw a release and has not seen meaningful development for over 4 years."
+Table \ref{tab:percentage_activities} shows the classification we conducted for top 50 SATD. We find that the largest percentage of high-interest SATD is introduced during the introduction of new features. When developers implement new feature, they tend to not completely finish implementing the new feature in one commit (due to  time pressures, for example). The developers often mention "TODO" or other similar wording to remind them to finish the work later. For example, the commit dbecbe5 in the Hadoop project, which implements MapReduce 2.0, adds SATD "// TODO gross hack". The developer notices that the implementation is not perfect, but conducts such workaround to save his/her development time. Other activities such as refactoring and fixing issues (bugs) are also reasons for the introduction of high-interest SATD. \emad{Yasu, should we add some examples for these two?}
 
-On the other hand, in according to SATD introduction, new feature is top development activities. When developers implement new feature, they are not likely to finish implementing the new feature by one commit because of time pressure. The developers often mention "TODO" or other words for the part where they will work later. For example, the commit dbecbe5 in the Hadoop project, which implements MapReduce 2.0, adds SATD "// TODO gross hack". The developer notices that the implementation is not perfect, but conducts such workaround to save his/her development time.
 
+As for the removal of high-interest SATD, refactoring is the top activity, followed by fixing issues (bugs). When developers refactor the code, they tend to also address/remove SATD. For example, the commit c77f96a, which is categorized as refactoring, in the Tomcat project mentions "Drop tomcat-lite module. It never saw a release and has not seen meaningful development for over 4 years."
+
+Overall, our findings indicate that projects should pay attention to SATD introduced during new feature development since such SATD tends to incur high-interest. At the same time, refactoring activities should be encourages, especially since they seem to help remove some of the high-interest SATD.
+
+\emad{Not sure if we should do such analysis for lowest-interest SATD....?}
 \subsection{Limitations} \label{limitations}
-There are a number of limitations to our study. First, we rely on the NLP classification to determine SATD. This approach is not perfect, achieving an average precision of 0.72 and recall of 0.56~\cite{Maldonado_TSE2017}. Although the precision and recall values are not very high, the NLP technique is considered the state-of-the-art in detecting self-admitted technical debt. Also, the commits were manually classified by the first author. Like any human activity, this process is susceptible to human error. To reduce this bias, the third author validates whether or not the classification results are categorized into an appropriate reason. Lastly, our study is based on open source projects, therefore, our study may not generalize to other open source or commercial projects.
+There are a number of limitations to our study. First, we rely on the NLP classification to determine SATD. This approach is not perfect, achieving an average precision of 0.72 and recall of 0.56~\cite{Maldonado_TSE2017}. Although the precision and recall values are not very high, the NLP technique is considered the state-of-the-art in detecting self-admitted technical debt. Also, the commits were manually classified by the first author. Like any human activity, this process is susceptible to human error. To reduce this bias, the third author validated whether or not the classification results are categorized into an appropriate reason. Lastly, our study is based on open source projects, therefore, our study may not generalize to other open source or commercial projects.
 
 \section{Conclusion} \label{sec:conclusion}
 In this paper, we introduced an approach to quantify interest of SATD. Our proposed approach uses software product metrics to lead to measure the interest from software projects.
