@@ -149,3 +149,5 @@ report.pdf
 *.sty
 
 # report.tex
+
+tex_jss/report.spl

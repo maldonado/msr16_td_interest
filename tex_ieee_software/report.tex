@@ -18,6 +18,7 @@
 \renewcommand{\headrulewidth}{0pt}
 
 \newcommand{\todo}[1]{{\color{green}{\textbf{TODO: [#1]}}}}
+\newcommand{\emad}[1]{{\color{red}{\textbf{Emad: [#1]}}}}
 \newcommand{\ea}{{\em et al.}}
 \newcommand{\smallsection}[1]{\vspace{1mm}\noindent {\bf #1}.\hspace{2mm}}
 \newcommand{\emphsection}[1]{\vspace{1mm}\noindent \underline{{\em #1}}:\hspace{2mm}}
@@ -105,16 +106,17 @@ Technical debt was first coined by Cunningham in 1992 to refer to the phenomena 
 In the last few years, an increasing amount of work has focused on SATD. In particular, our prior work focused on the detection of SATD~\cite{Potdar2014ICSME,Maldonado_TSE2017} and the classification of different types of SATD and the development of datasets to enable future studies on SATD~\cite{Maldonado2015MTD}. Other work by Bavota and Russo~\cite{Bavota2016MSR} performed an empirical study of SATD on a large number of Apache projects showed that SATD is prevalent in open source projects, is long lived and is increasing over time. A study by Wehaibi et al.~\cite{Wehaibi2016SANER} examined the impact of SATD on quality and found that SATD does not necessarily relate to more defects, however, it does make the software system more complex. 
 
 %However, very little work focused on interest. Also, why is calculating interest difficult
-Although the metaphor of technical debt has been well studied, to the best of our knowledge, the cost of debt/interest has not been extensively studied. Measuring the interest of the technical debt is one of the challenges in the field, since it requires for the detection of the technical debt, the tracking of the debt over time and the development of measures to accurately quantify this debt. Given that SATD allows us to know the exact method the technical debt exists in, we are able to perform fine-grained analysis of the code, which enables us to quantify interest of the debt. In this paper, the interest refers to the additional difficulty in repaying the debt.
+Although the metaphor of technical debt has been well studied, to the best of our knowledge, the cost of debt/interest has not been extensively studied. Measuring the interest of technical debt is one of the challenges in the field, since it requires for the detection of the technical debt, the tracking of the debt over time and the development of measures to accurately quantify this debt. Given that SATD allows us to know the exact method the technical debt exists in, we are able to perform fine-grained analysis of the code, which enables us to quantify interest of the debt. In this paper, the interest refers to the additional difficulty in repaying the debt.
 
 We investigate the use of code metrics, in particular the well-known Lines of Code (LOC) and Fan-In, to measure interest. We use LOC since it highly correlates with most code complexity metrics and Fan-In\footnote{{\sc Understand} calculates Fan-In as the number of inputs a function uses plus the number of unique subprograms calling the function~\cite{FANIN}.} since it allows us to measure how much a piece of code is depended on by other code. Then, we use the developed measure to determine how much of the SATD incurs positive interest. 
 %In a case study on the Apache JMeter project, we find that using LOC, 44.2\% and using Fan-In 42.2\% of the SATD in JMeter incurs positive interest.
 
-This paper is an extended version of our earlier workshop paper~\cite{Kamei2016TDA}. We extend our previous work by:
+This paper is an extended version of our earlier preliminary work~\cite{Kamei2016TDA}. We extend our previous work by:
 
 \begin{itemize}
 \item We conduct our case study using the data sets that are collected from five open source software projects.
-\item We perform deeper analysis to discuss (1) what is the difference  between the interest of SATD and non-SATD (2) how the SATD that incurs large positive interest is introduced in development process.  
+\item We compare the interest of SATD and non-SATD functions.
+\item We examine the activities that lead to the introduction and removal of high-interest SATD.  
 \end{itemize}
 
 % Organization of the paper
@@ -159,9 +161,9 @@ We measured the Spearman correlation between the complexity and size metrics and
 %To calculate interest, we measure product metrics from two versions detected in Step 2 using {\sc Understand}~\cite{Understand}. We choose all metrics (e.g., LOC and Cyclymatic Complexity) that are available at the method-level in {\sc Understand}.
 
 \smallsection{4. Calculating Interest}
-Using our metrics, we consider the relative LOC and Fan-In values between the introduced and removed versions as interest. We calculate the interest per SATD instance. For example, if arbitrary metric values in the introduced and removed versions are 10 and 20 in the method where the SATD exists, the relative size is 100 (i.e, $100* \frac{(20-10)}{10}$). In cases where the SATD is not yet removed, we use the numbers from the latest version of JMeter. Our assumption here is that if the SATD incurs positive interest, then it will be more difficult to remove in the future, e.g., if the code becomes more complex compared to when the debt was taken, then it will be more difficult to deal with.
+Using our metrics, we consider the relative LOC and Fan-In values between the introduced and removed versions as interest. We calculate the interest per SATD instance. For example, if arbitrary metric values in the introduced and removed versions are 10 and 20 in the method where the SATD exists, the relative size is 100 (i.e, $100* \frac{(20-10)}{10}$). In cases where the SATD is not yet removed, we use the numbers from the latest version of JMeter \emad{shouldn't this be more than just JMeter?}. Our assumption here is that if the SATD incurs positive interest, then it will be more difficult to remove in the future, e.g., if the code becomes more complex compared to when the debt was taken, then it will be more difficult to deal with.
 
-While the paper tackles the research topic that accelerates a new research direction (i.e., quantifying interest of SATD), it also has the weakness of our current approach. We elaborate on the weakness of our current approach in Section \ref{limitations}.
+While the paper tackles the research topic that accelerates a new research direction (i.e., quantifying interest of SATD), it also has the weakness of our current approach. We elaborate on the weakness of our current approach in Section \ref{limitations}. \emad{I think we can remove this...what do you think Yasu?}
 
 \section{Case Study} \label{sec:results}
 \smallsection{Motivation}
@@ -172,10 +174,10 @@ To calculate interest of SATD, we follow the approach we explained in Section \r
 We show the number of SATD, the percentage of the technical debt that has positive interest, and the distribution of interest for technical debt that incurs an positive interest rate.
 
 \smallsection{Datasets}
-To conduct our case study, we collect data from six open source software projects (Apache Ant, Hadoop, JMeter, Log4j, Tomcat). All of them use Git as the version control system, which many of our tools are designed to work on. Table~\ref{tab:projects} shows details of studied projects. We cloned Git repositories from the selected projects on May 1st 2016. 
+To conduct our case study, we collect data from six open source software projects (Apache Ant, Hadoop, JMeter, Log4j, Tomcat). Table~\ref{tab:projects} shows details of studied projects. We cloned Git repositories from the selected projects on May 1st 2016. 
 
 \smallsection{Results}
-Table~\ref{tab:percentage} shows the percentage of the technical debt that has positive interest in all technical debt. The table shows that 10.8\%--31.1\% of technical debt incurs a positive interest rate in terms of LOC and 19.3\%--28.1\% of the SATD has it in terms of Fan-In. We can see that in some cases, there can be negative interest (9.2\%--19.8\% using LOC and 8.8\%--12.5\% using Fan-In), where the SATD method gets smaller or have less Fan-In after the introduction of the SATD. There are also cases where nothing changes in terms of LOC and Fan-In between the SATD introduction and removal. Lastly, it is important to note that there is not large difference between in the amount of positive and no change interest rates using LOC and Fan-In, except the Log4j project. 
+Table~\ref{tab:percentage} shows the percentage of the technical debt that has positive interest. The table shows that 10.8\%--31.1\% of technical debt incurs a positive interest rate in terms of LOC and 19.3\%--28.1\% of the SATD has it in terms of Fan-In. We can see that in some cases, there can be negative interest (9.2\%--19.8\% using LOC and 8.8\%--12.5\% using Fan-In), where the SATD method gets smaller or have less Fan-In after the introduction of the SATD. There are also cases where nothing changes in terms of LOC and Fan-In between the SATD introduction and removal. Lastly, it is important to note that there is not large difference between in the amount of positive and no change interest rates using LOC and Fan-In, except the Log4j project. 
 
 
 Next, we would like to know how high is the positive interest rate. This analysis provides us with more insight about the SATD that incurs a positive interest rate.
