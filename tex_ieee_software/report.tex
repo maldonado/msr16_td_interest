@@ -177,39 +177,48 @@ We show the number of SATD, the percentage of the technical debt that has positi
 To conduct our case study, we collect data from six open source software projects (Apache Ant, Hadoop, JMeter, Log4j, Tomcat). Table~\ref{tab:projects} shows details of studied projects. We cloned Git repositories from the selected projects on May 1st 2016. 
 
 \smallsection{Results}
-Table~\ref{tab:percentage} shows the percentage of the technical debt that has positive interest. The table shows that 10.8\%--31.1\% of technical debt incurs a positive interest rate in terms of LOC and 19.3\%--28.1\% of the SATD has it in terms of Fan-In. We can see that in some cases, there can be negative interest (9.2\%--19.8\% using LOC and 8.8\%--12.5\% using Fan-In), where the SATD method gets smaller or have less Fan-In after the introduction of the SATD. There are also cases where nothing changes in terms of LOC and Fan-In between the SATD introduction and removal. Lastly, it is important to note that there is not large difference between in the amount of positive and no change interest rates using LOC and Fan-In, except the Log4j project. 
+Table~\ref{tab:percentage} shows the percentage of the technical debt that has positive interest. The table shows that 10.8\%--31.1\% of technical debt incurs a positive interest rate in terms of LOC and 19.3\%--28.1\% of the SATD has it in terms of Fan-In. We can see that in some cases, there can be negative interest (9.2\%--19.8\% using LOC and 8.8\%--12.5\% using Fan-In), where the SATD method gets smaller or have less Fan-In after the introduction of the SATD. There are also cases where nothing changes in terms of LOC and Fan-In between the SATD introduction and removal. Lastly, it is important to note that there is no large difference between in the amount of positive and no change interest rates using LOC and Fan-In, except for the Log4j project \emad{could we highlight why Log4j behaves this way?}. 
 
-
-Next, we would like to know how high is the positive interest rate. This analysis provides us with more insight about the SATD that incurs a positive interest rate.
-Table \ref{tab:statistic} shows that the distribution of interest for the SATD that incurs a positive rate. We see that the distributions are left-skewed, indicating that the majority of the SATD ranges between 5.3--27.3 and 35.8--100.0 in terms of LOC and Fan-In. Our findings clearly indicate that there is SATD that incurs a positive interest rate and have different values of interest, which shows that we should be prioritizing SATD based on its interest, i.e., all SATD is not equal.
+In addition to knowing the amount of SATD that possesses a positive interest rate, we would like to see how high this positive interest is (e.g., is it simply an interest of 1\%, 10\%, 20\%, or higher).
+%Next, we would like to know how high is the positive interest rate. This analysis provides us with more insight about the SATD that incurs a positive interest rate.
+Table \ref{tab:statistic} shows that the distribution of interest for the SATD that incurs a positive rate \emad{update when we change to a figure?}. We see that the distributions are left-skewed, indicating that the majority of the SATD ranges between 5.3--27.3 and 35.8--100.0 in terms of LOC and Fan-In, respectively. Our findings clearly indicate that there is SATD that incurs a positive interest rate and have different values of interest, which shows that we should be prioritizing SATD based on its interest, i.e., all SATD is not equal.
 
 \conclusionbox{
-10.8\%--31.1\% of technical debt incurs a positive rate in terms of LOC and 19.3\%--28.1\% of technical debt incurs it in terms of Fan-In.}
+10.8\%--31.1\% of technical debt incurs a positive rate in terms of LOC and 19.3\%--28.1\% of technical debt incurs it in terms of Fan-In. \emad{should we mention the }}
 
 \section{Discussion} \label{sec:discussion}
-\subsection{SATD vs. Non-SATD}
-Generally speaking, software systems are always evolving over time for implementing new functionality and fixing defects~\cite{Robles_IWPSE2005}.
-Therefore, even if the size of technical debt increases, it is not clear about how the nature of software evaluation affects the interest of technical debt.
-We would like to compare the impact of software evolution on methods in two groups of SATD v.s. non-SATD.
+Now that we have quantified the amount of SATD that has positive, negative and no interest, along with how high this interest is, we would like to compare the interest of SATD and non-SATD functions. In addition, to shed more light on the activities that lead to high-interest SATD, we also manually examine the activities that lead to the introduction and removal of the highest interest SATD.
+
+\subsection{Comparing the Amount of SATD and Non-SATD}
+As shown earlier, we know that approximately between 10-30\% of the SATD functions have positive interest. However, it is not clear if this increase in interest is due to the SATD or is simply due to natural evolution of the code. Therefore, we compare the interest of the SATD and non-SATD functions. 
+
+To ensure that we perform a fair comparison, we do not consider all of the non-SATD functions in the system when comparing interest. Instead, we consider the non-SATD functions from the same files as the SATD functions. Doing so allows for some control of the functions being compared. For each method we follow the same approach as described earlier to measure the interest of SATD functions. In particular, for each file, we compare the LOC and Fan-in of each function (SATD and non-SATD) between the introduction and removal versions.
+
+ 
+%Generally speaking, software systems are always evolving over time for implementing new functionality and fixing defects~\cite{Robles_IWPSE2005}. Therefore, even if the size of technical debt increases, it is not clear about how the nature of software evaluation affects the interest of technical debt.We would like to compare the impact of software evolution on methods in two groups of SATD v.s. non-SATD.
 
 \input{tables/non_satd}
 \input{tables/classification}
 
-\smallsection{Approach}
-We compare the interest of methods between SATD and non-SATD.
-We conduct the following steps:
-\begin{itemize}
-\item [S1:]  We obtain the list of files that include SATD. % from technical_debt_summary.csv
-\item [S2:] We extract methods that do not include SATD in the files that we obtained in S1. % see .method-level.product.csv
-\item [S3:] We measure metrics for the methods that we extracted in S2 at two versions that technical debt is introduced and removed. We only use the methods that can be found at the two versions.
-\item [S4:] We calculate interest using the metrics measured in S3.
-\end{itemize}
+%\smallsection{Approach}
+%We compare the interest of methods between SATD and non-SATD.
+%We conduct the following steps:
+%\begin{itemize}
+%\item [S1:]  We obtain the list of files that include SATD. % from technical_debt_summary.csv
+%\item [S2:] We extract methods that do not include SATD in the files that we obtained in S1. % see .method-level.product.csv
+%\item [S3:] We measure metrics for the methods that we extracted in S2 at two versions that technical debt is introduced and removed. We only use the methods that can be found at the two versions.
+%\item [S4:] We calculate interest using the metrics measured in S3.
+%\end{itemize}
 % What do we need to do some pre-condition for this analysis?
 
-\smallsection{Result}
-Table \ref{tab:percentage_non-SATD} shows the percentage of non-SATD that has positive, negative, and no change in interest. When we comparing the results of non-SATD (Table \ref{tab:percentage_non-SATD}) with SATD (Table \ref{tab:percentage}), we find that the positive rate of interest for SATD is larger than non-SATD in all cases except Log4j in according to LOC. We believe that this is one of evidence that SATD is likely to incur positive interest than non-SATD when considering the factor of software evolution.
+%\smallsection{Result}
 
-\subsection{Quantitative Analysis}
+Table \ref{tab:percentage_non-SATD} shows the percentage of non-SATD that has positive, negative, and no change in interest. When we comparing the results of non-SATD (Table \ref{tab:percentage_non-SATD}) with SATD (Table \ref{tab:percentage}), we find that the positive rate of interest for SATD is larger than non-SATD \emad{do you think we can do some sort of statistical test here?} in all cases except Log4j \emad{can we try to explain why?}, according to LOC. 
+Our finding shows that there is evidence that SATD functions have a higher chance of incurring positive interest compared to normal (or non-SATD) functions.
+
+%We believe that this is one of evidence that SATD is likely to incur positive interest than non-SATD when considering the factor of software evolution.
+
+\subsection{Examining Activities that Lead to the Introduction and Removal of High-interest SATD}
 \smallsection{Motivation}
 The interest varies among technical debt. If we can understand the reason why some of technical debt has large interest, we can make use of such insights for future development. Therefore, in this RQ, we would like to manually investigate why some of technical debt has large interest.
 
