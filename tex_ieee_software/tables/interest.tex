@@ -1,26 +1,28 @@
-\begin{table}[tb]
-  \caption{The Percentage of SATD that has Positive, Negative and No Change in Interest \emad{I think we should combine this with table 4 and have it as 1 2-column table}}
+\begin{table*}[tb]
+  \caption{The Percentage of SATD and Non-SATD that have Positive, Negative and No Change in Interest}
+  % \emad{I think we should combine this with table 4 and have it as 1 2-column table}
+  % Agree!
   \label{tab:percentage}
   \centering
 
-  \begin{tabular}{cc|rrr}
+  \begin{tabular}{cc|rrr|p{0.65in}|rrr}
   \hline
-        & & \textbf{Positive} & \textbf{Negative} & \textbf{No Change} \\
+        & & \textbf{Positive} & \textbf{Negative} & \textbf{No Change} & \textbf{\# non-SATD instances} & \textbf{Positive} & \textbf{Negative} & \textbf{No Change} \\
   \hline
-\multirow{2}{*}{Ant} &  LOC  &  31.1\%  &  12.7\% & 56.2\%\\
-                   & Fan-In  &  23.5\%  &  10.8\% & 65.7\%\\
+\multirow{2}{*}{Ant} &  LOC  &  31.1\%  &  12.7\% & 56.2\% & \multicolumn{1}{r|}{\multirow{2}{*}{5,273}} &  14.8\%  &  6.8\% & 78.4\%\\
+                   & Fan-In  &  23.5\%  &  10.8\% & 65.7\% &   &  8.6\%  &  5.1\% & 86.3\%\\
   \hline
-\multirow{2}{*}{Hadoop} &  LOC  &  28.4\%  &  11.1\% & 60.5\%\\
-                      & Fan-In  &  28.1\%  &  12.5\% & 59.4\%\\
+\multirow{2}{*}{Hadoop} &  LOC  &  28.4\%  &  11.1\% & 60.5\% & \multicolumn{1}{r|}{\multirow{2}{*}{11,247}} &  11.0\%  &  4.8\% & 84.2\%\\
+                      & Fan-In  &  28.1\%  &  12.5\% & 59.4\% &  &  17.6\%  &  6.9\% & 75.5\%\\
   \hline
-\multirow{2}{*}{JMeter} &  LOC  &  25.9\%  &  19.8\% & 54.3\%\\
-                      & Fan-In  &  29.2\%  &  9.6\% & 61.2\%\\
+\multirow{2}{*}{JMeter} &  LOC  &  25.9\%  &  19.8\% & 54.3\% & \multicolumn{1}{r|}{\multirow{2}{*}{8,116}} &  12.9\%  &  13.1\% & 74.0\%\\
+                      & Fan-In  &  29.2\%  &  9.6\% & 61.2\% &  &  16.4\%  &  6.6\% & 77.0\%\\
   \hline
-\multirow{2}{*}{Log4j} &  LOC  &  10.8\%  &  9.2\% & 80.0\%\\
-                     & Fan-In  &  19.3\%  &  8.8\% & 71.9\%\\
+\multirow{2}{*}{Log4j} &  LOC  &  10.8\%  &  9.2\% & 80.0\% & \multicolumn{1}{r|}{\multirow{2}{*}{1,387}} &  11.5\%  &  5.9\% & 82.6\%\\
+                     & Fan-In  &  19.3\%  &  8.8\% & 71.9\% &  &  14.0\%  &  7.3\% & 78.7\%\\
   \hline
-\multirow{2}{*}{Tomcat} &  LOC &  20.6\%  &  12.1\% & 67.3\%\\
-                      & Fan-In &  21.5\%  &  9.8\% & 68.7\%\\
+\multirow{2}{*}{Tomcat} &  LOC &  20.6\%  &  12.1\% & 67.3\% & \multicolumn{1}{r|}{\multirow{2}{*}{17,769}} &  6.7\%  &  4.6\% & 88.7\%\\
+                      & Fan-In &  21.5\%  &  9.8\% & 68.7\% &  &  11.0\%  &  5.0\% & 84.0\%\\
   \hline
   \end{tabular}
-\end{table}
+\end{table*}
