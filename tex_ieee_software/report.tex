@@ -161,9 +161,13 @@ We measured the Spearman correlation between the complexity and size metrics and
 %To calculate interest, we measure product metrics from two versions detected in Step 2 using {\sc Understand}~\cite{Understand}. We choose all metrics (e.g., LOC and Cyclymatic Complexity) that are available at the method-level in {\sc Understand}.
 
 \smallsection{4. Calculating Interest}
-Using our metrics, we consider the relative LOC and Fan-In values between the introduced and removed versions as interest. We calculate the interest per SATD instance. For example, if arbitrary metric values in the introduced and removed versions are 10 and 20 in the method where the SATD exists, the relative size is 100 (i.e, $100* \frac{(20-10)}{10}$). In cases where the SATD is not yet removed, we use the numbers from the latest version of JMeter \emad{shouldn't this be more than just JMeter?}. Our assumption here is that if the SATD incurs positive interest, then it will be more difficult to remove in the future, e.g., if the code becomes more complex compared to when the debt was taken, then it will be more difficult to deal with.
+Using our metrics, we consider the relative LOC and Fan-In values between the introduced and removed versions as interest. We calculate the interest per SATD instance. For example, if arbitrary metric values in the introduced and removed versions are 10 and 20 in the method where the SATD exists, the relative size is 100 (i.e, $100* \frac{(20-10)}{10}$). In cases where the SATD is not yet removed, we use the numbers from the latest version of a project. Our assumption here is that if the SATD incurs positive interest, then it will be more difficult to remove in the future, e.g., if the code becomes more complex compared to when the debt was taken, then it will be more difficult to deal with.
+% JMeter \emad{shouldn't this be more than just JMeter?}
+% that's right. by Yasu
 
-While the paper tackles the research topic that accelerates a new research direction (i.e., quantifying interest of SATD), it also has the weakness of our current approach. We elaborate on the weakness of our current approach in Section \ref{limitations}. \emad{I think we can remove this...what do you think Yasu?}
+%While the paper tackles the research topic that accelerates a new research direction (i.e., quantifying interest of SATD), it also has the weakness of our current approach. We elaborate on the weakness of our current approach in Section \ref{limitations}.
+% \emad{I think we can remove this...what do you think Yasu?}
+% I agree. Sounds too weak. by Yasu
 
 \section{Case Study} \label{sec:results}
 \smallsection{Motivation}
