@@ -4,18 +4,17 @@
   \label{tab:percentage_activities} 
   \centering
 
-  \begin{tabular}{l|r|r|p{2.80in}}
+  \begin{tabular}{l|r|r|p{2.80in}||r|r}
   \hline
-       \textbf{Activity} & \textbf{Intro} & \textbf{Removal} & \textbf{Example} \\
+       \textbf{Activity} & \textbf{Intro} & \textbf{Removal} & \textbf{Example} & \textbf{Intro} & \textbf{Removal} \\
   \hline
-  New Feature &  36\%  &   8\% &  \textit{HADOOP-9035. Generalize setup of LoginContext (daryn via bobby)} (hadoop -- 86ce5f6) \\
-  Refactoring &  30\%  &  54\% &  \textit{moved some code within the acivation area into new methods.} (log4j -- 765875d) \\
-  Fix issues  &  18\%  &  23\% &  \textit{fix sizing issue when db is restarted fix JMX domain name fix exception handling} (tomcat -- 525865e). \\
-  Testing     &   6\%  &   8\% &  \textit{Correctly define the ROOT context in unit tests} (tomcat -- a2153a3) \\
-  Performance &   4\%  &   4\% &  \textit{Do not use Reader and Writer classes for writing response, because [...]} (jmeter -- f88f44b) \textit{HDFS-3726. [...] This isn't critical for correctness but will help reduce log spew on both sides.} (hadoop -- cae8116) \\ 
-  Documentation & 2\%  &   4\% &  \textit{Starting the long road of javadoc updates} (jmeter -- 71f6e34), \textit{Better documentation.} (tomcat -- b51444a) \\
-     
-  Other\      &   4\%  &   0\% & -  \\%\textit{Sometimes my brain just breaks...} (jmeter -- 5c21be0) \\
+  New Feature &  36\%  &   8\% &  \textit{HADOOP-9035. Generalize setup of LoginContext (daryn via bobby)} (hadoop -- 86ce5f6) & 22\% & 38\% \\
+  Refactoring &  30\%  &  54\% &  \textit{moved some code within the acivation area into new methods.} (log4j -- 765875d) &  24\%  &  38\% \\
+  Fix issues  &  18\%  &  23\% &  \textit{fix sizing issue when db is restarted fix JMX domain name fix exception handling} (tomcat -- 525865e).  &  30\%  &  12\% \\
+  Testing     &   6\%  &   8\% &  \textit{Correctly define the ROOT context in unit tests} (tomcat -- a2153a3)  &  10\%  &  0\% \\
+  Performance &   4\%  &   4\% &  \textit{Do not use Reader and Writer classes for writing response, because [...]} (jmeter -- f88f44b) \textit{HDFS-3726. [...] This isn't critical for correctness but will help reduce log spew on both sides.} (hadoop -- cae8116)  &  4\%  &  0\% \\ 
+  Documentation & 2\%  &   4\% &  \textit{Starting the long road of javadoc updates} (jmeter -- 71f6e34), \textit{Better documentation.} (tomcat -- b51444a)  &  10\%  &  10\% \\    
+  Other\      &   4\%  &   0\% & -  &  0\%  &  2\% \\%\textit{Sometimes my brain just breaks...} (jmeter -- 5c21be0)\\
   \hline
   \end{tabular}
 \end{table*}
