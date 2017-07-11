@@ -1,5 +1,5 @@
 #!/bin/bash
-LIST=(ant jmeter)
+LIST=(ant jmeter camel gerrit hadoop log4j tomcat)
 OUT=all_automated_classification.csv
 
 COUNT=0
