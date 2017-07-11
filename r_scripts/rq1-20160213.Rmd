@@ -93,20 +93,6 @@ fc <- factor(data.CountInput.positive$Project)
 interest <- data.CountInput.positive$interest
 tapply(interest, fc, summary)
 
-idx <- order(interest, decreasing = T)
-write.csv(file="b.csv", data.CountInput.positive[idx,])
-data.CountLine.positive$interest[idx]
-data.CountLine.positive$Remove_Comment[idx]
-
-# updated part to generate figures
-#ant <- interest[fc=="ant"]
-#hadoop <- interest[fc=="hadoop"]
-#jmeter <- interest[fc=="jmeter"]
-#log4j <- interest[fc=="log4j"]
-#tomcat <- interest[fc=="tomcat"]
-#beanplot(ant,hadoop,jmeter,log4j,tomcat)
-#boxplot(ant,hadoop,jmeter,log4j,tomcat)
-
 fc <- factor(data.CountInput.negative$Project)
 interest <- data.CountInput.negative$interest
 tapply(interest, fc, summary)

@@ -205,9 +205,7 @@ Our findings clearly indicate that there is SATD that incurs a positive interest
 % \emad{update when we change to a figure?}
 
 \conclusionbox{
-10.8\%--31.1\% of technical debt incurs a positive rate in terms of LOC and 19.3\%--28.1\% of technical debt incurs it in terms of Fan-In.
-}
-%\emad{should we mention the }}
+10.8\%--31.1\% of technical debt incurs a positive rate in terms of LOC and 19.3\%--28.1\% of technical debt incurs it in terms of Fan-In. \emad{should we mention the }}
 
 \section{Discussion} \label{sec:discussion}
 Now that we have quantified the amount of SATD that has positive, negative and no interest, along with how high this interest is, we would like to compare the interest of SATD and non-SATD functions. In addition, to shed more light on the activities that lead to high-interest SATD, we also manually examine the activities that lead to the introduction and removal of the highest interest SATD.
@@ -272,7 +270,7 @@ As for the removal of high-interest SATD, refactoring is the top activity, follo
 
 Overall, our findings indicate that projects should pay attention to SATD introduced during new feature development since such SATD tends to incur high-interest. At the same time, refactoring activities should be encourages, especially since they seem to help remove some of the high-interest SATD.
 
-%\emad{Not sure if we should do such analysis for lowest-interest SATD....?}
+\emad{Not sure if we should do such analysis for lowest-interest SATD....?}
 \subsection{Limitations} \label{limitations}
 There are a number of limitations to our study. First, we rely on the NLP classification to determine SATD. This approach is not perfect, achieving an average precision of 0.72 and recall of 0.56~\cite{Maldonado_TSE2017}. Although the precision and recall values are not very high, the NLP technique is considered the state-of-the-art in detecting self-admitted technical debt. Also, the commits were manually classified by the first author. Like any human activity, this process is susceptible to human error. To reduce this bias, the third author validated whether or not the classification results are categorized into an appropriate reason. Lastly, our study is based on open source projects, therefore, our study may not generalize to other open source or commercial projects.
 
