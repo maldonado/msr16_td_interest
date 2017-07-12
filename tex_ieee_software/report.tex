@@ -195,11 +195,11 @@ To conduct our case study, we collect data from six open source software project
 \input{tables/classification}
 
 \smallsection{Results}
-Table~\ref{tab:percentage} shows the percentage of the technical debt that has positive interest. The table shows that 10.8\%--31.1\% of technical debt incurs a positive interest rate in terms of LOC and 19.3\%--28.1\% of the SATD has it in terms of Fan-In. We can see that in some cases, there can be negative interest (9.2\%--19.8\% using LOC and 8.8\%--12.5\% using Fan-In), where the SATD method gets smaller or have less Fan-In after the introduction of the SATD. There are also cases where nothing changes in terms of LOC and Fan-In between the SATD introduction and removal. Lastly, it is important to note that there is no large difference between in the amount of positive and no change interest rates using LOC and Fan-In, except for the Log4j project. \revised{One possible explanation is that Log4j has smaller number of file versions when comparing with other projects (e.g., JMeter). Therefore, the interest of SATD in Log4j may not be likely to be positive due to less software evolution.}
+Table~\ref{tab:percentage} shows the percentage of the technical debt that has positive interest. The table shows that 10.8\%--31.1\% of technical debt incurs a positive interest rate in terms of LOC and 19.3\%--28.1\% of the SATD has it in terms of Fan-In. We can see that in some cases, there can be negative interest (9.2\%--19.8\% using LOC and 8.8\%--12.5\% using Fan-In), where the SATD method gets smaller or have less Fan-In after the introduction of the SATD. There are also cases where nothing changes in terms of LOC and Fan-In between the SATD introduction and removal. Lastly, it is important to note that there is no large difference between in the amount of positive and no change interest rates using LOC and Fan-In, except for the Log4j project. One possible explanation is that Log4j has a smaller number of file versions compared to the other projects (e.g., JMeter). 
 
 In addition to knowing the amount of SATD that possesses a positive interest rate, we would like to see how high this positive interest is (e.g., is it simply an interest of 1\%, 10\%, 20\%, or higher).
 %Next, we would like to know how high is the positive interest rate. This analysis provides us with more insight about the SATD that incurs a positive interest rate.
-Figure \ref{fig:dist} shows that the distribution of interest for the SATD that incurs a positive rate. \revised{We see that the median of the SATD ranges 13.6--40.7 and 28.6--50.0 in terms of LOC and Fan-In, respectively.}
+Figure \ref{fig:dist} shows that the distribution of interest for the SATD that incurs positive interest. We see that the median of the SATD ranges between 13.6--40.7 and 28.6--50.0 in terms of LOC and Fan-In, respectively.
 Our findings clearly indicate that there is SATD that incurs a positive interest rate and have different values of interest, which shows that we should be prioritizing SATD based on its interest, i.e., all SATD is not equal.
 
 % \emad{update when we change to a figure?}
@@ -234,9 +234,8 @@ To ensure that we perform a fair comparison, we do not consider all of the non-S
 
 %\smallsection{Result}
 
-\revised{The right side of Table \ref{tab:percentage}} shows the percentage of non-SATD that has positive, negative, and no change in interest. When we comparing the results of non-SATD with SATD (the left side of Table \ref{tab:percentage}), we find that the positive rate of interest for SATD is larger than non-SATD in all cases except Log4j, according to LOC. \revised{To see whether or not there is a statistical significant difference, we conduct chi-square test to check the positive rate of interest between SATD and non-SATD per project. We use Bonferroni Correction to mitigate the problem of multiple comparisons. The statistical test shows that there is a significant difference between SATD and non-SATD ($p < 0.005$ (= $0.05$ / $10$)) in Ant, Hadoop, JMeter, and Tomcat. 
-}
-Our finding shows that there is evidence that SATD functions have a higher chance of incurring positive interest compared to normal (or non-SATD) functions.
+The right side of Table \ref{tab:percentage} shows the percentage of non-SATD that has positive, negative, and no change in interest. Comparing the results of non-SATD with SATD (the left side of Table \ref{tab:percentage}), we find that the positive rate of interest for SATD is larger than non-SATD in all cases except Log4j, according to LOC. To see whether or not there is a statistically significant difference, we conduct a chi-square test to check the positive rate of interest between SATD and non-SATD per project. We use Bonferroni Correction to mitigate the problem of multiple comparisons. The statistical test shows that there is a significant difference between SATD and non-SATD ($p < 0.005$ (= $0.05$ / $10$)) in Ant, Hadoop, JMeter, and Tomcat. 
+Our finding shows that SATD functions have a higher chance of incurring positive interest compared to normal (or non-SATD) functions.
 %\emad{can we try to explain why?}. 
 % \emad{do you think we can do some sort of statistical test here?}
 
@@ -253,7 +252,7 @@ We have seen that not all SATD incurs positive interest. However, the million do
 
 %\smallsection{Approach}
 
-To perform our examination, we manually inspected the commits and commit messages of the top 50 highest-interest SATD instances. \revised{The sample was based on the interest calculated using Fan-in, and included instances from all five projects. In this analysis, we use Fan-In instead of LOC, since Figure \ref{fig:dist} indicates that the maximum of Fan-In positive rate is higher than LOC one.}
+To perform our examination, we manually inspected the commits and commit messages of the top 50 highest-interest SATD instances. The sample is based on the interest calculated using Fan-in, and included instances from all five projects. We decided to use Fan-In to determine the high-interest instances since, as shown in Figure~\ref{fig:dist}, Fan-In has a higher maximum value for the positive interest SATD. Hence, we want to study the most severe interest cases.
 
 %that introduce and remove technical debt. We choose the top 50 SATD by sorting SATD by Fan-in interest in decreasing order across five projects.
 
@@ -262,7 +261,7 @@ To perform our examination, we manually inspected the commits and commit message
 \smallsection{Results}
 Table \ref{tab:percentage_activities} shows the classification we conducted for top 50 SATD. We find that the largest percentage of high-interest SATD is introduced during the introduction of new features. When developers implement new feature, they tend to not completely finish implementing the new feature in one commit (due to time pressures, for example). The developers often mention ``TODO'' or other similar wording to remind them to finish the work later. For example, the commit dbecbe5 in the Hadoop project, which implements MapReduce 2.0, adds SATD ``// TODO gross hack''. The developer notices that the implementation is not perfect, but conducts such workaround to save his/her development time.
 
-Other activities such as refactoring and fixing issues (bugs) are also reasons for the introduction of high-interest SATD. \revised{Similar to the reason ``New Feature'', developers tend to not completely finish refactoring source code and fixing issues. For example, the commit 11303a4 in the JMeter project, which modifies logging output, adds SATD ``// TODO - report unused columns? // TODO - provide option to set unused variables?'' We also find that the commit 1378efc in the JMeter project, which fixes resizing in the ThreadGroupGui class, adds SATD ``// This won't work right if we remove components. But we don't, so I'm not going to worry about it right now.''}
+Other activities such as refactoring and fixing issues (bugs) are also reasons for the introduction of high-interest SATD. Similar to the ``New Feature'' case, developers tend to not completely finish refactoring source code and fixing issues. For example, the commit 11303a4 in the JMeter project, which modifies logging output, added the SATD ``// TODO - report unused columns? // TODO - provide option to set unused variables?'' We also find that commit 1378efc in the JMeter project, which fixes resizing in the ThreadGroupGui class, adds SATD ``// This won't work right if we remove components. But we don't, so I'm not going to worry about it right now.''
 
 %\emad{Yasu, should we add some examples for these two?}
 
